@@ -6,11 +6,11 @@ An in-depth paragraph about your project and overview of use.
 ## Members
 
 * [@HoangHieu](https://www.facebook.com/profile.php?id=100018980305945)
-* [@VuNam](https://www.facebook.com/vu.nam.7315720)(url)
-* [@HungggDang](https://www.facebook.com/profile.php?id=100035778735665)(url)
-* [@QuangNV](https://www.facebook.com/profile.php?id=100038349790274)(url)
-* [@VietAnh](facebook.com/em.nguyenviet.9)(url)
-* [@ManhhHungg](https://www.facebook.com/profile.php?id=100029052751004)(url)
+* [@VuNam](https://www.facebook.com/vu.nam.7315720)
+* [@HungggDang](https://www.facebook.com/profile.php?id=100035778735665)
+* [@QuangNV](https://www.facebook.com/profile.php?id=100038349790274)
+* [@VietAnh](facebook.com/em.nguyenviet.9)
+* [@ManhhHungg](https://www.facebook.com/profile.php?id=100029052751004)
 ### Dependencies
 
 * Describe any prerequisites, libraries, OS version, etc., needed before installing program.
