@@ -5,7 +5,7 @@ An in-depth paragraph about your project and overview of use.
 ## Getting Started
 ## Members
 
-* [@HoangHieu](https://www.facebook.com/profile.php?id=100018980305945)(url)
+* [@HoangHieu](https://www.facebook.com/profile.php?id=100018980305945)
 * [@VuNam](https://www.facebook.com/vu.nam.7315720)(url)
 * [@HungggDang](https://www.facebook.com/profile.php?id=100035778735665)(url)
 * [@QuangNV](https://www.facebook.com/profile.php?id=100038349790274)(url)
