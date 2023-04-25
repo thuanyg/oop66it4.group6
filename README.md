@@ -1,4 +1,5 @@
-# ©66IT4-HUCE 2023. Source code hệ thống quản lý thư viện của nhóm 6 lớp 66IT4 - Đồ Án Lập Trình Hướng Đối Tượng - Trường Đại Học Xây Dựng Hà Nội.
+# ©66IT4-HUCE 2023. 
+Source code hệ thống quản lý thư viện của nhóm 6 lớp 66IT4 - Đồ Án Lập Trình Hướng Đối Tượng - Trường Đại Học Xây Dựng Hà Nội.
 Simple overview of use/purpose.
 ## Description
 An in-depth paragraph about your project and overview of use.
@@ -33,8 +34,8 @@ command to run if program contains helper info
 
 Contributors names and contact info
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+ex. Hoang Tien  
+ex. [@ThuanHT](https://www.facebook.com/htt268)
 
 ## Version History
 
@@ -48,11 +49,10 @@ ex. [@DomPizzie](https://twitter.com/dompizzie)
 
 This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
 
-## Acknowledgments
+## Members
 
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+* [@HieuMom](https://github.com/matiassingers/awesome-readme)
+* [@NamBlue](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+* [@Hunggg](https://github.com/dbader/readme-template)
+* [@QuangFeed](https://gist.github.com/zenorocha/4526327)
+* [@IdolVietAnh](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
