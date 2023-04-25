@@ -10,7 +10,6 @@ An in-depth paragraph about your project and overview of use.
 * [@Hunggg](https://www.facebook.com/profile.php?id=100035778735665)
 * [@QuangFeed](https://www.facebook.com/profile.php?id=100038349790274)
 * [@IdolVietAnh](facebook.com/em.nguyenviet.9)
-
 ### Dependencies
 
 * Describe any prerequisites, libraries, OS version, etc., needed before installing program.
