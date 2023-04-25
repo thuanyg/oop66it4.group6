@@ -5,12 +5,12 @@ An in-depth paragraph about your project and overview of use.
 ## Getting Started
 ## Members
 
-* [@HieuMom](https://github.com/matiassingers/awesome-readme)
-* [@NamBlue](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [@Hunggg](https://github.com/dbader/readme-template)
-* [@QuangFeed](https://gist.github.com/zenorocha/4526327)
-* [@IdolVietAnh](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
-* 
+* [@HieuMom](https://www.facebook.com/profile.php?id=100018980305945)
+* [@NamBlue](https://www.facebook.com/vu.nam.7315720)
+* [@Hunggg](https://www.facebook.com/profile.php?id=100035778735665)
+* [@QuangFeed](https://www.facebook.com/profile.php?id=100038349790274)
+* [@IdolVietAnh](facebook.com/em.nguyenviet.9)
+
 ### Dependencies
 
 * Describe any prerequisites, libraries, OS version, etc., needed before installing program.
