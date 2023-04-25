@@ -78,7 +78,34 @@ public class Home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rightPanelDocGia = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbl_DocGia = new javax.swing.JTable();
+        btm_editDocGia = new javax.swing.JButton();
+        lb_IdDocGia = new javax.swing.JLabel();
+        txtTenDocGia = new javax.swing.JTextField();
+        lb_TenDocGia = new javax.swing.JLabel();
+        txtIdDocGia = new javax.swing.JTextField();
+        lb_gender = new javax.swing.JLabel();
+        txtGender = new javax.swing.JTextField();
+        lb_ngaySinh = new javax.swing.JLabel();
+        txtNgaySinh = new javax.swing.JTextField();
+        lb_cccd = new javax.swing.JLabel();
+        txtCCCD = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
+        lb_bookQuantity1 = new javax.swing.JLabel();
+        lb_email = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        btn_delBook1 = new javax.swing.JButton();
+        btn_insertBook1 = new javax.swing.JButton();
+        lb_SortBy1 = new javax.swing.JLabel();
+        cbxSortDocGia = new javax.swing.JComboBox<>();
+        SearchDocGia = new javax.swing.JPanel();
+        lb_SearchDocGia = new javax.swing.JLabel();
+        txtSearchDocGia = new javax.swing.JTextField();
         Home = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
         leftPanel = new javax.swing.JPanel();
         HeadingHome = new javax.swing.JLabel();
         pnl_PhieuMuon = new javax.swing.JPanel();
@@ -118,31 +145,6 @@ public class Home extends javax.swing.JFrame {
         SearchBook = new javax.swing.JPanel();
         lb_SearchBook = new javax.swing.JLabel();
         txtSearchBook = new javax.swing.JTextField();
-        rightPanelDocGia = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tbl_DocGia = new javax.swing.JTable();
-        btm_editDocGia = new javax.swing.JButton();
-        lb_IdDocGia = new javax.swing.JLabel();
-        txtTenDocGia = new javax.swing.JTextField();
-        lb_TenDocGia = new javax.swing.JLabel();
-        txtIdDocGia = new javax.swing.JTextField();
-        lb_gender = new javax.swing.JLabel();
-        txtGender = new javax.swing.JTextField();
-        lb_ngaySinh = new javax.swing.JLabel();
-        txtNgaySinh = new javax.swing.JTextField();
-        lb_cccd = new javax.swing.JLabel();
-        txtCCCD = new javax.swing.JTextField();
-        txtSDT = new javax.swing.JTextField();
-        lb_bookQuantity1 = new javax.swing.JLabel();
-        lb_email = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
-        btn_delBook1 = new javax.swing.JButton();
-        btn_insertBook1 = new javax.swing.JButton();
-        lb_SortBy1 = new javax.swing.JLabel();
-        cbxSortDocGia = new javax.swing.JComboBox<>();
-        SearchDocGia = new javax.swing.JPanel();
-        lb_SearchDocGia = new javax.swing.JLabel();
-        txtSearchDocGia = new javax.swing.JTextField();
         rightPanelPhieuMuon = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbl_PhieuMuon = new javax.swing.JTable();
@@ -158,20 +160,171 @@ public class Home extends javax.swing.JFrame {
         btn_delBook2 = new javax.swing.JButton();
         rightPanelThongke = new javax.swing.JPanel();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Home - Library Management System");
+        setResizable(false);
+
+        rightPanelDocGia.setBackground(new java.awt.Color(204, 255, 255));
+        rightPanelDocGia.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tbl_DocGia.setBackground(new java.awt.Color(153, 255, 153));
+        tbl_DocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbl_DocGia.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã đôc giả", "Họ tên", "Giói tính", "Ngày sinh", "CCCD/CMND", "Số điện thoại", "Email"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tbl_DocGia.setGridColor(new java.awt.Color(0, 51, 51));
+        jScrollPane2.setViewportView(tbl_DocGia);
+
+        rightPanelDocGia.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 367, 990, 360));
+
+        btm_editDocGia.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btm_editDocGia.setText("Sửa");
+        rightPanelDocGia.add(btm_editDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(301, 310, 108, 39));
+
+        lb_IdDocGia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_IdDocGia.setText("Mã độc giả");
+        rightPanelDocGia.add(lb_IdDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 84, 82, -1));
+
+        txtTenDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelDocGia.add(txtTenDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(187, 131, 195, 32));
+
+        lb_TenDocGia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_TenDocGia.setText("Họ và tên");
+        rightPanelDocGia.add(lb_TenDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 134, 82, -1));
+
+        txtIdDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelDocGia.add(txtIdDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(187, 81, 195, 32));
+
+        lb_gender.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_gender.setText("Giới tính");
+        rightPanelDocGia.add(lb_gender, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 184, 82, -1));
+
+        txtGender.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelDocGia.add(txtGender, new org.netbeans.lib.awtextra.AbsoluteConstraints(187, 181, 195, 32));
+
+        lb_ngaySinh.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_ngaySinh.setText("Ngày sinh");
+        rightPanelDocGia.add(lb_ngaySinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 234, 106, -1));
+
+        txtNgaySinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelDocGia.add(txtNgaySinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(187, 231, 195, 32));
+
+        lb_cccd.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_cccd.setText("Số CCCD");
+        rightPanelDocGia.add(lb_cccd, new org.netbeans.lib.awtextra.AbsoluteConstraints(543, 84, -1, -1));
+
+        txtCCCD.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        rightPanelDocGia.add(txtCCCD, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 81, 195, 32));
+
+        txtSDT.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        rightPanelDocGia.add(txtSDT, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 130, 195, 32));
+
+        lb_bookQuantity1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_bookQuantity1.setText("Số điện thoại");
+        rightPanelDocGia.add(lb_bookQuantity1, new org.netbeans.lib.awtextra.AbsoluteConstraints(543, 131, 97, 26));
+
+        lb_email.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_email.setText("Email");
+        rightPanelDocGia.add(lb_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(543, 184, 82, -1));
+
+        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelDocGia.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 181, 195, 32));
+
+        btn_delBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_delBook1.setText("Xóa");
+        rightPanelDocGia.add(btn_delBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(504, 310, 108, 39));
+
+        btn_insertBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_insertBook1.setText("Thêm");
+        btn_insertBook1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_insertBook1ActionPerformed(evt);
+            }
+        });
+        rightPanelDocGia.add(btn_insertBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 310, 108, 39));
+
+        lb_SortBy1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_SortBy1.setText("Sắp xếp theo: ");
+        rightPanelDocGia.add(lb_SortBy1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 318, -1, -1));
+
+        cbxSortDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbxSortDocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã", "Tên", "Giới tính" }));
+        rightPanelDocGia.add(cbxSortDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(794, 317, 117, -1));
+
+        SearchDocGia.setBackground(new java.awt.Color(204, 255, 255));
+        SearchDocGia.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lb_SearchDocGia.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        lb_SearchDocGia.setForeground(new java.awt.Color(153, 153, 153));
+        lb_SearchDocGia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/search.png"))); // NOI18N
+        lb_SearchDocGia.setText(" Tìm kiếm độc giả");
+        lb_SearchDocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        SearchDocGia.add(lb_SearchDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 7, 150, 20));
+
+        txtSearchDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtSearchDocGia.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchDocGiaCaretUpdate(evt);
+            }
+        });
+        txtSearchDocGia.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSearchDocGiaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtSearchDocGiaFocusLost(evt);
+            }
+        });
+        txtSearchDocGia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchDocGiaActionPerformed(evt);
+            }
+        });
+        SearchDocGia.add(txtSearchDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 37));
+
+        rightPanelDocGia.add(SearchDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 32, -1, -1));
+
+        Home.setBackground(new java.awt.Color(204, 255, 204));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
+        jLabel1.setText("Hello, Admin.");
+
         javax.swing.GroupLayout HomeLayout = new javax.swing.GroupLayout(Home);
         Home.setLayout(HomeLayout);
         HomeLayout.setHorizontalGroup(
             HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 744, Short.MAX_VALUE)
+            .addGroup(HomeLayout.createSequentialGroup()
+                .addGroup(HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(HomeLayout.createSequentialGroup()
+                        .addGap(146, 146, 146)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(HomeLayout.createSequentialGroup()
+                        .addGap(370, 370, 370)
+                        .addComponent(jLabel1)))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
         HomeLayout.setVerticalGroup(
             HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 503, Short.MAX_VALUE)
+            .addGroup(HomeLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Home - Library Management System");
-        setResizable(false);
 
         leftPanel.setBackground(new java.awt.Color(255, 255, 255));
         leftPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -326,7 +479,7 @@ public class Home extends javax.swing.JFrame {
 
         rightPanelSach.setBackground(new java.awt.Color(255, 204, 153));
 
-        tbl_Sach.setBackground(new java.awt.Color(153, 255, 153));
+        tbl_Sach.setBackground(new java.awt.Color(204, 204, 204));
         tbl_Sach.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tbl_Sach.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -344,9 +497,12 @@ public class Home extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        tbl_Sach.setGridColor(new java.awt.Color(0, 51, 51));
+        tbl_Sach.setGridColor(new java.awt.Color(0, 0, 0));
         tbl_Sach.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tbl_Sach);
+        if (tbl_Sach.getColumnModel().getColumnCount() > 0) {
+            tbl_Sach.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         btm_editBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btm_editBook.setText("Sửa");
@@ -462,7 +618,7 @@ public class Home extends javax.swing.JFrame {
         rightPanelSach.setLayout(rightPanelSachLayout);
         rightPanelSachLayout.setHorizontalGroup(
             rightPanelSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(rightPanelSachLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelSachLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelSachLayout.createSequentialGroup()
@@ -519,7 +675,7 @@ public class Home extends javax.swing.JFrame {
         rightPanelSachLayout.setVerticalGroup(
             rightPanelSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightPanelSachLayout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(SearchBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(rightPanelSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -567,141 +723,8 @@ public class Home extends javax.swing.JFrame {
                             .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lb_SortBy))))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        rightPanelDocGia.setBackground(new java.awt.Color(204, 255, 255));
-        rightPanelDocGia.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        tbl_DocGia.setBackground(new java.awt.Color(153, 255, 153));
-        tbl_DocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tbl_DocGia.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã đôc giả", "Họ tên", "Giói tính", "Ngày sinh", "CCCD/CMND", "Số điện thoại", "Email"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        tbl_DocGia.setGridColor(new java.awt.Color(0, 51, 51));
-        jScrollPane2.setViewportView(tbl_DocGia);
-
-        rightPanelDocGia.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 367, 990, 353));
-
-        btm_editDocGia.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btm_editDocGia.setText("Sửa");
-        rightPanelDocGia.add(btm_editDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(301, 310, 108, 39));
-
-        lb_IdDocGia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_IdDocGia.setText("Mã độc giả");
-        rightPanelDocGia.add(lb_IdDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 84, 82, -1));
-
-        txtTenDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rightPanelDocGia.add(txtTenDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(187, 131, 195, 32));
-
-        lb_TenDocGia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_TenDocGia.setText("Họ và tên");
-        rightPanelDocGia.add(lb_TenDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 134, 82, -1));
-
-        txtIdDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rightPanelDocGia.add(txtIdDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(187, 81, 195, 32));
-
-        lb_gender.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_gender.setText("Giới tính");
-        rightPanelDocGia.add(lb_gender, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 184, 82, -1));
-
-        txtGender.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rightPanelDocGia.add(txtGender, new org.netbeans.lib.awtextra.AbsoluteConstraints(187, 181, 195, 32));
-
-        lb_ngaySinh.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_ngaySinh.setText("Ngày sinh");
-        rightPanelDocGia.add(lb_ngaySinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 234, 106, -1));
-
-        txtNgaySinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rightPanelDocGia.add(txtNgaySinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(187, 231, 195, 32));
-
-        lb_cccd.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_cccd.setText("Số CCCD");
-        rightPanelDocGia.add(lb_cccd, new org.netbeans.lib.awtextra.AbsoluteConstraints(543, 84, -1, -1));
-
-        txtCCCD.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        rightPanelDocGia.add(txtCCCD, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 81, 195, 32));
-
-        txtSDT.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        rightPanelDocGia.add(txtSDT, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 130, 195, 32));
-
-        lb_bookQuantity1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_bookQuantity1.setText("Số điện thoại");
-        rightPanelDocGia.add(lb_bookQuantity1, new org.netbeans.lib.awtextra.AbsoluteConstraints(543, 131, 97, 26));
-
-        lb_email.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_email.setText("Email");
-        rightPanelDocGia.add(lb_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(543, 184, 82, -1));
-
-        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rightPanelDocGia.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 181, 195, 32));
-
-        btn_delBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_delBook1.setText("Xóa");
-        rightPanelDocGia.add(btn_delBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(504, 310, 108, 39));
-
-        btn_insertBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_insertBook1.setText("Thêm");
-        btn_insertBook1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_insertBook1ActionPerformed(evt);
-            }
-        });
-        rightPanelDocGia.add(btn_insertBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 310, 108, 39));
-
-        lb_SortBy1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_SortBy1.setText("Sắp xếp theo: ");
-        rightPanelDocGia.add(lb_SortBy1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 318, -1, -1));
-
-        cbxSortDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbxSortDocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã", "Tên", "Giới tính" }));
-        rightPanelDocGia.add(cbxSortDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(794, 317, 117, -1));
-
-        SearchDocGia.setBackground(new java.awt.Color(204, 255, 255));
-        SearchDocGia.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lb_SearchDocGia.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        lb_SearchDocGia.setForeground(new java.awt.Color(153, 153, 153));
-        lb_SearchDocGia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/search.png"))); // NOI18N
-        lb_SearchDocGia.setText(" Tìm kiếm độc giả");
-        lb_SearchDocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        SearchDocGia.add(lb_SearchDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 7, 150, 20));
-
-        txtSearchDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtSearchDocGia.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtSearchDocGiaCaretUpdate(evt);
-            }
-        });
-        txtSearchDocGia.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtSearchDocGiaFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtSearchDocGiaFocusLost(evt);
-            }
-        });
-        txtSearchDocGia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchDocGiaActionPerformed(evt);
-            }
-        });
-        SearchDocGia.add(txtSearchDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 37));
-
-        rightPanelDocGia.add(SearchDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 32, -1, -1));
 
         rightPanelPhieuMuon.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -801,17 +824,23 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rightPanelThongke, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rightPanelSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rightPanelPhieuMuon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rightPanelDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(rightPanelSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(299, 299, 299)
+                .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(rightPanelThongke, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(rightPanelSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(rightPanelPhieuMuon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(rightPanelDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(rightPanelDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(rightPanelSach, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Home, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -1237,9 +1266,11 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btn_insertBook2;
     private javax.swing.JComboBox<String> cbxSortBook;
     private javax.swing.JComboBox<String> cbxSortDocGia;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel lb_IdBook;
     private javax.swing.JLabel lb_IdBook1;
