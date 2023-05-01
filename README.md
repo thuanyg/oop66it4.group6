@@ -14,7 +14,7 @@ An in-depth paragraph about your project and overview of use.
 ### Dependencies
 
 * Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+* ex. Windows 7-10
 
 ### Installing
 
@@ -23,10 +23,12 @@ An in-depth paragraph about your project and overview of use.
 
 ### Executing program
 
-* How to run the program
+* How to run the program:
+- Download & unzip the file .zip
+- Open QLTV.jar in the unzipped folder with Java SE
 * Step-by-step bullets
 ```
-code blocks for commands
+Code here: //
 ```
 
 ## Help
@@ -48,6 +50,6 @@ ex. [@ThuanHT](https://www.facebook.com/htt268)
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+This project is licensed under the [HTT] License - see the LICENSE.md file for details
 
 
