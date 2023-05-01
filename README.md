@@ -24,8 +24,8 @@ An in-depth paragraph about your project and overview of use.
 ### Executing program
 
 * How to run the program:
-\n--- Download & unzip the file .zip
-\n--- Open QLTV.jar in the unzipped folder with Java SE
+ 1. Download & unzip the file .zip
+ 2. Open QLTV.jar in the unzipped folder with Java SE
 * Step-by-step bullets
 ```
 Code here: // No infomation
