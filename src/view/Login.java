@@ -4,7 +4,9 @@
  */
 package view;
 
+import global.Username;
 import controller.Validation;
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -28,11 +30,10 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    
     public Login() {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/assets/logo.png")));
-//        txtUsername.setBackground(new Color(0, 0, 0, 1));
-//        txtPassword.setBackground(new Color(0, 0, 0, 1));
         txtUsername.setBorder(BorderFactory.createCompoundBorder(
                 txtUsername.getBorder(),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -268,7 +269,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExitLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitLoginMouseClicked
-         int c = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit the application?", "Exit", JOptionPane.YES_NO_OPTION);
+        int c = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit the application?", "Exit", JOptionPane.YES_NO_OPTION);
         if (c == 0) {
             this.dispose();
         }
@@ -318,15 +319,15 @@ public class Login extends javax.swing.JFrame {
             btnLogin.doClick();
         }
         if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            int c = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit the application?","Exit", JOptionPane.YES_NO_OPTION);
+            int c = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit the application?", "Exit", JOptionPane.YES_NO_OPTION);
             switch (c) {
                 case 0:
                     try {
-                        Thread.sleep(1500);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    this.dispose();
+                    Thread.sleep(1500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.dispose();
             }
 
         }
@@ -492,5 +493,5 @@ public class Login extends javax.swing.JFrame {
     public JLabel getjLabel3() {
         return jLabel3;
     }
-   
+    
 }

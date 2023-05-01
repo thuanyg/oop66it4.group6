@@ -5,7 +5,7 @@
 package dao;
 
 import database.JDBCUtil;
-import database.JDBCUtil_QLTV;
+import database.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,8 +28,8 @@ public class SachDAO implements DAOInterface<Sach> {
     public int Insert(Sach s) {
         try {
             // Tạo kết nối
-            Connection connection = JDBCUtil_QLTV.getConnection();
-            JDBCUtil_QLTV.printInfo(connection);
+            Connection connection = JDBCUtil.getConnection();
+            JDBCUtil.printInfo(connection);
             String sql = "INSERT INTO Sach "
                     + "VALUES (" + s.getId() + ",N'" + s.getTenSach() + "',N'" + s.getTheLoai() + "',N'" + s.getTacGia() + "'," + s.getNamXB() + ",N'" + s.getNhaXB() + "'," + s.getSoLuong() + "," + s.getGiaSach() + ")";
             System.out.println(sql);
@@ -45,7 +45,7 @@ public class SachDAO implements DAOInterface<Sach> {
 //            pst.setInt(7, s.getSoLuong());
 //            pst.setFloat(8, s.getGiaSach());
 //            pst.execute();
-            JDBCUtil_QLTV.closeConnection(connection);
+            JDBCUtil.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,8 +67,8 @@ public class SachDAO implements DAOInterface<Sach> {
         ArrayList<Sach> ketQua = new ArrayList<>();
         try {
             //B1: Tạo kết nối
-            Connection connection = JDBCUtil_QLTV.getConnection();
-            JDBCUtil_QLTV.printInfo(connection);
+            Connection connection = JDBCUtil.getConnection();
+            JDBCUtil.printInfo(connection);
             //B2: Tạo đối tượng Statement
             Statement st = connection.createStatement();
             //B3: Thực thi câu lệnh SQL
@@ -87,7 +87,7 @@ public class SachDAO implements DAOInterface<Sach> {
                 ketQua.add(sach);
             }
             
-            JDBCUtil_QLTV.closeConnection(connection);
+            JDBCUtil.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }

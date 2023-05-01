@@ -4,16 +4,10 @@
  */
 package database;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
-import com.sun.tools.javac.resources.compiler;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,17 +15,21 @@ import javax.swing.JOptionPane;
  */
 public class JDBCUtil {
 
+    private static final String url = "jdbc:sqlserver://192.168.1.24:1433;databaseName=DB_Library;encrypt=false";
+    private static final String user = "thuanyghg";
+    private static final String password = "12345";
+
     public static Connection getConnection() {
         Connection c = null;
         try {
             DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
-            String url = "jdbc:sqlserver://192.168.88.105:1433;databaseName=AccountQLTV;encrypt=false";
-            String user = "thuanyghg";
-            String password = "12345";
+//            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             c = DriverManager.getConnection(url, user, password);
-//            System.out.println(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } catch (Exception e) {
+            // Xu ly cac loi cho Class.forName
+            e.printStackTrace();
         }
         return c;
     }
