@@ -19,8 +19,11 @@ An in-depth paragraph about your project and overview of use.
 ### Installing
 
 * How/where to download your program
+
 ✓ Connect to VPN to allow access to Database (SQLServer). Be sure to do this step, or the app will crash.
+
 ✓ Download the file from the Release section and follow the instructions below.
+
 * Any modifications needed to be made to files/folders
 
 ### Executing program
