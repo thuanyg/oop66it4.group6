@@ -18,6 +18,9 @@ An in-depth paragraph about your project and overview of use.
 ### Installing
 
 * How/where to download your program
+1. Please install Radmin VPN to allow access to DATABASE. Download at [here](https://download.radmin-vpn.com/download/files/Radmin_VPN_1.3.4568.3.exe).
+2. Install and open Radmin, click Join network and enter username as "thuanyg", password as "123456", then press Connect.
+3. Open QLTV.jar
 * Any modifications needed to be made to files/folders
 
 ### Executing program
