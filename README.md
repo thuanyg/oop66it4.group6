@@ -30,7 +30,8 @@ An in-depth paragraph about your project and overview of use.
 
 * How to run the program:
 1. Download & Install Radmin VPN at [here](https://download.radmin-vpn.com/download/files/Radmin_VPN_1.3.4568.3.exe)
-2. Open Radmin VPN, Click "Join network". Input: Username = "thuanyg", Password = "12345". After, connect to VPN.
+2. Open Radmin VPN, Click "Join network". 
+   Input: Username = "thuanyg", Password = "123456". After, connect to VPN.
 3. Download this Application at [here](https://github.com/thuanyg/oop66it4.group6/archive/refs/tags/Versions.zip) & unzip the file .zip
 4. Open QLTV.jar in the ./dist folder.
 * Step-by-step bullets
