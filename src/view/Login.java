@@ -61,12 +61,12 @@ public class Login extends javax.swing.JFrame {
         HeadingLogin = new javax.swing.JLabel();
         lb_Register = new javax.swing.JLabel();
         lbCreateAcc = new javax.swing.JLabel();
+        iconUser24 = new javax.swing.JLabel();
         lbPass = new javax.swing.JLabel();
         lbtemp1 = new javax.swing.JLabel();
         lbtemp2 = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         lbUser = new javax.swing.JLabel();
-        iconUser24 = new javax.swing.JLabel();
         iconEye24 = new javax.swing.JLabel();
         iconHide = new javax.swing.JLabel();
         errorPassword = new javax.swing.JLabel();
@@ -162,6 +162,15 @@ public class Login extends javax.swing.JFrame {
         lbCreateAcc.setText("New to LMS?");
         RightPanel.add(lbCreateAcc, new org.netbeans.lib.awtextra.AbsoluteConstraints(96, 510, 110, -1));
 
+        iconUser24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/eye-2-24.png"))); // NOI18N
+        iconUser24.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconUser24.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconUser24MouseClicked(evt);
+            }
+        });
+        RightPanel.add(iconUser24, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 320, 30, 30));
+
         lbPass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbPass.setForeground(new java.awt.Color(255, 255, 255));
         lbPass.setText("Password");
@@ -178,8 +187,16 @@ public class Login extends javax.swing.JFrame {
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(0, 204, 51));
         btnLogin.setText("LOGIN");
-        btnLogin.setBorder(null);
+        btnLogin.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnLoginMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnLoginMouseExited(evt);
+            }
+        });
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
@@ -191,15 +208,6 @@ public class Login extends javax.swing.JFrame {
         lbUser.setForeground(new java.awt.Color(255, 255, 255));
         lbUser.setText("Username");
         RightPanel.add(lbUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 370, -1));
-
-        iconUser24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/eye-2-24.png"))); // NOI18N
-        iconUser24.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        iconUser24.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                iconUser24MouseClicked(evt);
-            }
-        });
-        RightPanel.add(iconUser24, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 320, 30, 30));
 
         iconEye24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/user-24.png"))); // NOI18N
         RightPanel.add(iconEye24, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 190, 30, 30));
@@ -342,6 +350,15 @@ public class Login extends javax.swing.JFrame {
         Register reg = new Register();
         reg.setVisible(true);
     }//GEN-LAST:event_lb_RegisterMouseClicked
+
+    private void btnLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseEntered
+        btnLogin.setBackground(Color.gray);
+//        btnLogin.setForeground(Color.WHITE);
+    }//GEN-LAST:event_btnLoginMouseEntered
+
+    private void btnLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseExited
+        btnLogin.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnLoginMouseExited
 
     /**
      * @param args the command line arguments

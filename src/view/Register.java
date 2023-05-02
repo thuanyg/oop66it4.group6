@@ -5,6 +5,7 @@
 package view;
 
 import controller.Validation;
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -192,6 +193,12 @@ public class Register extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnRegisterMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRegisterMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRegisterMouseExited(evt);
+            }
         });
         btnRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -339,6 +346,14 @@ public class Register extends javax.swing.JFrame {
         MouseListener ml = new Validation(this);
         ml.mouseClicked(evt);
     }//GEN-LAST:event_btnRegisterMouseClicked
+
+    private void btnRegisterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseEntered
+        btnRegister.setBackground(Color.gray);
+    }//GEN-LAST:event_btnRegisterMouseEntered
+
+    private void btnRegisterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseExited
+        btnRegister.setBackground(Color.white);
+    }//GEN-LAST:event_btnRegisterMouseExited
 
     /**
      * @param args the command line arguments
