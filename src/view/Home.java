@@ -45,9 +45,10 @@ import model.Sach;
  * @author HOANG TIEN THUAN
  */
 public class Home extends javax.swing.JFrame {
-
+    
     DefaultTableModel tableModel, model;
-    List<String> list = new ArrayList<>();
+    List<String> listSachMuon = new ArrayList<>();
+    List<Integer> listSoLuongMuon = new ArrayList<>();
     
     public Home() {
         try {
@@ -62,7 +63,6 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         tableModel = (DefaultTableModel) tbl_Sach.getModel();
         model = (DefaultTableModel) tbl_sachMuon.getModel();
-
         ShowBook();
         ShowBookOnCombobox();
         // Add placeholder
@@ -77,7 +77,7 @@ public class Home extends javax.swing.JFrame {
         setVisibleFalse();
         Home.setVisible(true);
     }
-
+    
     public void AddTableStyle(JTable table) {
         table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         table.getTableHeader().setOpaque(false);
@@ -85,7 +85,7 @@ public class Home extends javax.swing.JFrame {
         table.getTableHeader().setForeground(new Color(255, 255, 255));
         table.setRowHeight(25);
     }
-
+    
     public void SetTableHeaderStyle() {
         ((DefaultTableCellRenderer) tbl_sachMuon.getTableHeader().getDefaultRenderer())
                 .setHorizontalAlignment(JLabel.CENTER);
@@ -96,36 +96,35 @@ public class Home extends javax.swing.JFrame {
 //        ((DefaultTableCellRenderer) tbl_PhieuMuon.getTableHeader().getDefaultRenderer())
 //                .setHorizontalAlignment(JLabel.CENTER);
     }
-
+    
     public void AddPlaceHolderStyle(JTextField jtf) {
         Font font = jtf.getFont();
         font = font.deriveFont(Font.ITALIC);
         jtf.setFont(font);
         jtf.setForeground(Color.GRAY);
     }
-
-    public void count() {
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
-        }
-    }
-
+    
     public int TongSachMuon() {
         int sum = 0;
-        for (int i = 0; i < tbl_sachMuon.getModel().getRowCount(); i++) {
-            int temp = (int) tbl_sachMuon.getModel().getValueAt(i, 1); //get the all row values at column index 1
-            sum += temp;
+        try {
+            for (int i = 0; i < tbl_sachMuon.getModel().getRowCount(); i++) {
+                int temp = (int) tbl_sachMuon.getModel().getValueAt(i, 1); //get the all row values at column index 1
+                sum += temp;
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Tràn");
         }
         return sum;
     }
-
+    
     public void RemovePlaceHolderStyle(JTextField jtf) {
         Font font = jtf.getFont();
         font = font.deriveFont(Font.PLAIN);
         jtf.setFont(font);
         jtf.setForeground(Color.BLACK);
     }
-
+    
     public void ShowBook() {
         List<Sach> listSach = SachDAO.getInstant().selectAll();
         tableModel.setRowCount(0);
@@ -134,17 +133,16 @@ public class Home extends javax.swing.JFrame {
                 sach.getTenSach(), sach.getTheLoai(), sach.getTacGia(), sach.getNamXB(),
                 sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
         });
-
+        
     }
-
+    
     public void ShowBookOnCombobox() {
         List<Sach> listSach = SachDAO.getInstant().selectAll();
         listSach.forEach((sach) -> {
-//            cbx_Books.setSelectedItem(null);
             cbx_Books.addItem("" + String.valueOf(sach.getId()) + " | " + sach.getTenSach());
         });
     }
-
+    
     public void resetFontColor() {
         lb_QuanLySach.setForeground(Color.WHITE);
         lb_QuanLyDocGia.setForeground(Color.WHITE);
@@ -152,7 +150,7 @@ public class Home extends javax.swing.JFrame {
         lb_ThongKeBaoCao.setForeground(Color.WHITE);
         lb_info.setForeground(Color.WHITE);
     }
-
+    
     public void setVisibleFalse() {
         Home.setVisible(false);
         rightPanelDocGia.setVisible(false);
@@ -162,7 +160,7 @@ public class Home extends javax.swing.JFrame {
         rightPanelInfo.setVisible(false);
         about_us.setVisible(false);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -260,11 +258,11 @@ public class Home extends javax.swing.JFrame {
         btn_resetPM = new javax.swing.JButton();
         panel_sachMuon = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
-        lb_tongSachMuon = new javax.swing.JLabel();
-        lablelforTongSach = new javax.swing.JLabel();
+        lablelTongSach = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tbl_sachMuon = new javax.swing.JTable();
+        btn_save = new javax.swing.JButton();
         rightPanelThongke = new javax.swing.JPanel();
         DashbroadOnTop = new javax.swing.JPanel();
         btn_moreInfoBook = new javax.swing.JLabel();
@@ -1070,14 +1068,14 @@ public class Home extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Ma PM", "Mã độc giả", "Ngày mượn", "Ngày hẹn trả", "Số lượng"
+                "Mã PM", "Mã độc giả", "Ngày mượn", "Ngày hẹn trả", "Sách mượn"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1229,17 +1227,11 @@ public class Home extends javax.swing.JFrame {
         panel_sachMuon.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         panel_sachMuon.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 43, 380, -1));
 
-        lb_tongSachMuon.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lb_tongSachMuon.setForeground(new java.awt.Color(0, 102, 51));
-        lb_tongSachMuon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_tongSachMuon.setText("40");
-        panel_sachMuon.add(lb_tongSachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 370, 100, 50));
-
-        lablelforTongSach.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lablelforTongSach.setForeground(new java.awt.Color(0, 102, 51));
-        lablelforTongSach.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lablelforTongSach.setText("Tổng số sách mượn: ");
-        panel_sachMuon.add(lablelforTongSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 340, 30));
+        lablelTongSach.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lablelTongSach.setForeground(new java.awt.Color(0, 102, 51));
+        lablelTongSach.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lablelTongSach.setText("Tổng số sách mượn: ");
+        panel_sachMuon.add(lablelTongSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(-60, 380, 360, 30));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
@@ -1291,6 +1283,11 @@ public class Home extends javax.swing.JFrame {
         tbl_sachMuon.setShowGrid(false);
         tbl_sachMuon.setShowHorizontalLines(true);
         tbl_sachMuon.setShowVerticalLines(true);
+        tbl_sachMuon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_sachMuonMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(tbl_sachMuon);
         if (tbl_sachMuon.getColumnModel().getColumnCount() > 0) {
             tbl_sachMuon.getColumnModel().getColumn(0).setPreferredWidth(455);
@@ -1299,6 +1296,16 @@ public class Home extends javax.swing.JFrame {
         tbl_sachMuon.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
 
         panel_sachMuon.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 370, 310));
+
+        btn_save.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_save.setText("Save");
+        btn_save.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_saveActionPerformed(evt);
+            }
+        });
+        panel_sachMuon.add(btn_save, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 380, 80, 30));
 
         rightPanelPhieuMuon.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, 416));
         panel_sachMuon.setVisible(false);
@@ -1648,7 +1655,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_lb_QuanLySachFocusLost
 
     private void pnl_QuanLySachFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pnl_QuanLySachFocusGained
-
+        
 
     }//GEN-LAST:event_pnl_QuanLySachFocusGained
 
@@ -1739,8 +1746,8 @@ public class Home extends javax.swing.JFrame {
                 ((JTextField) children[i]).setText("");
             }
         }
-        cbx_Books.setSelectedIndex(0);
-        list.clear();
+        listSachMuon.clear();
+        listSoLuongMuon.clear();
         panel_sachMuon.setVisible(false);
     }//GEN-LAST:event_btn_resetPMActionPerformed
 
@@ -1832,99 +1839,36 @@ public class Home extends javax.swing.JFrame {
     private void cbx_BooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_BooksActionPerformed
         boolean check = true;
         if (cbx_Books.getSelectedIndex() == 0) {
-//            cbx_Books.setSelectedIndex(-1);
             check = false;
         }
         Object item = cbx_Books.getItemAt(cbx_Books.getSelectedIndex());
-        System.out.println("Index = " + cbx_Books.getSelectedIndex());
-        for (String string : list) {
+        System.out.println("Bạn vừa chọn vị trí: " + cbx_Books.getSelectedIndex());
+        for (String string : listSachMuon) {
             if (string == (item)) {
                 check = false;
             }
         }
+        String c = null;
         if (check == true) {
-            list.add((String) item);
+            c = JOptionPane.showInputDialog(this, "Nhập số lượng sách: " + item.toString(), "0");
+        }
+        while (!c.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Chỉ nhập số!!!");
+            c = JOptionPane.showInputDialog(this, "Nhập số lượng sách: " + item.toString(), "0");
+        }
+        if (check == true) {
+            listSachMuon.add((String) item);
+            listSoLuongMuon.add(Integer.parseInt(c));
             panel_sachMuon.setVisible(true);
         }
         model.setRowCount(0);
-        list.forEach((list) -> {
-            model.addRow(new Object[]{list, 1});
+        listSachMuon.forEach((list) -> {
+            model.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
         });
-        lb_tongSachMuon.setText(""+TongSachMuon());
-//        Object item = cbx_Books.getItemAt(cbx_Books.getSelectedIndex());
-//        System.out.println(item);
-//        boolean check = true;
-//        for (String itemOfList : list) {
-//            if ((String) item == itemOfList) {
-//                check = false;
-//            }
-//        }
-//        if (check == true) {
-//            list.add((String) item);
-//        }
-//
-//        String[] array = new String[list.size()];
-//        for (int i = 1; i < list.size(); i++) {
-//            array[i] = list.get(i);
-//            System.out.println(array[i]);
-//        }
-//        list_Books.setModel(new javax.swing.AbstractListModel<String>() {
-//
-//            String[] strings = array;
-//
-//            public int getSize() {
-//                return strings.length;
-//            }
-//
-//            public String getElementAt(int i) {
-//                return strings[i];
-//            }
-//        });
+        lablelTongSach.setText("Tổng số sách: " + TongSachMuon());
     }//GEN-LAST:event_cbx_BooksActionPerformed
 
     private void cbx_BooksItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_BooksItemStateChanged
-
-//          if (evt.getStateChange() == ItemEvent.SELECTED){
-//              Object item = evt.getItem();
-//              lb_id_name.setText((String) item);
-//          }
-//        boolean check = true;
-//        if (evt.getStateChange() == ItemEvent.SELECTED) {
-//            Object item = evt.getItem();
-//            for (String itemOfList : list) {
-//                if ((String) item == itemOfList) {
-//                    check = false;
-//                }
-//            }
-//            if (check == true) {
-//                list.add((String) item);
-//            }
-//            DefaultTableModel model = (DefaultTableModel) tbl_inforBookBorrow.getModel();
-//            model.setRowCount(0);
-//            list.forEach((list) -> {
-//                if (!list.equals(cbx_Books.getItemAt(0))) {
-//                    model.addRow(new Object[]{list.intern(), 1});
-//
-//                }
-//            });
-//        }
-//        String[] array = new String[list.size()];
-//        for (int i = 1; i < list.size(); i++) {
-//            array[i] = list.get(i);
-//            System.out.println(array[i]);
-//        }
-//        list_Books.setModel(new javax.swing.AbstractListModel<String>() {
-//
-//            String[] strings = array;
-//
-//            public int getSize() {
-//                return strings.length;
-//            }
-//
-//            public String getElementAt(int i) {
-//                return strings[i];
-//            }
-//        });
 
     }//GEN-LAST:event_cbx_BooksItemStateChanged
 
@@ -1937,6 +1881,33 @@ public class Home extends javax.swing.JFrame {
             evt.consume();
         }        // TODO add your handling code here:
     }//GEN-LAST:event_cbx_BooksKeyPressed
+
+    private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
+        listSoLuongMuon.clear();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            int num = (int) model.getValueAt(i, 1);
+            listSoLuongMuon.add(num);
+        }
+        // Check listSoLMuon
+        for (Integer integer : listSoLuongMuon) {
+            System.out.println(integer);
+        }
+        // Update Table 
+        for (int i = 0; i < model.getRowCount(); i++) {
+            model.setValueAt(listSoLuongMuon.get(i), i, 1);
+        }
+
+    }//GEN-LAST:event_btn_saveActionPerformed
+
+    private void tbl_sachMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonMouseClicked
+        
+//        int row = tbl_sachMuon.rowAtPoint(evt.getPoint());
+//        int col = tbl_sachMuon.columnAtPoint(evt.getPoint());
+//        if (row >= 0 && col >= col) {
+//            JOptionPane.showMessageDialog(this, "Row = " + row + "Col = " + col);
+//        }
+        
+    }//GEN-LAST:event_tbl_sachMuonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1952,21 +1923,21 @@ public class Home extends javax.swing.JFrame {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
+                    
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Login.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Login.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Login.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Login.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -1980,555 +1951,551 @@ public class Home extends javax.swing.JFrame {
             }
         });
     }
-
+    
     public JLabel getHeadingHome() {
         return HeadingHome;
     }
-
+    
     public JLabel getBground() {
         return bground;
     }
-
+    
     public JButton getBtm_editBook() {
         return btm_editBook;
     }
-
+    
     public JButton getBtm_editDocGia() {
         return btm_editDocGia;
     }
-
+    
     public JButton getBtn_delBook() {
         return btn_delBook;
     }
-
+    
     public JButton getBtn_delBook1() {
         return btn_delBook1;
     }
-
+    
     public JButton getBtn_insertBook() {
         return btn_insertBook;
     }
-
+    
     public JButton getBtn_insertBook1() {
         return btn_insertBook1;
     }
-
+    
     public JComboBox<String> getCbxSortBook() {
         return cbxSortBook;
     }
-
+    
     public JComboBox<String> getCbxSortDocGia() {
         return cbxSortDocGia;
     }
-
+    
     public JScrollPane getjScrollPane1() {
         return jScrollPane1;
     }
-
+    
     public JScrollPane getjScrollPane2() {
         return jScrollPane2;
     }
-
+    
     public JLabel getLb_IdBook() {
         return lb_IdBook;
     }
-
+    
     public JLabel getLb_IdDocGia() {
         return lb_IdDocGia;
     }
-
+    
     public JLabel getLb_QuanLyDocGia() {
         return lb_QuanLyDocGia;
     }
-
+    
     public JLabel getLb_QuanLySach() {
         return lb_QuanLySach;
     }
-
+    
     public JLabel getLb_SortBy() {
         return lb_SortBy;
     }
-
+    
     public JLabel getLb_SortBy1() {
         return lb_SortBy1;
     }
-
+    
     public JLabel getLb_TenDocGia() {
         return lb_TenDocGia;
     }
-
+    
     public JLabel getLb_ThongKeBaoCao() {
         return lb_ThongKeBaoCao;
     }
-
+    
     public JLabel getLb_author() {
         return lb_author;
     }
-
+    
     public JLabel getLb_bookName() {
         return lb_bookName;
     }
-
+    
     public JLabel getLb_bookQuantity() {
         return lb_bookQuantity;
     }
-
+    
     public JLabel getLb_bookQuantity1() {
         return lb_bookQuantity1;
     }
-
+    
     public JLabel getLb_cccd() {
         return lb_cccd;
     }
-
+    
     public JLabel getLb_email() {
         return lb_email;
     }
-
+    
     public JLabel getLb_gender() {
         return lb_gender;
     }
-
+    
     public JLabel getLb_ngaySinh() {
         return lb_ngaySinh;
     }
-
+    
     public JLabel getLb_price() {
         return lb_price;
     }
-
+    
     public JLabel getLb_publishYear() {
         return lb_publishYear;
     }
-
+    
     public JLabel getLb_publisher() {
         return lb_publisher;
     }
-
+    
     public JLabel getLb_typeOfBook() {
         return lb_typeOfBook;
     }
-
+    
     public JPanel getLeftPanel() {
         return leftPanel;
     }
-
+    
     public JLabel getLogOutIcon() {
         return logOutIcon;
     }
-
+    
     public JPanel getPnl_QuanLyDocGia() {
         return pnl_QuanLyDocGia;
     }
-
+    
     public JPanel getPnl_QuanLySach() {
         return pnl_QuanLySach;
     }
-
+    
     public JPanel getPnl_Thongkebaocao() {
         return pnl_Thongkebaocao;
     }
-
+    
     public JPanel getRightPanelDocGia() {
         return rightPanelDocGia;
     }
-
+    
     public JPanel getRightPanelSach() {
         return rightPanelSach;
     }
-
+    
     public JSpinner getSpiner_bookQuantity() {
         return spiner_bookQuantity;
     }
-
+    
     public JTable getTbl_DocGia() {
         return tbl_DocGia;
     }
-
+    
     public JTable getTbl_Sach() {
         return tbl_Sach;
     }
-
+    
     public JTextField getTxtAuthor() {
         return txtAuthor;
     }
-
+    
     public JTextField getTxtBookName() {
         return txtBookName;
     }
-
+    
     public JTextField getTxtCCCD() {
         return txtCCCD;
     }
-
+    
     public JTextField getTxtEmail() {
         return txtEmail;
     }
-
+    
     public JTextField getTxtGender() {
         return txtGender;
     }
-
+    
     public JTextField getTxtIdBook() {
         return txtIdBook;
     }
-
+    
     public JTextField getTxtIdDocGia() {
         return txtIdDocGia;
     }
-
+    
     public JTextField getTxtNgaySinh() {
         return txtNgaySinh;
     }
-
+    
     public JTextField getTxtPrice() {
         return txtPrice;
     }
-
+    
     public JTextField getTxtPublishYear() {
         return txtPublishYear;
     }
-
+    
     public JTextField getTxtPublisher() {
         return txtPublisher;
     }
-
+    
     public JTextField getTxtSDT() {
         return txtSDT;
     }
-
+    
     public JTextField getTxtTenDocGia() {
         return txtTenDocGia;
     }
-
+    
     public JTextField getTxtTypeOfBook() {
         return txtTypeOfBook;
     }
-
+    
     public DefaultTableModel getTableModel() {
         return tableModel;
     }
-
+    
     public JLabel getLb_HelloUser() {
         return lb_HelloUser;
     }
-
+    
     public void setLb_HelloUser(JLabel lb_HelloUser) {
         this.lb_HelloUser = lb_HelloUser;
     }
-
+    
     public DefaultTableModel getModel() {
         return model;
     }
-
+    
     public List<String> getList() {
-        return list;
+        return listSachMuon;
     }
-
+    
     public JPanel getDashbroadOnTop() {
         return DashbroadOnTop;
     }
-
+    
     public JPanel getHome() {
         return Home;
     }
-
+    
     public JPanel getSearchBook() {
         return SearchBook;
     }
-
+    
     public JPanel getSearchDocGia() {
         return SearchDocGia;
     }
-
+    
     public JPanel getAbout_us() {
         return about_us;
     }
-
+    
     public JLabel getAvt_Hieu() {
         return avt_Hieu;
     }
-
+    
     public JLabel getAvt_Hung() {
         return avt_Hung;
     }
-
+    
     public JLabel getAvt_Manh() {
         return avt_Manh;
     }
-
+    
     public JLabel getAvt_Nam() {
         return avt_Nam;
     }
-
+    
     public JLabel getAvt_Thuan() {
         return avt_Thuan;
     }
-
+    
     public JLabel getAvt_Vanh() {
         return avt_Vanh;
     }
-
+    
     public JButton getBtm_editBook1() {
         return btm_editBook1;
     }
-
+    
     public JLabel getBtn_contact() {
         return btn_contact;
     }
-
+    
     public JButton getBtn_delBook2() {
         return btn_delBook2;
     }
-
+    
     public JLabel getBtn_github() {
         return btn_github;
     }
-
+    
     public JLabel getBtn_hieu() {
         return btn_hieu;
     }
-
+    
     public JLabel getBtn_hung() {
         return btn_hung;
     }
-
+    
     public JButton getBtn_insertBook2() {
         return btn_insertBook2;
     }
-
+    
     public JLabel getBtn_manh() {
         return btn_manh;
     }
-
+    
     public JLabel getBtn_moreInfoBook() {
         return btn_moreInfoBook;
     }
-
+    
     public JLabel getBtn_moreInfoDocGia() {
         return btn_moreInfoDocGia;
     }
-
+    
     public JLabel getBtn_moreInfoPM() {
         return btn_moreInfoPM;
     }
-
+    
     public JLabel getBtn_nam() {
         return btn_nam;
     }
-
+    
     public JLabel getBtn_requestDemo() {
         return btn_requestDemo;
     }
-
+    
     public JButton getBtn_reseBook() {
         return btn_reseBook;
     }
-
+    
     public JButton getBtn_resetDocGia() {
         return btn_resetDocGia;
     }
-
+    
     public JButton getBtn_resetPM() {
         return btn_resetPM;
     }
-
+    
     public JLabel getBtn_thuan() {
         return btn_thuan;
     }
-
+    
     public JLabel getBtn_vanh() {
         return btn_vanh;
     }
-
+    
     public JComboBox<String> getCbx_Books() {
         return cbx_Books;
     }
-
+    
     public JLabel getCopyright() {
         return copyright;
     }
-
+    
     public JLabel getImg_dashbroard() {
         return img_dashbroard;
     }
-
+    
     public JLabel getjLabel1() {
         return jLabel1;
     }
-
+    
     public JLabel getjLabel10() {
         return jLabel10;
     }
-
+    
     public JLabel getjLabel2() {
         return jLabel2;
     }
-
+    
     public JLabel getjLabel3() {
         return jLabel3;
     }
-
+    
     public JLabel getjLabel4() {
         return jLabel4;
     }
-
+    
     public JLabel getjLabel5() {
         return jLabel5;
     }
-
+    
     public JLabel getjLabel6() {
         return jLabel6;
     }
-
+    
     public JScrollPane getjScrollPane3() {
         return jScrollPane3;
     }
-
+    
     public JScrollPane getjScrollPane5() {
         return jScrollPane5;
     }
-
+    
     public JSeparator getjSeparator1() {
         return jSeparator1;
     }
-
+    
     public JSeparator getjSeparator2() {
         return jSeparator2;
     }
-
+    
     public JSeparator getjSeparator3() {
         return jSeparator3;
     }
-
+    
     public JSeparator getjSeparator4() {
         return jSeparator4;
     }
-
+    
     public JLabel getLablelforTongSach() {
-        return lablelforTongSach;
+        return lablelTongSach;
     }
-
+    
     public JLabel getLb_HelloUser1() {
         return lb_HelloUser1;
     }
-
+    
     public JLabel getLb_HelloUser3() {
         return lb_HelloUser3;
     }
-
+    
     public JLabel getLb_IdBook1() {
         return lb_IdBook1;
     }
-
+    
     public JLabel getLb_IdBook2() {
         return lb_IdBook2;
     }
-
+    
     public JLabel getLb_IdBook4() {
         return lb_IdBook4;
     }
-
+    
     public JLabel getLb_IdBook5() {
         return lb_IdBook5;
     }
-
+    
     public JLabel getLb_PhieuMuon() {
         return lb_PhieuMuon;
     }
-
+    
     public JLabel getLb_chooseBook() {
         return lb_chooseBook;
     }
-
+    
     public JLabel getLb_footer() {
         return lb_footer;
     }
-
+    
     public JLabel getLb_info() {
         return lb_info;
     }
-
+    
     public JLabel getLb_search() {
         return lb_search;
     }
-
+    
     public JLabel getLb_tongNguoiMuon() {
         return lb_tongNguoiMuon;
     }
-
+    
     public JLabel getLb_tongSachCon() {
         return lb_tongSachCon;
     }
-
+    
     public JLabel getLb_tongSachDuocMuon() {
         return lb_tongSachDuocMuon;
     }
-
-    public JLabel getLb_tongSachMuon() {
-        return lb_tongSachMuon;
-    }
-
+    
     public JLabel getMeber() {
         return meber;
     }
-
+    
     public JPanel getPanel_sachMuon() {
         return panel_sachMuon;
     }
-
+    
     public JPanel getPnl_PhieuMuon() {
         return pnl_PhieuMuon;
     }
-
+    
     public JPanel getPnl_ThongTin() {
         return pnl_ThongTin;
     }
-
+    
     public JPanel getRightPanelInfo() {
         return rightPanelInfo;
     }
-
+    
     public JPanel getRightPanelPhieuMuon() {
         return rightPanelPhieuMuon;
     }
-
+    
     public JPanel getRightPanelThongke() {
         return rightPanelThongke;
     }
-
+    
     public JTable getTbl_PhieuMuon() {
         return tbl_PhieuMuon;
     }
-
+    
     public JTable getTbl_sachMuon() {
         return tbl_sachMuon;
     }
-
+    
     public JTextField getTxtIdBook2() {
         return txtIdBook2;
     }
-
+    
     public JTextField getTxtMaPhieuMuon() {
         return txtMaPhieuMuon;
     }
-
+    
     public JTextField getTxtNgayMuon() {
         return txtNgayMuon;
     }
-
+    
     public JTextField getTxtNgayMuon1() {
         return txtNgayMuon1;
     }
-
+    
     public JTextField getTxtSearchBook() {
         return txtSearchBook;
     }
-
+    
     public JTextField getTxtSearchDocGia() {
         return txtSearchDocGia;
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DashbroadOnTop;
@@ -2566,6 +2533,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btn_reseBook;
     private javax.swing.JButton btn_resetDocGia;
     private javax.swing.JButton btn_resetPM;
+    private javax.swing.JButton btn_save;
     private javax.swing.JLabel btn_thuan;
     private javax.swing.JLabel btn_vanh;
     private javax.swing.JComboBox<String> cbxSortBook;
@@ -2588,7 +2556,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JLabel lablelforTongSach;
+    private javax.swing.JLabel lablelTongSach;
     private javax.swing.JLabel lb_HelloUser;
     private javax.swing.JLabel lb_HelloUser1;
     private javax.swing.JLabel lb_HelloUser3;
@@ -2623,7 +2591,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lb_tongNguoiMuon;
     private javax.swing.JLabel lb_tongSachCon;
     private javax.swing.JLabel lb_tongSachDuocMuon;
-    private javax.swing.JLabel lb_tongSachMuon;
     private javax.swing.JLabel lb_typeOfBook;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JLabel logOutIcon;
