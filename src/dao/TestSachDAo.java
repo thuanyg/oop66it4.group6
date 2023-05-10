@@ -12,7 +12,8 @@ import model.Sach;
  */
 public class TestSachDAo {
     public static void main(String[] args) {
-        Sach s1 = new Sach(0, "Truyện cười 1001", "Truyện cười", "HTT", 1999, "Kim đồng", 5, 40000f);
-        SachDAO.getInstant().Insert(s1);
+//        Sach s1 = new Sach(0, "Truyện cười 1001", "Truyện cười", "HTT", 1999, "Kim đồng", 5, 40000f);
+//        SachDAO.getInstant().Insert(s1);
+        SachDAO.getInstant().Search("a");
     }
 }

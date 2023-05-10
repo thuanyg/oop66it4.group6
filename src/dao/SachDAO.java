@@ -6,13 +6,18 @@ package dao;
 
 import database.JDBCUtil;
 import database.JDBCUtil;
+import java.awt.print.Book;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import model.Sach;
+import view.Home;
 
 /**
  *
@@ -68,7 +73,7 @@ public class SachDAO implements DAOInterface<Sach> {
         try {
             //B1: Tạo kết nối
             Connection connection = JDBCUtil.getConnection();
-            JDBCUtil.printInfo(connection);
+//            JDBCUtil.printInfo(connection);
             //B2: Tạo đối tượng Statement
             Statement st = connection.createStatement();
             //B3: Thực thi câu lệnh SQL
@@ -97,6 +102,42 @@ public class SachDAO implements DAOInterface<Sach> {
     @Override
     public Sach selectById(Sach t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public ArrayList<Sach> Search(String s) {
+        ArrayList<Sach> arr = new ArrayList<>();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+//            JDBCUtil.printInfo(connection);
+            Statement st = connection.createStatement();
+            String sql = "SELECT * FROM Sach WHERE Ten_Sach like N'%" + s + "%'";
+            System.out.println(sql);
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                int id = rs.getInt("Ma_Sach");
+                String tenSach = rs.getString("Ten_Sach");
+                String theLoai = rs.getString("The_Loai");
+                String tacGia = rs.getString("Ten_TG");
+                int namXB = rs.getInt("NamXB");
+                String nhaXB = rs.getString("NhaXB");
+                int soL = rs.getInt("SL");
+                float gia = rs.getFloat("Gia_Sach");
+                Sach sach = new Sach(id, tenSach, theLoai, tacGia, namXB, nhaXB, soL, gia);
+                arr.add(sach);
+            }
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return arr;
+    }
+    public void SearchWithoutDB(String c){
+        Home home = new Home();
+        DefaultTableModel model = home.getSachTableModel();
+        TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(model);
+        home.getTbl_Sach().setRowSorter(trs);
+//        trs.setRowFilter(RowFilters.regexFilter(c));
     }
 
 }

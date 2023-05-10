@@ -6,10 +6,22 @@ package view;
 
 import global.Username;
 import controller.Validation;
+import dao.SachDAO;
+import database.JDBCUtil;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -19,6 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
 
 /**
@@ -30,7 +43,6 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    
     public Login() {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/assets/logo.png")));
@@ -82,6 +94,16 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login - LMS");
         setUndecorated(true);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                formMouseEntered(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -103,6 +125,7 @@ public class Login extends javax.swing.JFrame {
         txtUsername.setActionCommand("<Not Set>");
         txtUsername.setBorder(null);
         txtUsername.setDisabledTextColor(new java.awt.Color(255, 102, 102));
+        txtUsername.setNextFocusableComponent(txtPassword);
         txtUsername.setOpaque(true);
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,6 +143,7 @@ public class Login extends javax.swing.JFrame {
         txtPassword.setForeground(new java.awt.Color(0, 204, 0));
         txtPassword.setBorder(null);
         txtPassword.setEchoChar('\'');
+        txtPassword.setNextFocusableComponent(btnLogin);
         txtPassword.setOpaque(true);
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -143,7 +167,7 @@ public class Login extends javax.swing.JFrame {
         HeadingLogin.setFont(new java.awt.Font("Segoe UI", 1, 45)); // NOI18N
         HeadingLogin.setForeground(new java.awt.Color(255, 255, 255));
         HeadingLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        HeadingLogin.setText("Login");
+        HeadingLogin.setText("Sign In");
         RightPanel.add(HeadingLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 400, -1));
 
         lb_Register.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
@@ -189,6 +213,7 @@ public class Login extends javax.swing.JFrame {
         btnLogin.setText("LOGIN");
         btnLogin.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.setNextFocusableComponent(lb_Register);
         btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnLoginMouseEntered(evt);
@@ -337,7 +362,7 @@ public class Login extends javax.swing.JFrame {
                 }
                 this.dispose();
             }
-
+            
         }
     }//GEN-LAST:event_txtUsernameKeyPressed
 
@@ -359,6 +384,51 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseExited
         btnLogin.setBackground(Color.WHITE);
     }//GEN-LAST:event_btnLoginMouseExited
+
+    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
+
+    }//GEN-LAST:event_formMouseEntered
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        Connection c = null;
+        
+        try {
+            c = JDBCUtil.getConnection();
+            PreparedStatement pst = c.prepareStatement("Select * from State where State = 1");
+            ResultSet rs = pst.executeQuery();
+            boolean check = true;
+            if (rs.next()) {
+                while (JOptionPane.showConfirmDialog(this, "Phát hiện bản cập nhật mới"
+                        + ", hãy tải xuống để tiếp tục sử dụng", "Update version", JOptionPane.PLAIN_MESSAGE) != 0) {
+                    
+                }
+                if (check == true) {
+                    try {
+                        Desktop.getDesktop().browse(new URL("https://drive.google.com/drive/folders/1tpKhNUQtyO1emMhrJ_fGU-YqfLUsNAv4?usp=share_link").toURI());
+                        resetStateUpdate();
+                        System.exit(0);
+                    } catch (Exception ex) {
+                    }
+                }
+            }
+            
+            JDBCUtil.closeConnection(c);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_formWindowOpened
+    
+    public void resetStateUpdate() {
+        Connection c = null;
+        try {
+            c = JDBCUtil.getConnection();
+            PreparedStatement pst = c.prepareStatement("Update State SET State = 0");
+            ResultSet rs = pst.executeQuery();
+            JDBCUtil.closeConnection(c);
+        } catch (SQLException sQLException) {
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -426,87 +496,87 @@ public class Login extends javax.swing.JFrame {
     public JLabel getAroundBG() {
         return AroundBG;
     }
-
+    
     public JLabel getAroundBG2() {
         return AroundBG2;
     }
-
+    
     public JPanel getBackgroundPanel() {
         return BackgroundPanel;
     }
-
+    
     public JLabel getHeadingLogin() {
         return HeadingLogin;
     }
-
+    
     public JPanel getLeftPanel() {
         return LeftPanel;
     }
-
+    
     public JPanel getRightPanel() {
         return RightPanel;
     }
-
+    
     public JLabel getBtnExitLogin() {
         return btnExitLogin;
     }
-
+    
     public JButton getBtnLogin() {
         return btnLogin;
     }
-
+    
     public JLabel getErrorPassword() {
         return errorPassword;
     }
-
+    
     public JLabel getErrorUsername() {
         return errorUsername;
     }
-
+    
     public JLabel getIconEye24() {
         return iconEye24;
     }
-
+    
     public JLabel getIconHide() {
         return iconHide;
     }
-
+    
     public JLabel getIconUser24() {
         return iconUser24;
     }
-
+    
     public JLabel getjLabel1() {
         return jLabel1;
     }
-
+    
     public JLabel getjLabel2() {
         return jLabel2;
     }
-
+    
     public JLabel getLbPass() {
         return lbPass;
     }
-
+    
     public JLabel getLbUser() {
         return lbUser;
     }
-
+    
     public JLabel getLbtemp1() {
         return lbtemp1;
     }
-
+    
     public JLabel getLbtemp2() {
         return lbtemp2;
     }
-
+    
     public JPasswordField getTxtPassword() {
         return txtPassword;
     }
-
+    
     public JTextField getTxtUsername() {
         return txtUsername;
     }
-
+    
     public JLabel getjLabel3() {
         return jLabel3;
     }

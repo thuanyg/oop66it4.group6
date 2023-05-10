@@ -65,6 +65,7 @@ public class SplashScreen extends javax.swing.JFrame {
         BackgroundPanel.add(LibraryTeam, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 490, 340));
 
         loadingBar.setBackground(new java.awt.Color(0, 153, 153));
+        loadingBar.setForeground(new java.awt.Color(204, 204, 204));
         loadingBar.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         BackgroundPanel.add(loadingBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 488, 900, 20));
 
