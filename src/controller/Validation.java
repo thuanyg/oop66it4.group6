@@ -117,7 +117,7 @@ public class Validation implements ActionListener, MouseListener, KeyListener {
                 JDBCUtil.closeConnection(connection);
             } catch (SQLException ex) {
                 ex.printStackTrace();
-            } 
+            }
             System.out.println("Login state: " + check + " Username:" + txtUsername + " Password:" + txtPassword);
 
         }

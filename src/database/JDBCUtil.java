@@ -15,8 +15,8 @@ import java.sql.SQLException;
  */
 public class JDBCUtil {
 
-    private static final String url = "jdbc:sqlserver://26.204.9.163:1433;databaseName=DB_Library;encrypt=false";
-    private static final String user = "thuanyghg";
+    private static final String url = "jdbc:sqlserver://localhost:1432;databaseName=DB_Library;encrypt=false;integratedSecurity=true";
+    private static final String user = "admin";
     private static final String password = "12345";
 
     public static Connection getConnection() {
