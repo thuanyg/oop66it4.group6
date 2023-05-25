@@ -1,3 +1,5 @@
+Cách dùng git
+
 1. Lấy code từ trên Github về 
 - git pull 
 (Nếu có lỗi <git reset --hard> -> git pull)
