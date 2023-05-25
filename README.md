@@ -1,4 +1,4 @@
-# ©66IT4-HUCE 2023. 
+# ©66IT4-HUCE 2023....
 Source code hệ thống quản lý thư viện của nhóm 6 lớp 66IT4 - Đồ Án Lập Trình Hướng Đối Tượng - Trường Đại Học Xây Dựng Hà Nội.
 ## Description
 An in-depth paragraph about your project and overview of use.
