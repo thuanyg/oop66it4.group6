@@ -1,4 +1,4 @@
-Cách dùng git
+OKKK
 
 1. Lấy code từ trên Github về 
 - git pull 
