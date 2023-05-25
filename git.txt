@@ -1,6 +1,6 @@
-1. Lấy code từ trên Github về
-- git clone <link>
-- git pull
+1. Lấy code từ trên Github về 
+- git pull 
+(Nếu có lỗi <git reset --hard> -> git pull)
 2. Đẩy code lên Github
 - git add .
 - git commit -m "<chú thích>"
