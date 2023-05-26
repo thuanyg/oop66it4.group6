@@ -1,5 +1,5 @@
 # ©66IT4-HUCE 2023....
-Source code hệ thống quản lý thư viện của nhóm 6 lớp 66IT4 - Đồ Án Lập Trình Hướng Đối Tượng - Trường Đại Học Xây Dựng Hà Nội.
+Source code hệ thống quản lý thư viện nhóm 6 lớp 66IT4 - Đồ Án Lập Trình Hướng Đối Tượng - Trường Đại Học Xây Dựng Hà Nội.
 ## Description
 An in-depth paragraph about your project and overview of use.
 ## Getting Started
@@ -18,9 +18,7 @@ An in-depth paragraph about your project and overview of use.
 ### Installing
 
 * How/where to download your program
-1. Please install Radmin VPN to allow access to DATABASE. Download at [here](https://download.radmin-vpn.com/download/files/Radmin_VPN_1.3.4568.3.exe).
-2. Install and open Radmin, click Join network and enter username as "thuanyg", password as "123456", then press Connect.
-3. Download source code & app at [here](https://github.com/thuanyg/oop66it4.group6/releases/tag/Versions). Unzip and go to dist/QLTV.jar, then Launch it.
+ Comming soon...
 * Any modifications needed to be made to files/folders
 
 ### Executing program
