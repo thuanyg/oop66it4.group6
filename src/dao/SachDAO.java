@@ -41,7 +41,7 @@ public class SachDAO implements DAOInterface<Sach> {
             System.out.println(sql);
             Statement st = connection.createStatement();
             check = st.executeUpdate(sql);
-            
+
 //            pst.setInt(1, s.getId());
 //            pst.setString(2, s.getTenSach());
 //            pst.setString(3, s.getTheLoai());
@@ -59,13 +59,48 @@ public class SachDAO implements DAOInterface<Sach> {
     }
 
     @Override
-    public int Update(Sach t) {
-        return 0;
+    public int Update(Sach s) {
+        int rs = 0;
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            JDBCUtil.printInfo(connection);
+            String sql = "UPDATE Sach SET Ma_Sach = ?, Ten_Sach = ?, The_Loai = ?, Ten_TG = ?, NamXB = ?,"
+                    + "NhaXB = ?, SL = ?, Gia_Sach = ?" + " WHERE Ma_Sach = " + s.getId();
+            System.out.println(sql);
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, s.getId());
+            pst.setString(2, s.getTenSach());
+            pst.setString(3, s.getTheLoai());
+            pst.setString(4, s.getTacGia());
+            pst.setInt(5, s.getNamXB());
+            pst.setString(6, s.getNhaXB());
+            pst.setInt(7, s.getSoLuong());
+            pst.setFloat(8, s.getGiaSach());
+            rs = pst.executeUpdate();
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 
     @Override
-    public int Delete(Sach t) {
-        return 0;
+    public int Delete(int id) {
+        int check = 0;
+        try {
+            // Tạo kết nối
+            Connection connection = JDBCUtil.getConnection();
+            JDBCUtil.printInfo(connection);
+            String sql = "DELETE FROM Sach WHERE Ma_Sach = ?";
+            System.out.println(sql);
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, id);
+            check = pst.executeUpdate();
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return check;
     }
 
     @Override
@@ -80,7 +115,7 @@ public class SachDAO implements DAOInterface<Sach> {
             //B3: Thực thi câu lệnh SQL
             String sql = "SELECT * FROM Sach";
             ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("Ma_Sach");
                 String tenSach = rs.getString("Ten_Sach");
                 String theLoai = rs.getString("The_Loai");
@@ -92,7 +127,7 @@ public class SachDAO implements DAOInterface<Sach> {
                 Sach sach = new Sach(id, tenSach, theLoai, tacGia, namXB, nhaXB, soL, gia);
                 ketQua.add(sach);
             }
-            
+
             JDBCUtil.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -115,7 +150,7 @@ public class SachDAO implements DAOInterface<Sach> {
             String sql = "SELECT * FROM Sach WHERE Ten_Sach like N'%" + s + "%'";
             System.out.println(sql);
             ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("Ma_Sach");
                 String tenSach = rs.getString("Ten_Sach");
                 String theLoai = rs.getString("The_Loai");
@@ -133,7 +168,8 @@ public class SachDAO implements DAOInterface<Sach> {
         }
         return arr;
     }
-    public void SearchWithoutDB(String c){
+
+    public void SearchWithoutDB(String c) {
         Home home = new Home();
         DefaultTableModel model = home.getSachTableModel();
         TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(model);

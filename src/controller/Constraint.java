@@ -31,17 +31,21 @@ public class Constraint {
         int soLuong = (int) home.getSpiner_bookQuantity().getValue();
         String gia = home.getTxtPrice().getText().trim();
 
-        if (maSach.isEmpty()) {
-            JOptionPane.showMessageDialog(home, "Mã sách không được để trống!", "Please enter ID Book", JOptionPane.WARNING_MESSAGE);
+        if(maSach.isBlank() && tenSach.isEmpty() && tacGia.isEmpty() && 
+           theLoai.isEmpty() && nhaXB.isEmpty() && namXb.isEmpty() && gia.isEmpty()){
+           JOptionPane.showMessageDialog(home, "Hãy nhập thông tin sách để thêm!");
+           flag = false;
+        } else if (maSach.isEmpty()) {
+            JOptionPane.showMessageDialog(home, "Mã sách không được để trống!");
             flag = false;
         } else if (!maSach.matches("\\d+")) {
-            JOptionPane.showMessageDialog(home, "Mã sách định dạng là kiểu số!", "Please enter ID Book", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(home, "Mã sách định dạng là kiểu số!");
             flag = false;
         } else if (tenSach.isEmpty()) {
-            JOptionPane.showMessageDialog(home, "Tên sách không được để trống!", "Please enter name", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(home, "Tên sách không được để trống!");
             flag = false;
         } else if (soLuong == 0) {
-            JOptionPane.showMessageDialog(home, "Hãy nhập số lượng sách", "NhapSL", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(home, "Hãy nhập số lượng sách");
             flag = false;
         }
         return flag;
