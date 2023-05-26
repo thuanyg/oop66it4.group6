@@ -43,6 +43,7 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import static analysService.BarChart.createChart;
+import controller.Constraint;
 import controller.InsertBookController;
 import java.awt.Point;
 
@@ -55,6 +56,7 @@ public class Home extends javax.swing.JFrame {
     DefaultTableModel SachTableModel, SachMuonTableModel;
     List<String> listSachMuon = new ArrayList<>();
     List<Integer> listSoLuongMuon = new ArrayList<>();
+
     public Home() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -66,7 +68,7 @@ public class Home extends javax.swing.JFrame {
         } catch (Exception e) {
         }
         initComponents();
-        
+
         SachTableModel = (DefaultTableModel) tbl_Sach.getModel();
         SachMuonTableModel = (DefaultTableModel) tbl_sachMuon.getModel();
 //        ShowBook();
@@ -85,7 +87,6 @@ public class Home extends javax.swing.JFrame {
         getViTri();
     }
 
-    
 //    public void showPieChart() {
 //
 //        //create dataset
@@ -2292,16 +2293,19 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_moreInfoPMMouseClicked
 
     private void formAncestorMoved(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_formAncestorMoved
-        
+
     }//GEN-LAST:event_formAncestorMoved
 
     private void rightPanelThongkeAncestorMoved(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_rightPanelThongkeAncestorMoved
-        
+
     }//GEN-LAST:event_rightPanelThongkeAncestorMoved
 
     private void btn_insertBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBookMouseClicked
-        InsertBookController ins = new InsertBookController();
-        ins.Insert(this);
+        Constraint st = new Constraint(this);
+        if (st.SachValidate() == true) {
+            InsertBookController ins = new InsertBookController(this);
+            ins.Insert();
+        }
     }//GEN-LAST:event_btn_insertBookMouseClicked
 
     /**
@@ -2570,8 +2574,8 @@ public class Home extends javax.swing.JFrame {
     public DefaultTableModel getTableModel() {
         return SachTableModel;
     }
-    
-    public void getViTri(){
+
+    public void getViTri() {
         System.out.println(this.getLocation());
     }
 

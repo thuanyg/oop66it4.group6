@@ -31,6 +31,7 @@ public class SachDAO implements DAOInterface<Sach> {
 
     @Override
     public int Insert(Sach s) {
+        int check = 0;
         try {
             // Tạo kết nối
             Connection connection = JDBCUtil.getConnection();
@@ -39,8 +40,8 @@ public class SachDAO implements DAOInterface<Sach> {
                     + "VALUES (" + s.getId() + ",N'" + s.getTenSach() + "',N'" + s.getTheLoai() + "',N'" + s.getTacGia() + "'," + s.getNamXB() + ",N'" + s.getNhaXB() + "'," + s.getSoLuong() + "," + s.getGiaSach() + ")";
             System.out.println(sql);
             Statement st = connection.createStatement();
-            st.executeUpdate(sql);
-
+            check = st.executeUpdate(sql);
+            
 //            pst.setInt(1, s.getId());
 //            pst.setString(2, s.getTenSach());
 //            pst.setString(3, s.getTheLoai());
@@ -54,7 +55,7 @@ public class SachDAO implements DAOInterface<Sach> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return check;
     }
 
     @Override
