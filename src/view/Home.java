@@ -43,6 +43,7 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import static analysService.BarChart.createChart;
+import controller.InsertBookController;
 import java.awt.Point;
 
 /**
@@ -684,6 +685,11 @@ public class Home extends javax.swing.JFrame {
         btn_insertBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_insertBook.setText("Insert");
         btn_insertBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_insertBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_insertBookMouseClicked(evt);
+            }
+        });
         btn_insertBook.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_insertBookActionPerformed(evt);
@@ -2292,6 +2298,11 @@ public class Home extends javax.swing.JFrame {
     private void rightPanelThongkeAncestorMoved(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_rightPanelThongkeAncestorMoved
         
     }//GEN-LAST:event_rightPanelThongkeAncestorMoved
+
+    private void btn_insertBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBookMouseClicked
+        InsertBookController ins = new InsertBookController();
+        ins.Insert(this);
+    }//GEN-LAST:event_btn_insertBookMouseClicked
 
     /**
      * @param args the command line arguments
