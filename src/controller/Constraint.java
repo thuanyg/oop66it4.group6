@@ -47,6 +47,14 @@ public class Constraint {
         } else if (soLuong == 0) {
             JOptionPane.showMessageDialog(home, "Hãy nhập số lượng sách");
             flag = false;
+        }else
+        if(!namXb.matches("\\d+")) {
+            JOptionPane.showMessageDialog(home, "Năm xuất bản là định dạng số");
+            flag = false;
+        }else 
+         if(!gia.matches("\\d+")) {
+            JOptionPane.showMessageDialog(home, "Giá là định dạng số!");
+            flag = false;
         }
         return flag;
     }

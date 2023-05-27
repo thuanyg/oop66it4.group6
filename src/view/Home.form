@@ -1316,68 +1316,77 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
-                  <Component id="SearchDocGia" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" attributes="0">
-                  <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
-                  <Component id="lb_IdDocGia" min="-2" pref="82" max="-2" attributes="0"/>
-                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                  <Component id="txtIdDocGia" min="-2" pref="195" max="-2" attributes="0"/>
-                  <EmptySpace min="165" pref="165" max="-2" attributes="0"/>
-                  <Component id="lb_cccd" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="127" pref="127" max="-2" attributes="0"/>
-                  <Component id="txtCCCD" min="-2" pref="195" max="-2" attributes="0"/>
-              </Group>
-              <Component id="jScrollPane2" min="-2" pref="1190" max="-2" attributes="0"/>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="100" pref="100" max="-2" attributes="0"/>
-                  <Component id="btn_insertBook1" min="-2" pref="108" max="-2" attributes="0"/>
-                  <EmptySpace min="62" pref="62" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txtNgaySinh" min="-2" pref="195" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="btm_editDocGia" min="-2" pref="108" max="-2" attributes="0"/>
-                          <EmptySpace min="62" pref="62" max="-2" attributes="0"/>
-                          <Component id="btn_delBook1" min="-2" pref="108" max="-2" attributes="0"/>
-                          <EmptySpace min="62" pref="62" max="-2" attributes="0"/>
-                          <Component id="btn_resetDocGia" min="-2" pref="108" max="-2" attributes="0"/>
-                          <EmptySpace min="52" pref="52" max="-2" attributes="0"/>
-                          <Component id="lb_SortBy1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="14" pref="14" max="-2" attributes="0"/>
-                          <Component id="cbxSortDocGia" min="-2" pref="117" max="-2" attributes="0"/>
+                          <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
+                          <Component id="SearchDocGia" min="-2" max="-2" attributes="0"/>
                       </Group>
-                  </Group>
-              </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="lb_TenDocGia" min="-2" pref="82" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
+                          <Component id="lb_IdDocGia" min="-2" pref="82" max="-2" attributes="0"/>
                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                          <Component id="txtTenDocGia" min="-2" pref="195" max="-2" attributes="0"/>
+                          <Component id="txtIdDocGia" min="-2" pref="195" max="-2" attributes="0"/>
+                          <EmptySpace min="165" pref="165" max="-2" attributes="0"/>
+                          <Component id="lb_cccd" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="127" pref="127" max="-2" attributes="0"/>
+                          <Component id="txtCCCD" min="-2" pref="195" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="100" pref="100" max="-2" attributes="0"/>
+                          <Component id="btn_insertBook1" min="-2" pref="108" max="-2" attributes="0"/>
+                          <EmptySpace min="62" pref="62" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lb_gender" alignment="0" min="-2" pref="82" max="-2" attributes="0"/>
-                              <Component id="lb_ngaySinh" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                              <Component id="txtNgaySinh" min="-2" pref="195" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="btm_editDocGia" min="-2" pref="108" max="-2" attributes="0"/>
+                                  <EmptySpace min="62" pref="62" max="-2" attributes="0"/>
+                                  <Component id="btn_delBook1" min="-2" pref="108" max="-2" attributes="0"/>
+                                  <EmptySpace min="62" pref="62" max="-2" attributes="0"/>
+                                  <Component id="btn_resetDocGia" min="-2" pref="108" max="-2" attributes="0"/>
+                                  <EmptySpace min="52" pref="52" max="-2" attributes="0"/>
+                                  <Component id="lb_SortBy1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="14" pref="14" max="-2" attributes="0"/>
+                                  <Component id="cbxSortDocGia" min="-2" pref="117" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="rdNam" min="-2" pref="60" max="-2" attributes="0"/>
-                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                          <Component id="rdNu" min="-2" pref="60" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lb_TenDocGia" min="-2" pref="82" max="-2" attributes="0"/>
+                                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                                  <Component id="txtTenDocGia" min="-2" pref="195" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lb_gender" alignment="0" min="-2" pref="82" max="-2" attributes="0"/>
+                                      <Component id="lb_ngaySinh" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="rdNam" min="-2" pref="60" max="-2" attributes="0"/>
+                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                  <Component id="rdNu" min="-2" pref="60" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" pref="165" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lb_bookQuantity1" min="-2" pref="97" max="-2" attributes="0"/>
+                              <Component id="lb_email" min="-2" pref="117" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="txtEmail" min="-2" pref="195" max="-2" attributes="0"/>
+                              <Component id="txtSDT" min="-2" pref="195" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="165" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lb_bookQuantity1" min="-2" pref="97" max="-2" attributes="0"/>
-                      <Component id="lb_email" min="-2" pref="117" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txtEmail" min="-2" pref="195" max="-2" attributes="0"/>
-                      <Component id="txtSDT" min="-2" pref="195" max="-2" attributes="0"/>
-                  </Group>
+                  <EmptySpace min="175" max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" min="-2" pref="1190" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -1670,6 +1679,7 @@
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_insertBook1MouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_insertBook1ActionPerformed"/>
           </Events>
         </Component>

@@ -46,8 +46,12 @@ import static analysService.BarChart.createChart;
 import controller.Constraint;
 import controller.DeleteBookController;
 import controller.InsertBookController;
+import controller.InsertDocGia;
 import controller.UpdateBookController;
 import java.awt.Point;
+import javax.swing.ButtonGroup;
+import javax.swing.JFrame;
+import javax.swing.JRadioButton;
 
 /**
  *
@@ -55,7 +59,7 @@ import java.awt.Point;
  */
 public class Home extends javax.swing.JFrame {
 
-    DefaultTableModel SachTableModel, SachMuonTableModel;
+    DefaultTableModel SachTableModel, SachMuonTableModel,DocGTableModel;
     List<String> listSachMuon = new ArrayList<>();
     List<Integer> listSoLuongMuon = new ArrayList<>();
     private int indexSelectRow;
@@ -74,6 +78,7 @@ public class Home extends javax.swing.JFrame {
 
         SachTableModel = (DefaultTableModel) tbl_Sach.getModel();
         SachMuonTableModel = (DefaultTableModel) tbl_sachMuon.getModel();
+        DocGTableModel = (DefaultTableModel) tbl_DocGia.getModel();
 //        ShowBook();
         ShowBookOnCombobox();
         // Add placeholder
@@ -1187,6 +1192,11 @@ public class Home extends javax.swing.JFrame {
         btn_insertBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_insertBook1.setText("Insert");
         btn_insertBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_insertBook1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_insertBook1MouseClicked(evt);
+            }
+        });
         btn_insertBook1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_insertBook1ActionPerformed(evt);
@@ -1263,57 +1273,63 @@ public class Home extends javax.swing.JFrame {
         rightPanelDocGiaLayout.setHorizontalGroup(
             rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
-                .addGap(170, 170, 170)
-                .addComponent(SearchDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
-                .addGap(170, 170, 170)
-                .addComponent(lb_IdDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtIdDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(165, 165, 165)
-                .addComponent(lb_cccd)
-                .addGap(127, 127, 127)
-                .addComponent(txtCCCD, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1190, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(btn_insertBook1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
-                .addGroup(rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
-                        .addComponent(btm_editDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
-                        .addComponent(btn_delBook1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
-                        .addComponent(btn_resetDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52)
-                        .addComponent(lb_SortBy1)
-                        .addGap(14, 14, 14)
-                        .addComponent(cbxSortDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
-                .addGap(170, 170, 170)
                 .addGroup(rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
-                        .addComponent(lb_TenDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(170, 170, 170)
+                        .addComponent(SearchDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
+                        .addGap(170, 170, 170)
+                        .addComponent(lb_IdDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtTenDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtIdDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(165, 165, 165)
+                        .addComponent(lb_cccd)
+                        .addGap(127, 127, 127)
+                        .addComponent(txtCCCD, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(btn_insertBook1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62)
                         .addGroup(rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lb_gender, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lb_ngaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdNam, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(rdNu, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(165, 165, 165)
-                .addGroup(rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lb_bookQuantity1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lb_email, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(73, 73, 73)
-                .addGroup(rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
+                                .addComponent(btm_editDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(62, 62, 62)
+                                .addComponent(btn_delBook1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(62, 62, 62)
+                                .addComponent(btn_resetDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(52, 52, 52)
+                                .addComponent(lb_SortBy1)
+                                .addGap(14, 14, 14)
+                                .addComponent(cbxSortDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
+                        .addGap(170, 170, 170)
+                        .addGroup(rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
+                                .addComponent(lb_TenDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTenDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(rightPanelDocGiaLayout.createSequentialGroup()
+                                .addGroup(rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lb_gender, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lb_ngaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rdNam, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(rdNu, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(165, 165, 165)
+                        .addGroup(rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lb_bookQuantity1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lb_email, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(73, 73, 73)
+                        .addGroup(rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelDocGiaLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         rightPanelDocGiaLayout.setVerticalGroup(
             rightPanelDocGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2314,6 +2330,13 @@ public class Home extends javax.swing.JFrame {
         
     }//GEN-LAST:event_tbl_SachKeyReleased
 
+    private void btn_insertBook1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook1MouseClicked
+        // TODO add your handling code here:
+        
+        InsertDocGia t = new InsertDocGia(this);
+        t.InsertDocGia();
+    }//GEN-LAST:event_btn_insertBook1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -2641,6 +2664,58 @@ public class Home extends javax.swing.JFrame {
         return avt_Vanh;
     }
 
+    public DefaultTableModel getDocGTableModel() {
+        return DocGTableModel;
+    }
+    
+    public List<String> getListSachMuon() {
+        return listSachMuon;
+    }
+
+    public List<Integer> getListSoLuongMuon() {
+        return listSoLuongMuon;
+    }
+
+    public int getIndexSelectRow() {
+        return indexSelectRow;
+    }
+
+    public JFrame getBarChart() {
+        return barChart;
+    }
+
+    public JButton getBtn_save() {
+        return btn_save;
+    }
+
+    public ButtonGroup getButtonGroupGender() {
+        return buttonGroupGender;
+    }
+
+    public JLabel getjLabel7() {
+        return jLabel7;
+    }
+
+    public JPanel getjPanelForBarChart() {
+        return jPanelForBarChart;
+    }
+
+    public JLabel getLablelTongSach() {
+        return lablelTongSach;
+    }
+
+    public JPanel getPnl() {
+        return pnl;
+    }
+
+    public JRadioButton getRdNam() {
+        return rdNam;
+    }
+
+    public JRadioButton getRdNu() {
+        return rdNu;
+    }
+    
     public JButton getBtm_editBook1() {
         return btm_editBook1;
     }
