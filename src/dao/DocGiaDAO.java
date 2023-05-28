@@ -72,7 +72,7 @@ public class DocGiaDAO implements DAOInterface<DocGia>{
                 String hoTen = rs.getString("Ho_Ten");
                 String CCCD = rs.getString("CCCD");
                 String SDT = rs.getString("SDT");
-                Date Ngay_Sinh = rs.getDate("Ngay_Sinh");
+                String Ngay_Sinh = rs.getString("Ngay_Sinh");
                 int gt = rs.getInt("Gt");
                 DocGia t = new DocGia(id, gt, hoTen, CCCD, SDT, Ngay_Sinh);
                 ketQua.add(t);
