@@ -17,11 +17,11 @@ import view.Home;
  *
  * @author ACER
  */
-public class InsertDocGia {
+public class InsertDocGiaController {
 
     private Home home;
 
-    public InsertDocGia(Home home) {
+    public InsertDocGiaController(Home home) {
         this.home = home;
     }
 

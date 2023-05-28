@@ -47,12 +47,14 @@ import com.toedter.calendar.JDateChooser;
 import controller.Constraint;
 import controller.DeleteBookController;
 import controller.InsertBookController;
-import controller.InsertDocGia;
+import controller.InsertDocGiaController;
 import controller.UpdateBookController;
-import controller.UpdateDocGia;
+import controller.UpdateDocGiaController;
 import controller.showDocGia;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
@@ -2244,7 +2246,7 @@ public class Home extends javax.swing.JFrame {
     private void btn_insertBook1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook1MouseClicked
         // TODO add your handling code here:
 
-        InsertDocGia t = new InsertDocGia(this);
+        InsertDocGiaController t = new InsertDocGiaController(this);
         t.InsertDocGia();
     }//GEN-LAST:event_btn_insertBook1MouseClicked
 
@@ -2253,7 +2255,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_DocGiaMousePressed
 
     private void btm_editDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editDocGiaMouseClicked
-        UpdateDocGia upd = new UpdateDocGia(this);
+        UpdateDocGiaController upd = new UpdateDocGiaController(this);
         upd.Update();
     }//GEN-LAST:event_btm_editDocGiaMouseClicked
 
@@ -2268,19 +2270,19 @@ public class Home extends javax.swing.JFrame {
         try {
             madg = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 0).toString();
             hoten = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 1).toString();
-            if (tbl_DocGia.getValueAt(tbl_DocGia.getSelectedRow(), 2).equals("Nam")) {
+            if (tbl_DocGia.getValueAt(tbl_DocGia.getSelectedRow(), 2).toString() == "1") {
                 rdNam.setSelected(true);
             } else {
-
                 rdNu.setSelected(true);
             }
-            ngaysinh = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3).toString();
+            Date NgaySinh = new SimpleDateFormat("yyyy-MM-dd").parse(DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3).toString());
+            dateChoose.setDate(NgaySinh);
+//            ngaysinh = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3).toString();
             cccd = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 4).toString();
             sdt = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 5).toString();
 
             txtIdDocGia.setText(madg);
             txtTenDocGia.setText(hoten);
-//            txtNgaySin.setText(ngaysinh);
             txtCCCD.setText(cccd);
             txtSDT.setText(sdt);
 

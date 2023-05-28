@@ -14,10 +14,10 @@ import view.Home;
  *
  * @author HOANG TIEN THUAN
  */
-public class UpdateDocGia {
+public class UpdateDocGiaController {
     private Home home;
 
-    public UpdateDocGia(Home home) {
+    public UpdateDocGiaController(Home home) {
         this.home = home;
     }
     public void Update(){
