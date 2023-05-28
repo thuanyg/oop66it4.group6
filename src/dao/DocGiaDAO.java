@@ -56,7 +56,7 @@ public class DocGiaDAO implements DAOInterface<DocGia>{
             Connection connection = JDBCUtil.getConnection();
             JDBCUtil.printInfo(connection);
             String sql = "UPDATE Doc_Gia SET Ma_Doc_Gia = ?, Ho_Ten = ?, CCCD = ?, SDT = ?, Ngay_Sinh = ?,"
-                    + "Gioi_Tinh = ?" + " WHERE Ma_Doc_Gia = " + t.getMDG();
+                    + "Gt = ?" + " WHERE Ma_Doc_Gia = " + t.getMDG();
             System.out.println(sql);
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, t.getMDG());

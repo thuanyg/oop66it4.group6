@@ -34,7 +34,6 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.Sach;
-import java.sql.Date;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -50,16 +49,13 @@ import controller.DeleteBookController;
 import controller.InsertBookController;
 import controller.InsertDocGia;
 import controller.UpdateBookController;
+import controller.UpdateDocGia;
 import controller.showDocGia;
-<<<<<<< HEAD
-import dao.DocGiaDAO;
-=======
->>>>>>> 23ff6ec1397849c7adc1f7f0b4fac2919adf21e7
 import java.awt.Point;
+import java.awt.event.MouseEvent;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
-import model.DocGia;
 
 /**
  *
@@ -70,8 +66,6 @@ public class Home extends javax.swing.JFrame {
     DefaultTableModel SachTableModel, SachMuonTableModel, DocGTableModel;
     List<String> listSachMuon = new ArrayList<>();
     List<Integer> listSoLuongMuon = new ArrayList<>();
-    private dao.DocGiaDAO docGiaDao = new DocGiaDAO();
-    List<DocGia> listDocGia = DocGiaDAO.getInstant().selectAll();
     private int indexSelectRow;
 
     public Home() {
@@ -1139,17 +1133,17 @@ public class Home extends javax.swing.JFrame {
         tbl_DocGia.setRowHeight(23);
         tbl_DocGia.setSelectionBackground(new java.awt.Color(0, 204, 102));
         tbl_DocGia.setSelectionForeground(new java.awt.Color(255, 255, 255));
-<<<<<<< HEAD
+        tbl_DocGia.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_DocGia.setShowHorizontalLines(true);
+        tbl_DocGia.setSurrendersFocusOnKeystroke(true);
         tbl_DocGia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_DocGiaMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tbl_DocGiaMousePressed(evt);
+            }
         });
-=======
-        tbl_DocGia.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_DocGia.setShowHorizontalLines(true);
-        tbl_DocGia.setSurrendersFocusOnKeystroke(true);
->>>>>>> 23ff6ec1397849c7adc1f7f0b4fac2919adf21e7
         jScrollPane2.setViewportView(tbl_DocGia);
         if (tbl_DocGia.getColumnModel().getColumnCount() > 0) {
             tbl_DocGia.getColumnModel().getColumn(0).setPreferredWidth(10);
@@ -1160,6 +1154,11 @@ public class Home extends javax.swing.JFrame {
         btm_editDocGia.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btm_editDocGia.setText("Update");
         btm_editDocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btm_editDocGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btm_editDocGiaMouseClicked(evt);
+            }
+        });
         btm_editDocGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btm_editDocGiaActionPerformed(evt);
@@ -1970,7 +1969,6 @@ public class Home extends javax.swing.JFrame {
 
     private void btm_editDocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btm_editDocGiaActionPerformed
         // TODO add your handling code here:
-        update();
     }//GEN-LAST:event_btm_editDocGiaActionPerformed
 
     private void btn_resetPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetPMActionPerformed
@@ -2250,41 +2248,47 @@ public class Home extends javax.swing.JFrame {
         t.InsertDocGia();
     }//GEN-LAST:event_btn_insertBook1MouseClicked
 
-    private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DocGiaMouseClicked
-        // TODO add your handling code here:
+    private void tbl_DocGiaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DocGiaMousePressed
         
+    }//GEN-LAST:event_tbl_DocGiaMousePressed
+
+    private void btm_editDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editDocGiaMouseClicked
+        UpdateDocGia upd = new UpdateDocGia(this);
+        upd.Update();
+    }//GEN-LAST:event_btm_editDocGiaMouseClicked
+
+    private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {                                        
         String madg = null;
-         String hoten = null;
-          String cccd = null;
-           String ngaysinh = null;
-            String gioitinh = null;
-             String sdt = null;
-             
-             try {
+        String hoten = null;
+        String cccd = null;
+        String ngaysinh = null;
+        String gioitinh = null;
+        String sdt = null;
+
+        try {
             madg = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 0).toString();
-            hoten = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(),1).toString();
-         if(tbl_DocGia.getValueAt(tbl_DocGia.getSelectedRow(), 2).equals("Nam")){
-             rdNam.setSelected(true);
-         }else{
-             
-             rdNu.setSelected(true);
-         }
+            hoten = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 1).toString();
+            if (tbl_DocGia.getValueAt(tbl_DocGia.getSelectedRow(), 2).equals("Nam")) {
+                rdNam.setSelected(true);
+            } else {
+
+                rdNu.setSelected(true);
+            }
             ngaysinh = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3).toString();
             cccd = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 4).toString();
             sdt = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 5).toString();
-            
+
             txtIdDocGia.setText(madg);
             txtTenDocGia.setText(hoten);
-           txtNgaySinh.setText(ngaysinh);
-           txtCCCD.setText(cccd);
-           txtSDT.setText(sdt);
-            
+//            txtNgaySin.setText(ngaysinh);
+            txtCCCD.setText(cccd);
+            txtSDT.setText(sdt);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-           
-    }//GEN-LAST:event_tbl_DocGiaMouseClicked
-
+    } 
+    
     /**
      * @param args the command line arguments
      */
@@ -3060,26 +3064,4 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField txtTenDocGia;
     private javax.swing.JTextField txtTypeOfBook;
     // End of variables declaration//GEN-END:variables
-
-    
-    private void update() {
-        
-        String ma = txtIdDocGia.getText().trim();
-        String hoTen = txtTenDocGia.getText().trim();
-        String cccd = txtCCCD.getText().trim();
-        String sdt = txtSDT.getText().trim();
-        Date ngaySinh = Date.valueOf(txtNgaySinh.getText().trim());
-        int gioiTinh = rdNam.isSelected()?1:0;
-        
-        DocGia docGia = new DocGia();
-        docGia.setMDG(Integer.parseInt(ma));
-        docGia.setHo_Ten(hoTen);
-        docGia.setCCCD(cccd);
-        docGia.setSDT(sdt);
-        docGia.setGioi_Tinh((gioiTinh));
-        docGia.setNgay_SInh(ngaySinh);
-        docGiaDao.Update(docGia);
-        JOptionPane.showMessageDialog(this, "update thanh cong");
-        showDocGia.getInstance().showDocGia(DocGTableModel);
-        }
 }

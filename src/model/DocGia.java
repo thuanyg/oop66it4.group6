@@ -67,7 +67,7 @@ public class DocGia {
     public void setSDT(String SDT) {
         this.SDT = SDT;
     }
-    public void setNgay_SInh(Date Ngay_SInh) {
+    public void setNgay_SInh(String Ngay_SInh) {
         this.Ngay_SInh = this.Ngay_SInh;
     }
 
