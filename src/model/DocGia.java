@@ -13,19 +13,19 @@ import java.util.Date;
 public class DocGia {
     private int MDG,Gioi_Tinh;
     private String Ho_Ten,CCCD,SDT;
-    private java.sql.Date Ngay_SInh;
+    private String Ngay_SInh;
     
     public DocGia(){
         
     }
 
-    public DocGia(int MDG, int Gioi_Tinh, String Ho_Ten, String CCCD, String SDT, Date Ngay_SInh) {
+    public DocGia(int MDG, int Gioi_Tinh, String Ho_Ten, String CCCD, String SDT, String Ngay_SInh) {
         this.MDG = MDG;
         this.Gioi_Tinh = Gioi_Tinh;
         this.Ho_Ten = Ho_Ten;
         this.CCCD = CCCD;
         this.SDT = SDT;
-        this.Ngay_SInh = (java.sql.Date) Ngay_SInh;
+        this.Ngay_SInh = Ngay_SInh;
     }
     
     public int getMDG() {
@@ -71,7 +71,7 @@ public class DocGia {
         this.Ngay_SInh = this.Ngay_SInh;
     }
 
-    public java.sql.Date getNgay_SInh() {
+    public String getNgay_SInh() {
         return Ngay_SInh;
     }
 

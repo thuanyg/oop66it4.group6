@@ -63,7 +63,7 @@ public class DocGiaDAO implements DAOInterface<DocGia>{
             pst.setString(2, t.getHo_Ten());
             pst.setString(3, t.getCCCD());
             pst.setString(4, t.getSDT());
-            pst.setDate(5, t.getNgay_SInh());
+            pst.setString(5, t.getNgay_SInh());
             pst.setInt(6, t.getGioi_Tinh());
             rs = pst.executeUpdate();
             JDBCUtil.closeConnection(connection);
@@ -94,8 +94,9 @@ public class DocGiaDAO implements DAOInterface<DocGia>{
                 String hoTen = rs.getString("Ho_Ten");
                 String CCCD = rs.getString("CCCD");
                 String SDT = rs.getString("SDT");
-                Date Ngay_Sinh = rs.getDate("Ngay_Sinh");
-                int gt = rs.getInt("Gioi_Tinh");
+
+                String Ngay_Sinh = rs.getString("Ngay_Sinh");
+                int gt = rs.getInt("Gt");
                 DocGia t = new DocGia(id, gt, hoTen, CCCD, SDT, Ngay_Sinh);
                 ketQua.add(t);
             }

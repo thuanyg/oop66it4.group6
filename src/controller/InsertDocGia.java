@@ -13,28 +13,33 @@ import model.DocGia;
 import model.Sach;
 import view.Home;
 
-
 /**
  *
  * @author ACER
  */
 public class InsertDocGia {
+
     private Home home;
 
     public InsertDocGia(Home home) {
         this.home = home;
     }
-    public void InsertDocGia(){
-        int Ma_DG =Integer.parseInt(home.getTxtIdDocGia().getText().trim());
+
+    public void InsertDocGia() {
+        int Ma_DG = Integer.parseInt(home.getTxtIdDocGia().getText().trim());
         String Ho_Ten = home.getTxtTenDocGia().getText().trim();
         String CCCD = home.getTxtCCCD().getText().trim();
         String SDT = home.getTxtSDT().getText().trim();
-        Date Ngay_Sinh = Date.valueOf(home.getTxtNgaySinh().getText().trim());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //        Date Ngay_Sinh = Date.valueOf(home.getTxtNgaySinh().getText().trim());
+        String Ngay_Sinh = sdf.format(home.getDateChoose().getDate());
         int GT = 0;
-        if(home.getRdNam().isSelected()){
+        if (home.getRdNam().isSelected()) {
             GT = 1;
-        }else GT = 0;
-         DocGia t = new DocGia(Ma_DG, GT, Ho_Ten, CCCD, SDT, Ngay_Sinh);
+        } else {
+            GT = 0;
+        }
+        DocGia t = new DocGia(Ma_DG, GT, Ho_Ten, CCCD, SDT, Ngay_Sinh);
 //        listSach.add(sach);
         int rs = DocGiaDAO.getInstant().Insert(t);
         System.out.println(rs);
