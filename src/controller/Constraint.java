@@ -4,6 +4,7 @@
  */
 package controller;
 
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import view.Home;
 
@@ -58,4 +59,24 @@ public class Constraint {
         }
         return flag;
     }
+    
+    public boolean DocGiaValidate(){
+        boolean flag = true;
+        int Ma_DG = Integer.parseInt(home.getTxtIdDocGia().getText().trim());
+        String Ho_Ten = home.getTxtTenDocGia().getText().trim();
+        String CCCD = home.getTxtCCCD().getText().trim();
+        String SDT = home.getTxtSDT().getText().trim();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //        Date Ngay_Sinh = Date.valueOf(home.getTxtNgaySinh().getText().trim());
+        String Ngay_Sinh = sdf.format(home.getDateChoose().getDate());
+        if(!CCCD.matches("\\d+")){
+            JOptionPane.showMessageDialog(home, "CCCD có định dạng là số!");
+            flag = false;
+        }else if(!SDT.matches("\\d+")){
+            JOptionPane.showMessageDialog(home, "SDT có định dạng kiểu số!");
+            flag = false;
+        }
+        return flag;
+    }
+
 }

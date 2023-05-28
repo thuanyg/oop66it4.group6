@@ -17,11 +17,12 @@ import javax.swing.table.TableRowSorter;
 import model.DocGia;
 import model.Sach;
 import view.Home;
+
 /**
  *
  * @author ACER
  */
-public class DocGiaDAO implements DAOInterface<DocGia>{
+public class DocGiaDAO implements DAOInterface<DocGia> {
 
     public static DocGiaDAO getInstant() {
         return new DocGiaDAO();
@@ -29,14 +30,14 @@ public class DocGiaDAO implements DAOInterface<DocGia>{
 
     @Override
     public int Insert(DocGia t) {
-        
+
         int check = 0;
         try {
             // Tạo kết nối
             Connection connection = JDBCUtil.getConnection();
             JDBCUtil.printInfo(connection);
             String sql = "INSERT INTO Doc_Gia "
-                    + "VALUES ( "+ t.getMDG() + ",N'" + t.getHo_Ten() + "'," + t.getCCCD() + "," + t.getSDT() + ",'" + t.getNgay_SInh() + "'," + t.getGioi_Tinh()+")";
+                    + "VALUES ( " + t.getMDG() + ",N'" + t.getHo_Ten() + "'," + t.getCCCD() + "," + t.getSDT() + ",'" + t.getNgay_SInh() + "'," + t.getGioi_Tinh() + ")";
             System.out.println(sql);
             Statement st = connection.createStatement();
             check = st.executeUpdate(sql);
@@ -45,7 +46,6 @@ public class DocGiaDAO implements DAOInterface<DocGia>{
             e.printStackTrace();
         }
         return check;
-    
 
     }
 
@@ -70,11 +70,26 @@ public class DocGiaDAO implements DAOInterface<DocGia>{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;    }
+        return rs;
+    }
 
     @Override
     public int Delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int check = 0;
+        try {
+            // Tạo kết nối
+            Connection connection = JDBCUtil.getConnection();
+            JDBCUtil.printInfo(connection);
+            String sql = "DELETE FROM Doc_Gia WHERE Ma_Doc_gia = ?";
+            System.out.println(sql);
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, id);
+            check = pst.executeUpdate();
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return check;
     }
 
     @Override
@@ -117,5 +132,5 @@ public class DocGiaDAO implements DAOInterface<DocGia>{
     public ArrayList<DocGia> Search(String s) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }

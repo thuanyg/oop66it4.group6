@@ -1207,6 +1207,11 @@ public class Home extends javax.swing.JFrame {
         btn_delBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_delBook1.setText("Delete");
         btn_delBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_delBook1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_delBook1MouseClicked(evt);
+            }
+        });
         rightPanelDocGia.add(btn_delBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 108, 39));
 
         btn_insertBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -2063,6 +2068,7 @@ public class Home extends javax.swing.JFrame {
             }
         }
         buttonGroupGender.clearSelection();
+        dateChoose.setDate(null);
     }//GEN-LAST:event_btn_resetDocGiaMouseClicked
 
     private void cbx_BooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_BooksActionPerformed
@@ -2244,10 +2250,13 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_SachKeyReleased
 
     private void btn_insertBook1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook1MouseClicked
-        // TODO add your handling code here:
+        Constraint c = new Constraint(this);
 
-        InsertDocGiaController t = new InsertDocGiaController(this);
-        t.InsertDocGia();
+        if (c.DocGiaValidate() == true) {
+            InsertDocGiaController ins = new InsertDocGiaController(this);
+            ins.InsertDocGia();
+
+        }
     }//GEN-LAST:event_btn_insertBook1MouseClicked
 
     private void tbl_DocGiaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DocGiaMousePressed
@@ -2255,9 +2264,20 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_DocGiaMousePressed
 
     private void btm_editDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editDocGiaMouseClicked
-        UpdateDocGiaController upd = new UpdateDocGiaController(this);
-        upd.Update();
+        Constraint c = new Constraint(this);
+        if (c.DocGiaValidate() == true) {
+            UpdateDocGiaController upd = new UpdateDocGiaController(this);
+            upd.Update();
+        }
     }//GEN-LAST:event_btm_editDocGiaMouseClicked
+
+    private void btn_delBook1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delBook1MouseClicked
+        Constraint c = new Constraint(this);
+        if (c.DocGiaValidate() == true) {
+            DeleteBookController del = new DeleteBookController(this);
+            del.Delete();
+        }
+    }//GEN-LAST:event_btn_delBook1MouseClicked
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
