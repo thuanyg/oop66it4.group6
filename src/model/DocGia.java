@@ -67,6 +67,9 @@ public class DocGia {
     public void setSDT(String SDT) {
         this.SDT = SDT;
     }
+    public void setNgay_SInh(Date Ngay_SInh) {
+        this.Ngay_SInh = this.Ngay_SInh;
+    }
 
     public java.sql.Date getNgay_SInh() {
         return Ngay_SInh;

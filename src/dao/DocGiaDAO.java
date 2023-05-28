@@ -7,12 +7,16 @@ package dao;
 import database.JDBCUtil;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import model.DocGia;
 import model.Sach;
+import view.Home;
 /**
  *
  * @author ACER
@@ -47,8 +51,26 @@ public class DocGiaDAO implements DAOInterface<DocGia>{
 
     @Override
     public int Update(DocGia t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        int rs = 0;
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            JDBCUtil.printInfo(connection);
+            String sql = "UPDATE Doc_Gia SET Ma_Doc_Gia = ?, Ho_Ten = ?, CCCD = ?, SDT = ?, Ngay_Sinh = ?,"
+                    + "Gioi_Tinh = ?" + " WHERE Ma_Doc_Gia = " + t.getMDG();
+            System.out.println(sql);
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, t.getMDG());
+            pst.setString(2, t.getHo_Ten());
+            pst.setString(3, t.getCCCD());
+            pst.setString(4, t.getSDT());
+            pst.setDate(5, t.getNgay_SInh());
+            pst.setInt(6, t.getGioi_Tinh());
+            rs = pst.executeUpdate();
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;    }
 
     @Override
     public int Delete(int id) {
@@ -73,7 +95,7 @@ public class DocGiaDAO implements DAOInterface<DocGia>{
                 String CCCD = rs.getString("CCCD");
                 String SDT = rs.getString("SDT");
                 Date Ngay_Sinh = rs.getDate("Ngay_Sinh");
-                int gt = rs.getInt("Gt");
+                int gt = rs.getInt("Gioi_Tinh");
                 DocGia t = new DocGia(id, gt, hoTen, CCCD, SDT, Ngay_Sinh);
                 ketQua.add(t);
             }
