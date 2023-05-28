@@ -31,7 +31,6 @@ public class InsertDocGiaController {
         String CCCD = home.getTxtCCCD().getText().trim();
         String SDT = home.getTxtSDT().getText().trim();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        //        Date Ngay_Sinh = Date.valueOf(home.getTxtNgaySinh().getText().trim());
         String Ngay_Sinh = sdf.format(home.getDateChoose().getDate());
         int GT = 0;
         if (home.getRdNam().isSelected()) {

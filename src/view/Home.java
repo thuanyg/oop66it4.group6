@@ -2251,7 +2251,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_insertBook1MouseClicked
 
     private void tbl_DocGiaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DocGiaMousePressed
-        
+
     }//GEN-LAST:event_tbl_DocGiaMousePressed
 
     private void btm_editDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editDocGiaMouseClicked
@@ -2259,7 +2259,7 @@ public class Home extends javax.swing.JFrame {
         upd.Update();
     }//GEN-LAST:event_btm_editDocGiaMouseClicked
 
-    private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {                                        
+    private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
         String hoten = null;
         String cccd = null;
@@ -2281,16 +2281,16 @@ public class Home extends javax.swing.JFrame {
             cccd = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 4).toString();
             sdt = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 5).toString();
 
-            txtIdDocGia.setText(madg);
-            txtTenDocGia.setText(hoten);
-            txtCCCD.setText(cccd);
-            txtSDT.setText(sdt);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-    } 
-    
+
+        txtIdDocGia.setText(madg);
+        txtTenDocGia.setText(hoten);
+        txtCCCD.setText(cccd);
+        txtSDT.setText(sdt);
+    }
+
     /**
      * @param args the command line arguments
      */
