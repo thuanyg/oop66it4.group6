@@ -317,7 +317,6 @@ public class Home extends javax.swing.JFrame {
         rightPanelSach = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Sach = new javax.swing.JTable();
-        btm_editBook = new javax.swing.JButton();
         lb_IdBook = new javax.swing.JLabel();
         txtBookName = new javax.swing.JTextField();
         lb_bookName = new javax.swing.JLabel();
@@ -334,14 +333,15 @@ public class Home extends javax.swing.JFrame {
         lb_price = new javax.swing.JLabel();
         txtPrice = new javax.swing.JTextField();
         spiner_bookQuantity = new javax.swing.JSpinner();
-        btn_reseBook = new javax.swing.JButton();
-        btn_delBook = new javax.swing.JButton();
-        btn_insertBook = new javax.swing.JButton();
-        lb_SortBy = new javax.swing.JLabel();
-        cbxSortBook = new javax.swing.JComboBox<>();
         SearchBook = new javax.swing.JPanel();
         txtSearchBook = new javax.swing.JTextField();
         pnl = new javax.swing.JPanel();
+        btn_insertBook = new javax.swing.JButton();
+        btm_editBook = new javax.swing.JButton();
+        btn_delBook = new javax.swing.JButton();
+        btn_reseBook = new javax.swing.JButton();
+        lb_SortBy = new javax.swing.JLabel();
+        cbxSortBook = new javax.swing.JComboBox<>();
         leftPanel = new javax.swing.JPanel();
         HeadingHome = new javax.swing.JLabel();
         logOutIcon = new javax.swing.JLabel();
@@ -611,22 +611,7 @@ public class Home extends javax.swing.JFrame {
             tbl_Sach.getColumnModel().getColumn(1).setMinWidth(230);
         }
 
-        rightPanelSach.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 421, 1190, 389));
-
-        btm_editBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btm_editBook.setText("Update");
-        btm_editBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btm_editBook.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btm_editBookMouseClicked(evt);
-            }
-        });
-        btm_editBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btm_editBookActionPerformed(evt);
-            }
-        });
-        rightPanelSach.add(btm_editBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, 108, 39));
+        rightPanelSach.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 1190, 430));
 
         lb_IdBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook.setText("Mã sách");
@@ -695,60 +680,7 @@ public class Home extends javax.swing.JFrame {
         spiner_bookQuantity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         spiner_bookQuantity.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         spiner_bookQuantity.setPreferredSize(new java.awt.Dimension(60, 26));
-        rightPanelSach.add(spiner_bookQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 148, -1, -1));
-
-        btn_reseBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_reseBook.setText("Reset");
-        btn_reseBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_reseBook.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_reseBookMouseClicked(evt);
-            }
-        });
-        btn_reseBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_reseBookActionPerformed(evt);
-            }
-        });
-        rightPanelSach.add(btn_reseBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 330, 108, 39));
-
-        btn_delBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_delBook.setText("Delete");
-        btn_delBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_delBook.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_delBookMouseClicked(evt);
-            }
-        });
-        btn_delBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_delBookActionPerformed(evt);
-            }
-        });
-        rightPanelSach.add(btn_delBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 330, 108, 39));
-
-        btn_insertBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_insertBook.setText("Insert");
-        btn_insertBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_insertBook.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_insertBookMouseClicked(evt);
-            }
-        });
-        btn_insertBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_insertBookActionPerformed(evt);
-            }
-        });
-        rightPanelSach.add(btn_insertBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 108, 39));
-
-        lb_SortBy.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_SortBy.setText("Sắp xếp theo: ");
-        rightPanelSach.add(lb_SortBy, new org.netbeans.lib.awtextra.AbsoluteConstraints(773, 335, -1, -1));
-
-        cbxSortBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbxSortBook.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã sách", "Tên sách", "Tác giả", "Nhà xuất bản", "Số lượng", "Thể loại", "Giá" }));
-        rightPanelSach.add(cbxSortBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(911, 334, 117, -1));
+        rightPanelSach.add(spiner_bookQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 148, 70, 30));
 
         SearchBook.setBackground(new java.awt.Color(255, 204, 153));
 
@@ -798,15 +730,103 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        btn_insertBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_insertBook.setText("Insert");
+        btn_insertBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_insertBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_insertBookMouseClicked(evt);
+            }
+        });
+        btn_insertBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_insertBookActionPerformed(evt);
+            }
+        });
+
+        btm_editBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btm_editBook.setText("Update");
+        btm_editBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btm_editBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btm_editBookMouseClicked(evt);
+            }
+        });
+        btm_editBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btm_editBookActionPerformed(evt);
+            }
+        });
+
+        btn_delBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_delBook.setText("Delete");
+        btn_delBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_delBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_delBookMouseClicked(evt);
+            }
+        });
+        btn_delBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_delBookActionPerformed(evt);
+            }
+        });
+
+        btn_reseBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_reseBook.setText("Reset");
+        btn_reseBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_reseBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_reseBookMouseClicked(evt);
+            }
+        });
+        btn_reseBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_reseBookActionPerformed(evt);
+            }
+        });
+
+        lb_SortBy.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_SortBy.setText("Sắp xếp theo: ");
+
+        cbxSortBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbxSortBook.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã sách", "Tên sách", "Tác giả", "Nhà xuất bản", "Số lượng", "Thể loại", "Giá" }));
+
         javax.swing.GroupLayout pnlLayout = new javax.swing.GroupLayout(pnl);
         pnl.setLayout(pnlLayout);
         pnlLayout.setHorizontalGroup(
             pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1190, Short.MAX_VALUE)
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(btn_insertBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72)
+                .addComponent(btm_editBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(btn_delBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(btn_reseBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(lb_SortBy)
+                .addGap(42, 42, 42)
+                .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(162, Short.MAX_VALUE))
         );
         pnlLayout.setVerticalGroup(
             pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
+                .addContainerGap(313, Short.MAX_VALUE)
+                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_insertBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btm_editBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_delBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_reseBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(lb_SortBy))
+                    .addGroup(pnlLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(68, 68, 68))
         );
 
         rightPanelSach.add(pnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1190, 420));
@@ -1139,7 +1159,7 @@ public class Home extends javax.swing.JFrame {
             tbl_DocGia.getColumnModel().getColumn(0).setPreferredWidth(10);
         }
 
-        rightPanelDocGia.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 417, 1190, 400));
+        rightPanelDocGia.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 1190, 430));
 
         btm_editDocGia.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btm_editDocGia.setText("Update");
@@ -1149,7 +1169,7 @@ public class Home extends javax.swing.JFrame {
                 btm_editDocGiaActionPerformed(evt);
             }
         });
-        rightPanelDocGia.add(btm_editDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 330, 108, 39));
+        rightPanelDocGia.add(btm_editDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 310, 108, 39));
 
         lb_IdDocGia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdDocGia.setText("Mã độc giả");
@@ -1190,7 +1210,7 @@ public class Home extends javax.swing.JFrame {
         btn_delBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_delBook1.setText("Delete");
         btn_delBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        rightPanelDocGia.add(btn_delBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 108, 39));
+        rightPanelDocGia.add(btn_delBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 310, 108, 39));
 
         btn_insertBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_insertBook1.setText("Insert");
@@ -1205,15 +1225,15 @@ public class Home extends javax.swing.JFrame {
                 btn_insertBook1ActionPerformed(evt);
             }
         });
-        rightPanelDocGia.add(btn_insertBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 108, 39));
+        rightPanelDocGia.add(btn_insertBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, 108, 39));
 
         lb_SortBy1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_SortBy1.setText("Sắp xếp theo: ");
-        rightPanelDocGia.add(lb_SortBy1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 340, -1, -1));
+        rightPanelDocGia.add(lb_SortBy1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 320, -1, -1));
 
         cbxSortDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxSortDocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã", "Tên", "Giới tính" }));
-        rightPanelDocGia.add(cbxSortDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 340, 117, -1));
+        rightPanelDocGia.add(cbxSortDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 316, 117, 30));
 
         SearchDocGia.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1264,7 +1284,7 @@ public class Home extends javax.swing.JFrame {
                 btn_resetDocGiaActionPerformed(evt);
             }
         });
-        rightPanelDocGia.add(btn_resetDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 330, 108, 39));
+        rightPanelDocGia.add(btn_resetDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 310, 108, 39));
 
         rdNu.setBackground(new java.awt.Color(242, 247, 251));
         buttonGroupGender.add(rdNu);
