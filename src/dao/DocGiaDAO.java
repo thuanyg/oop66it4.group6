@@ -37,10 +37,20 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
             Connection connection = JDBCUtil.getConnection();
             JDBCUtil.printInfo(connection);
             String sql = "INSERT INTO Doc_Gia "
-                    + "VALUES ( " + t.getMDG() + ",N'" + t.getHo_Ten() + "'," + t.getCCCD() + "," + t.getSDT() + ",'" + t.getNgay_SInh() + "'," + t.getGioi_Tinh() + ")";
-            System.out.println(sql);
-            Statement st = connection.createStatement();
-            check = st.executeUpdate(sql);
+                    + "VALUES ( " + t.getMDG() + ",N'" + t.getHo_Ten() + "','" + t.getCCCD() 
+                    + "','" + t.getSDT() + "','" + t.getNgay_SInh() + "'," + t.getGioi_Tinh() + ")";
+            String sql2 = "INSERT INTO Doc_Gia VALUES (?,?,?,?,?,?)";
+            System.out.println(sql2);
+            PreparedStatement pst = connection.prepareStatement(sql2);
+            pst.setInt(1, t.getMDG());
+            pst.setString(2, t.getHo_Ten());
+            pst.setString(3, t.getCCCD());
+            pst.setString(4, t.getSDT());
+            pst.setString(5, t.getNgay_SInh());
+            pst.setInt(6, t.getGioi_Tinh());
+            check = pst.executeUpdate();
+//            Statement st = connection.createStatement();
+//            check = st.executeUpdate(sql);
             JDBCUtil.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -80,7 +90,7 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
             // Tạo kết nối
             Connection connection = JDBCUtil.getConnection();
             JDBCUtil.printInfo(connection);
-            String sql = "DELETE FROM Doc_Gia WHERE Ma_Doc_gia = ?";
+            String sql = "DELETE FROM Doc_Gia WHERE Ma_Doc_Gia = ?";
             System.out.println(sql);
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, id);

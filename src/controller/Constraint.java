@@ -4,8 +4,11 @@
  */
 package controller;
 
+import dao.DocGiaDAO;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.swing.JOptionPane;
+import model.DocGia;
 import view.Home;
 
 /**
@@ -32,10 +35,10 @@ public class Constraint {
         int soLuong = (int) home.getSpiner_bookQuantity().getValue();
         String gia = home.getTxtPrice().getText().trim();
 
-        if(maSach.isBlank() && tenSach.isEmpty() && tacGia.isEmpty() && 
-           theLoai.isEmpty() && nhaXB.isEmpty() && namXb.isEmpty() && gia.isEmpty()){
-           JOptionPane.showMessageDialog(home, "Hãy nhập thông tin sách để thêm!");
-           flag = false;
+        if (maSach.isBlank() && tenSach.isEmpty() && tacGia.isEmpty()
+                && theLoai.isEmpty() && nhaXB.isEmpty() && namXb.isEmpty() && gia.isEmpty()) {
+            JOptionPane.showMessageDialog(home, "Hãy nhập thông tin sách để thêm!");
+            flag = false;
         } else if (maSach.isEmpty()) {
             JOptionPane.showMessageDialog(home, "Mã sách không được để trống!");
             flag = false;
@@ -48,35 +51,83 @@ public class Constraint {
         } else if (soLuong == 0) {
             JOptionPane.showMessageDialog(home, "Hãy nhập số lượng sách");
             flag = false;
-        }else
-        if(!namXb.matches("\\d+")) {
+        } else if (!namXb.matches("\\d+")) {
             JOptionPane.showMessageDialog(home, "Năm xuất bản là định dạng số");
             flag = false;
-        }else 
-         if(!gia.matches("\\d+")) {
+        } else if (!gia.matches("\\d+")) {
             JOptionPane.showMessageDialog(home, "Giá là định dạng số!");
             flag = false;
         }
         return flag;
     }
-    
-    public boolean DocGiaValidate(){
+
+    public boolean DocGiaValidate() {
         boolean flag = true;
-        int Ma_DG = Integer.parseInt(home.getTxtIdDocGia().getText().trim());
+        boolean flag_id = true;
+        boolean flag_cccd = true;
+        String Ma_DG = home.getTxtIdDocGia().getText().trim();
+        List<DocGia> list = DocGiaDAO.getInstant().selectAll();
         String Ho_Ten = home.getTxtTenDocGia().getText().trim();
         String CCCD = home.getTxtCCCD().getText().trim();
         String SDT = home.getTxtSDT().getText().trim();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        //        Date Ngay_Sinh = Date.valueOf(home.getTxtNgaySinh().getText().trim());
-        String Ngay_Sinh = sdf.format(home.getDateChoose().getDate());
-        if(!CCCD.matches("\\d+")){
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String Ngay_Sinh = sdf.format(home.getDateChoose().getDate());
+        } catch (Exception e) {
+        }
+        if (Ma_DG.isEmpty() && Ho_Ten.isEmpty() && CCCD.isEmpty() && SDT.isEmpty()) {
+            JOptionPane.showMessageDialog(home, "Hãy nhập thông tin sách để thêm!");
+            flag = false;
+        } else if (!Ma_DG.matches("\\d+")) {
+            JOptionPane.showMessageDialog(home, "ID có định dạng là số!");
+            flag = false;
+        } else if (Ho_Ten.isEmpty()) {
+            JOptionPane.showMessageDialog(home, "Hãy nhập họ tên Độc giả!");
+            flag = false;
+        } else if (home.getButtonGroupGender().getSelection() == null) {
+            JOptionPane.showMessageDialog(home, "Hãy chọn giới tính!");
+            flag = false;
+        } else if (CCCD.isEmpty()) {
+            JOptionPane.showMessageDialog(home, "Hãy nhập CCCD!");
+            flag = false;
+        } else if (!CCCD.matches("\\d+")) {
             JOptionPane.showMessageDialog(home, "CCCD có định dạng là số!");
             flag = false;
-        }else if(!SDT.matches("\\d+")){
+        } else if (!flag_cccd) {
+            JOptionPane.showMessageDialog(home, "CCCD đã tồn tại!");
+            flag = false;
+        } else if (!SDT.matches("\\d+") && !SDT.isEmpty()) {
             JOptionPane.showMessageDialog(home, "SDT có định dạng kiểu số!");
             flag = false;
         }
         return flag;
+    }
+
+    // Check trùng id và cccd khi insert
+    public boolean DocGiaCheckForDuplicates() {
+        boolean flag_id = true;
+        boolean flag_cccd = true;
+        String Ma_DG = home.getTxtIdDocGia().getText().trim();
+        String CCCD = home.getTxtCCCD().getText().trim();
+        List<DocGia> list = DocGiaDAO.getInstant().selectAll();
+        for (int i = 0; i < list.size() && list.size() != 0; i++) {
+            if (list.get(i).getMDG() == Integer.parseInt(Ma_DG)) {
+                flag_id = false;
+                JOptionPane.showMessageDialog(home, "ID đã tồn tại!");
+                break;
+            }
+        }
+        if (flag_id == true) {
+            for (int i = 0; i < list.size() && list.size() != 0; i++) {
+                if (list.get(i).getCCCD().equals(CCCD)) {
+                    flag_cccd = false;
+                    JOptionPane.showMessageDialog(home, "CCCD đã tồn tại!");
+                    break;
+                }
+            }
+        }
+        return flag_id && flag_cccd;
     }
 
 }

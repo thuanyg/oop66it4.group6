@@ -4,9 +4,11 @@
  */
 package controller;
 
+import com.sun.source.doctree.SerialDataTree;
 import dao.DocGiaDAO;
 import dao.SachDAO;
-import java.sql.Date;
+import java.text.ParseException;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import model.DocGia;
@@ -25,13 +27,25 @@ public class InsertDocGiaController {
         this.home = home;
     }
 
-    public void InsertDocGia() {
-        int Ma_DG = Integer.parseInt(home.getTxtIdDocGia().getText().trim());
-        String Ho_Ten = home.getTxtTenDocGia().getText().trim();
-        String CCCD = home.getTxtCCCD().getText().trim();
-        String SDT = home.getTxtSDT().getText().trim();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String Ngay_Sinh = sdf.format(home.getDateChoose().getDate());
+    public void InsertDocGia() throws ParseException {
+        int Ma_DG = 0;
+        String Ho_Ten = null;
+        String CCCD = null;
+        String Ngay_Sinh = null;
+        String SDT = null;
+        try {
+            Ma_DG = Integer.parseInt(home.getTxtIdDocGia().getText().trim());
+            Ho_Ten = home.getTxtTenDocGia().getText().trim();
+            CCCD = home.getTxtCCCD().getText().trim();
+            SDT = home.getTxtSDT().getText().trim();
+            if (home.getDateChoose().getDate() == null) {
+                Ngay_Sinh = null;
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Ngay_Sinh = sdf.format(home.getDateChoose().getDate());
+            }
+        } catch (NumberFormatException numberFormatException) {
+        }
         int GT = 0;
         if (home.getRdNam().isSelected()) {
             GT = 1;

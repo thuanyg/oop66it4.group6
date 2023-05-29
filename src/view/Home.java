@@ -46,6 +46,7 @@ import static analysService.BarChart.createChart;
 import com.toedter.calendar.JDateChooser;
 import controller.Constraint;
 import controller.DeleteBookController;
+import controller.DeleteDocGiaController;
 import controller.InsertBookController;
 import controller.InsertDocGiaController;
 import controller.UpdateBookController;
@@ -53,8 +54,11 @@ import controller.UpdateDocGiaController;
 import controller.showDocGia;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
@@ -381,8 +385,8 @@ public class Home extends javax.swing.JFrame {
         txtCCCD = new javax.swing.JTextField();
         txtSDT = new javax.swing.JTextField();
         lb_bookQuantity1 = new javax.swing.JLabel();
-        btn_delBook1 = new javax.swing.JButton();
-        btn_insertBook1 = new javax.swing.JButton();
+        btn_xoaDocGia = new javax.swing.JButton();
+        btn_insertDocGia = new javax.swing.JButton();
         lb_SortBy1 = new javax.swing.JLabel();
         cbxSortDocGia = new javax.swing.JComboBox<>();
         SearchDocGia = new javax.swing.JPanel();
@@ -1204,30 +1208,30 @@ public class Home extends javax.swing.JFrame {
         lb_bookQuantity1.setText("Số điện thoại");
         rightPanelDocGia.add(lb_bookQuantity1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 154, 97, 26));
 
-        btn_delBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_delBook1.setText("Delete");
-        btn_delBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_delBook1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_xoaDocGia.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_xoaDocGia.setText("Delete");
+        btn_xoaDocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_xoaDocGia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_delBook1MouseClicked(evt);
+                btn_xoaDocGiaMouseClicked(evt);
             }
         });
-        rightPanelDocGia.add(btn_delBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 108, 39));
+        rightPanelDocGia.add(btn_xoaDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 108, 39));
 
-        btn_insertBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_insertBook1.setText("Insert");
-        btn_insertBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_insertBook1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_insertDocGia.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_insertDocGia.setText("Insert");
+        btn_insertDocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_insertDocGia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_insertBook1MouseClicked(evt);
+                btn_insertDocGiaMouseClicked(evt);
             }
         });
-        btn_insertBook1.addActionListener(new java.awt.event.ActionListener() {
+        btn_insertDocGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_insertBook1ActionPerformed(evt);
+                btn_insertDocGiaActionPerformed(evt);
             }
         });
-        rightPanelDocGia.add(btn_insertBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 108, 39));
+        rightPanelDocGia.add(btn_insertDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 108, 39));
 
         lb_SortBy1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_SortBy1.setText("Sắp xếp theo: ");
@@ -1302,6 +1306,8 @@ public class Home extends javax.swing.JFrame {
         rightPanelDocGia.add(rdNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(272, 200, 70, 40));
 
         dateChoose.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        dateChoose.setMaxSelectableDate(new java.util.Date(253370743293000L));
+        dateChoose.setMinSelectableDate(new java.util.Date(-62109611907000L));
         rightPanelDocGia.add(dateChoose, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, 195, 32));
 
         rightPanelPhieuMuon.setBackground(new java.awt.Color(242, 247, 251));
@@ -1817,9 +1823,9 @@ public class Home extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtSearchDocGiaCaretUpdate
 
-    private void btn_insertBook1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_insertBook1ActionPerformed
+    private void btn_insertDocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_insertDocGiaActionPerformed
         // TODO add your handling code here:ss
-    }//GEN-LAST:event_btn_insertBook1ActionPerformed
+    }//GEN-LAST:event_btn_insertDocGiaActionPerformed
 
     private void txtSearchDocGiaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchDocGiaFocusGained
         if (txtSearchDocGia.getText().equals("Tìm kiếm độc giả")) {
@@ -1971,7 +1977,14 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_reseBookActionPerformed
 
     private void btn_resetDocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetDocGiaActionPerformed
-        // TODO add your handling code here:
+        Component[] children = rightPanelDocGia.getComponents();
+        for (int i = 0, j = 1; i < children.length; i++) {
+            if (children[i] instanceof JTextField) {
+                ((JTextField) children[i]).setText("");
+            }
+        }
+        buttonGroupGender.clearSelection();
+        dateChoose.setDate(null);
     }//GEN-LAST:event_btn_resetDocGiaActionPerformed
 
     private void btm_editDocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btm_editDocGiaActionPerformed
@@ -2061,14 +2074,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_githubMouseClicked
 
     private void btn_resetDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_resetDocGiaMouseClicked
-        Component[] children = rightPanelDocGia.getComponents();
-        for (int i = 0, j = 1; i < children.length; i++) {
-            if (children[i] instanceof JTextField) {
-                ((JTextField) children[i]).setText("");
-            }
-        }
-        buttonGroupGender.clearSelection();
-        dateChoose.setDate(null);
+
     }//GEN-LAST:event_btn_resetDocGiaMouseClicked
 
     private void cbx_BooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_BooksActionPerformed
@@ -2249,15 +2255,18 @@ public class Home extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tbl_SachKeyReleased
 
-    private void btn_insertBook1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook1MouseClicked
+    private void btn_insertDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertDocGiaMouseClicked
         Constraint c = new Constraint(this);
-
-        if (c.DocGiaValidate() == true) {
+        if (c.DocGiaValidate() && c.DocGiaCheckForDuplicates()) {
             InsertDocGiaController ins = new InsertDocGiaController(this);
-            ins.InsertDocGia();
-
+            try {
+                ins.InsertDocGia();
+            } catch (ParseException ex) {
+                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }//GEN-LAST:event_btn_insertBook1MouseClicked
+        showDocGia.getInstance().showDocGia(DocGTableModel);
+    }//GEN-LAST:event_btn_insertDocGiaMouseClicked
 
     private void tbl_DocGiaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DocGiaMousePressed
 
@@ -2269,45 +2278,46 @@ public class Home extends javax.swing.JFrame {
             UpdateDocGiaController upd = new UpdateDocGiaController(this);
             upd.Update();
         }
+        showDocGia.getInstance().showDocGia(DocGTableModel);
     }//GEN-LAST:event_btm_editDocGiaMouseClicked
 
-    private void btn_delBook1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delBook1MouseClicked
-        Constraint c = new Constraint(this);
-        if (c.DocGiaValidate() == true) {
-            DeleteBookController del = new DeleteBookController(this);
-            del.Delete();
+    private void btn_xoaDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_xoaDocGiaMouseClicked
+        DeleteDocGiaController del = new DeleteDocGiaController(this);
+        if (del.Delete() != 0) {
+            showDocGia.getInstance().showDocGia(DocGTableModel);
+            btn_resetDocGia.doClick();
         }
-    }//GEN-LAST:event_btn_delBook1MouseClicked
+    }//GEN-LAST:event_btn_xoaDocGiaMouseClicked
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
         String hoten = null;
         String cccd = null;
-        String ngaysinh = null;
         String gioitinh = null;
         String sdt = null;
-
+        madg = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 0).toString();
+        hoten = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 1).toString();
+        cccd = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 4).toString();
+        sdt = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 5).toString();
+        if (tbl_DocGia.getValueAt(tbl_DocGia.getSelectedRow(), 2).toString().equals("1")) {
+            rdNam.setSelected(true);
+        } else {
+            rdNu.setSelected(true);
+        }
         try {
-            madg = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 0).toString();
-            hoten = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 1).toString();
-            if (tbl_DocGia.getValueAt(tbl_DocGia.getSelectedRow(), 2).toString() == "1") {
-                rdNam.setSelected(true);
+            if (DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3) == null) {
+                dateChoose.setDate(null);
             } else {
-                rdNu.setSelected(true);
+                Date NgaySinh = new SimpleDateFormat("yyyy-MM-dd").parse(DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3).toString());
+                dateChoose.setDate(NgaySinh);
             }
-            Date NgaySinh = new SimpleDateFormat("yyyy-MM-dd").parse(DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3).toString());
-            dateChoose.setDate(NgaySinh);
-//            ngaysinh = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3).toString();
-            cccd = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 4).toString();
-            sdt = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 5).toString();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         txtIdDocGia.setText(madg);
         txtTenDocGia.setText(hoten);
         txtCCCD.setText(cccd);
+
         txtSDT.setText(sdt);
     }
 
@@ -2375,7 +2385,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JButton getBtn_delBook1() {
-        return btn_delBook1;
+        return btn_xoaDocGia;
     }
 
     public JButton getBtn_insertBook() {
@@ -2383,7 +2393,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JButton getBtn_insertBook1() {
-        return btn_insertBook1;
+        return btn_insertDocGia;
     }
 
     public JComboBox<String> getCbxSortBook() {
@@ -2967,14 +2977,13 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btm_editDocGia;
     private javax.swing.JLabel btn_contact;
     private javax.swing.JButton btn_delBook;
-    private javax.swing.JButton btn_delBook1;
     private javax.swing.JButton btn_delBook2;
     private javax.swing.JLabel btn_github;
     private javax.swing.JLabel btn_hieu;
     private javax.swing.JLabel btn_hung;
     private javax.swing.JButton btn_insertBook;
-    private javax.swing.JButton btn_insertBook1;
     private javax.swing.JButton btn_insertBook2;
+    private javax.swing.JButton btn_insertDocGia;
     private javax.swing.JLabel btn_manh;
     private javax.swing.JLabel btn_moreInfoBook;
     private javax.swing.JLabel btn_moreInfoDocGia;
@@ -2987,6 +2996,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btn_save;
     private javax.swing.JLabel btn_thuan;
     private javax.swing.JLabel btn_vanh;
+    private javax.swing.JButton btn_xoaDocGia;
     private javax.swing.ButtonGroup buttonGroupGender;
     private javax.swing.JComboBox<String> cbxSortBook;
     private javax.swing.JComboBox<String> cbxSortDocGia;

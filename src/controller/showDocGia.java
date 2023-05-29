@@ -16,22 +16,25 @@ import view.Home;
  *
  * @author ACER
  */
-public class showDocGia extends Home{
+public class showDocGia extends Home {
+
     List<DocGia> listDocGia = DocGiaDAO.getInstant().selectAll();
-    public showDocGia(){
-        
+
+    public showDocGia() {
+
     }
-    public static showDocGia getInstance(){
+
+    public static showDocGia getInstance() {
         return new showDocGia();
     }
-    
+
     public void showDocGia(DefaultTableModel tableModel) {
         tableModel.setRowCount(0);
         listDocGia.forEach((t) -> {
             tableModel.addRow(new Object[]{t.getMDG(),
-                t.getHo_Ten(), t.getGioi_Tinh(), t.getNgay_SInh(), t.getCCCD(),t.getSDT()
-               });
+                t.getHo_Ten(), t.getGioi_Tinh(), t.getNgay_SInh(), t.getCCCD(), t.getSDT()
+            });
         });
     }
-    
+
 }
