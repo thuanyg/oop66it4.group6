@@ -50,6 +50,7 @@ import controller.DeleteDocGiaController;
 import controller.DeletePhieuMuon;
 import controller.InsertBookController;
 import controller.InsertDocGiaController;
+import controller.InsertPhieu_Muon;
 import controller.ShowPhieuMuon;
 import controller.UpdateBookController;
 import controller.UpdateDocGiaController;
@@ -302,7 +303,7 @@ public class Home extends javax.swing.JFrame {
         Home.setVisible(false);
         rightPanelDocGia.setVisible(false);
         rightPanelSach.setVisible(false);
-        rightPanelPhieuMuon.setVisible(false);
+        txt.setVisible(false);
         rightPanelThongke.setVisible(false);
         rightPanelInfo.setVisible(false);
         about_us.setVisible(false);
@@ -398,7 +399,7 @@ public class Home extends javax.swing.JFrame {
         rdNu = new javax.swing.JRadioButton();
         rdNam = new javax.swing.JRadioButton();
         dateChoose = new com.toedter.calendar.JDateChooser();
-        rightPanelPhieuMuon = new javax.swing.JPanel();
+        txt = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbl_PhieuMuon = new javax.swing.JTable();
         cbx_Books = new javax.swing.JComboBox<>();
@@ -1315,8 +1316,8 @@ public class Home extends javax.swing.JFrame {
         dateChoose.setMinSelectableDate(new java.util.Date(-62109611907000L));
         rightPanelDocGia.add(dateChoose, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, 195, 32));
 
-        rightPanelPhieuMuon.setBackground(new java.awt.Color(242, 247, 251));
-        rightPanelPhieuMuon.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        txt.setBackground(new java.awt.Color(242, 247, 251));
+        txt.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tbl_PhieuMuon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1350,7 +1351,7 @@ public class Home extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tbl_PhieuMuon);
 
-        rightPanelPhieuMuon.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 419, 1190, 390));
+        txt.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 419, 1190, 390));
 
         cbx_Books.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbx_Books.setMaximumRowCount(26);
@@ -1377,16 +1378,16 @@ public class Home extends javax.swing.JFrame {
                 cbx_BooksKeyPressed(evt);
             }
         });
-        rightPanelPhieuMuon.add(cbx_Books, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 220, 190, 30));
+        txt.add(cbx_Books, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 220, 190, 30));
 
         lb_chooseBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_chooseBook.setText("Chọn sách");
-        rightPanelPhieuMuon.add(lb_chooseBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 80, 30));
-        rightPanelPhieuMuon.add(lb_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, 20, 20));
+        txt.add(lb_chooseBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 80, 30));
+        txt.add(lb_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, 20, 20));
 
         lb_IdBook1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook1.setText("Mã PM");
-        rightPanelPhieuMuon.add(lb_IdBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 70, -1));
+        txt.add(lb_IdBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 70, -1));
 
         txtNgayMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNgayMuon.addCaretListener(new javax.swing.event.CaretListener() {
@@ -1399,11 +1400,11 @@ public class Home extends javax.swing.JFrame {
                 txtNgayMuonActionPerformed(evt);
             }
         });
-        rightPanelPhieuMuon.add(txtNgayMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, 195, 32));
+        txt.add(txtNgayMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, 195, 32));
 
         lb_IdBook4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook4.setText("Ngày Mượn");
-        rightPanelPhieuMuon.add(lb_IdBook4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, 90, 30));
+        txt.add(lb_IdBook4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, 90, 30));
 
         txtMaPhieuMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtMaPhieuMuon.addCaretListener(new javax.swing.event.CaretListener() {
@@ -1416,11 +1417,11 @@ public class Home extends javax.swing.JFrame {
                 txtMaPhieuMuonActionPerformed(evt);
             }
         });
-        rightPanelPhieuMuon.add(txtMaPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 76, 195, 32));
+        txt.add(txtMaPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 76, 195, 32));
 
         lb_IdBook2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook2.setText("Mã ĐG");
-        rightPanelPhieuMuon.add(lb_IdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 80, -1));
+        txt.add(lb_IdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 80, -1));
 
         txtIdBook2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtIdBook2.addActionListener(new java.awt.event.ActionListener() {
@@ -1428,22 +1429,27 @@ public class Home extends javax.swing.JFrame {
                 txtIdBook2ActionPerformed(evt);
             }
         });
-        rightPanelPhieuMuon.add(txtIdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 146, 195, 32));
+        txt.add(txtIdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 146, 195, 32));
 
         btn_insertBook2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_insertBook2.setText("Insert");
         btn_insertBook2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_insertBook2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_insertBook2MouseClicked(evt);
+            }
+        });
         btn_insertBook2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_insertBook2ActionPerformed(evt);
             }
         });
-        rightPanelPhieuMuon.add(btn_insertBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 108, 39));
+        txt.add(btn_insertBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 108, 39));
 
         btm_editBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btm_editBook1.setText("Update");
         btm_editBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        rightPanelPhieuMuon.add(btm_editBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 108, 39));
+        txt.add(btm_editBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 108, 39));
 
         btn_delBook2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_delBook2.setText("Delete");
@@ -1458,11 +1464,11 @@ public class Home extends javax.swing.JFrame {
                 btn_delBook2ActionPerformed(evt);
             }
         });
-        rightPanelPhieuMuon.add(btn_delBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, 108, 39));
+        txt.add(btn_delBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, 108, 39));
 
         lb_IdBook5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook5.setText("Ngày hẹn trả");
-        rightPanelPhieuMuon.add(lb_IdBook5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, 30));
+        txt.add(lb_IdBook5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, 30));
 
         txtNgayMuon1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNgayMuon1.addCaretListener(new javax.swing.event.CaretListener() {
@@ -1475,7 +1481,7 @@ public class Home extends javax.swing.JFrame {
                 txtNgayMuon1ActionPerformed(evt);
             }
         });
-        rightPanelPhieuMuon.add(txtNgayMuon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 150, 195, 32));
+        txt.add(txtNgayMuon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 150, 195, 32));
 
         btn_resetPM.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_resetPM.setText("Reset");
@@ -1485,7 +1491,7 @@ public class Home extends javax.swing.JFrame {
                 btn_resetPMActionPerformed(evt);
             }
         });
-        rightPanelPhieuMuon.add(btn_resetPM, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 300, 108, 39));
+        txt.add(btn_resetPM, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 300, 108, 39));
 
         panel_sachMuon.setBackground(new java.awt.Color(242, 247, 251));
         panel_sachMuon.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -1571,12 +1577,12 @@ public class Home extends javax.swing.JFrame {
         });
         panel_sachMuon.add(btn_save, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 380, 80, 30));
 
-        rightPanelPhieuMuon.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, 416));
+        txt.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, 416));
         panel_sachMuon.setVisible(false);
 
         lb_IdBook6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook6.setText("Ngày trả");
-        rightPanelPhieuMuon.add(lb_IdBook6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, -1, 30));
+        txt.add(lb_IdBook6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, -1, 30));
 
         txtNgayMuon2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNgayMuon2.addCaretListener(new javax.swing.event.CaretListener() {
@@ -1589,7 +1595,7 @@ public class Home extends javax.swing.JFrame {
                 txtNgayMuon2ActionPerformed(evt);
             }
         });
-        rightPanelPhieuMuon.add(txtNgayMuon2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 195, 32));
+        txt.add(txtNgayMuon2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 195, 32));
 
         rightPanelInfo.setBackground(new java.awt.Color(255, 255, 255));
         rightPanelInfo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1756,7 +1762,7 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(rightPanelSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rightPanelDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 1190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rightPanelPhieuMuon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1767,7 +1773,7 @@ public class Home extends javax.swing.JFrame {
             .addComponent(rightPanelSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(rightPanelDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(rightPanelPhieuMuon, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -1824,7 +1830,7 @@ public class Home extends javax.swing.JFrame {
     private void lb_PhieuMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_PhieuMuonMouseClicked
         this.setTitle("Loan Slip - Library Management System");
         setVisibleFalse();
-        rightPanelPhieuMuon.setVisible(true);
+        txt.setVisible(true);
         resetFontColor();
         lb_PhieuMuon.setForeground(Color.BLACK);
         ShowPhieuMuon sh = new ShowPhieuMuon();
@@ -2026,7 +2032,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btm_editDocGiaActionPerformed
 
     private void btn_resetPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetPMActionPerformed
-        Component[] children = rightPanelPhieuMuon.getComponents();
+        Component[] children = txt.getComponents();
         for (int i = 0, j = 1; i < children.length; i++) {
             if (children[i] instanceof JTextField) {
                 ((JTextField) children[i]).setText("");
@@ -2125,12 +2131,12 @@ public class Home extends javax.swing.JFrame {
         }
         String c = null;
         if (check == true) {
-            c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "0");
+            c = JOptionPane.showInputDialog(txt, "Nhập số lượng sách: " + item.toString(), "0");
 
         }
         while (!c.matches("\\d+")) {
-            JOptionPane.showMessageDialog(rightPanelPhieuMuon, "Chỉ nhập số!!!");
-            c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "0");
+            JOptionPane.showMessageDialog(txt, "Chỉ nhập số!!!");
+            c = JOptionPane.showInputDialog(txt, "Nhập số lượng sách: " + item.toString(), "0");
         }
         if (check == true) {
             listSachMuon.add((String) item);
@@ -2360,6 +2366,15 @@ public class Home extends javax.swing.JFrame {
         ShowPhieuMuon show = new ShowPhieuMuon();
         show.ShowOnTablePM(PhieuMuonTableModel);
     }//GEN-LAST:event_btn_delBook2MouseClicked
+
+    private void btn_insertBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook2MouseClicked
+        InsertPhieu_Muon ins = new InsertPhieu_Muon(this);
+        try {
+            ins.InsertPhieu_Muon();
+        } catch (ParseException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_insertBook2MouseClicked
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
@@ -2981,7 +2996,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JPanel getRightPanelPhieuMuon() {
-        return rightPanelPhieuMuon;
+        return txt;
     }
 
     public JPanel getRightPanelThongke() {
@@ -3002,6 +3017,30 @@ public class Home extends javax.swing.JFrame {
 
     public JTextField getTxtMaPhieuMuon() {
         return txtMaPhieuMuon;
+    }
+
+    public DefaultTableModel getPhieuMuonTableModel() {
+        return PhieuMuonTableModel;
+    }
+
+    public JButton getBtn_insertDocGia() {
+        return btn_insertDocGia;
+    }
+
+    public JButton getBtn_xoaDocGia() {
+        return btn_xoaDocGia;
+    }
+
+    public JLabel getLb_IdBook6() {
+        return lb_IdBook6;
+    }
+
+    public JPanel getTxt() {
+        return txt;
+    }
+
+    public JTextField getTxtNgayMuon2() {
+        return txtNgayMuon2;
     }
 
     public JTextField getTxtNgayMuon() {
@@ -3143,7 +3182,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdNu;
     private javax.swing.JPanel rightPanelDocGia;
     private javax.swing.JPanel rightPanelInfo;
-    private javax.swing.JPanel rightPanelPhieuMuon;
     private javax.swing.JPanel rightPanelSach;
     private javax.swing.JPanel rightPanelThongke;
     private javax.swing.JSpinner spiner_bookQuantity;
@@ -3151,6 +3189,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTable tbl_PhieuMuon;
     private javax.swing.JTable tbl_Sach;
     private javax.swing.JTable tbl_sachMuon;
+    private javax.swing.JPanel txt;
     private javax.swing.JTextField txtAuthor;
     private javax.swing.JTextField txtBookName;
     private javax.swing.JTextField txtCCCD;

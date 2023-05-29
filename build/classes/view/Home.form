@@ -61,7 +61,7 @@
                   <Component id="rightPanelSach" min="-2" max="-2" attributes="0"/>
                   <Component id="rightPanelDocGia" min="-2" max="-2" attributes="0"/>
                   <Component id="Home" min="-2" pref="1190" max="-2" attributes="0"/>
-                  <Component id="rightPanelPhieuMuon" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -75,7 +75,7 @@
           <Component id="rightPanelSach" min="-2" max="-2" attributes="0"/>
           <Component id="rightPanelDocGia" min="-2" pref="810" max="-2" attributes="0"/>
           <Component id="Home" min="-2" pref="810" max="-2" attributes="0"/>
-          <Component id="rightPanelPhieuMuon" min="-2" pref="810" max="-2" attributes="0"/>
+          <Component id="txt" min="-2" pref="810" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -1741,7 +1741,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="rightPanelPhieuMuon">
+    <Container class="javax.swing.JPanel" name="txt">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="fb" green="f7" red="f2" type="rgb"/>
@@ -1976,6 +1976,7 @@
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_insertBook2MouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_insertBook2ActionPerformed"/>
           </Events>
           <Constraints>

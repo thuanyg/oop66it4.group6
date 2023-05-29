@@ -25,7 +25,27 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
     }
     @Override
     public int Insert(PhieuMuon t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int check = 0;
+        try {
+            // Tạo kết nối
+            Connection connection = JDBCUtil.getConnection();
+            JDBCUtil.printInfo(connection);
+            String sql = "INSERT INTO Phieu_Muon "
+                    + "VALUES Ma_Phieu_Muon";
+            System.out.println(sql);
+            PreparedStatement pst = connection.prepareStatement(sql);
+            check = pst.executeUpdate();
+            pst.setInt(1, t.getMa_PM());
+            pst.setInt(2, t.getMa_Doc_Gia());
+            pst.setString(3, t.getNgay_Muon());
+            pst.setString(4, t.getNgay_Hen_Tra());
+            pst.setString(5, t.getNgay_Tra());
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return check;
+    
     }
 
     @Override
