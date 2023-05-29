@@ -55,6 +55,7 @@ import controller.ShowPhieuMuon;
 import controller.UpdateBookController;
 import controller.UpdateDocGiaController;
 import controller.showDocGia;
+import dao.DocGiaDAO;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
@@ -65,6 +66,7 @@ import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
+import model.DocGia;
 
 /**
  *
@@ -93,8 +95,8 @@ public class Home extends javax.swing.JFrame {
         SachMuonTableModel = (DefaultTableModel) tbl_sachMuon.getModel();
         DocGTableModel = (DefaultTableModel) tbl_DocGia.getModel();
         PhieuMuonTableModel = (DefaultTableModel) tbl_PhieuMuon.getModel();
-//        ShowBook();
         ShowBookOnCombobox();
+        ShowDocGiaOnCombobox();
         // Add placeholder
         AddPlaceHolderStyle(txtSearchBook);
         AddPlaceHolderStyle(txtSearchDocGia);
@@ -106,119 +108,8 @@ public class Home extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/assets/logo.png")));
         setVisibleFalse();
         Home.setVisible(true);
-
     }
 
-//    public void showPieChart() {
-//
-//        //create dataset
-//        DefaultPieDataset barDataset = new DefaultPieDataset();
-//        barDataset.setValue("IPhone 5s", new Double(20));
-//        barDataset.setValue("SamSung Grand", new Double(20));
-//        barDataset.setValue("MotoG", new Double(40));
-//        barDataset.setValue("Nokia Lumia", new Double(10));
-//
-//        //create chart
-//        JFreeChart piechart = ChartFactory.createPieChart("mobile sales", barDataset, false, true, false);//explain
-//
-//        PiePlot piePlot = (PiePlot) piechart.getPlot();
-//
-//        //changing pie chart blocks colors
-//        piePlot.setSectionPaint("IPhone 5s", new Color(255, 255, 102));
-//        piePlot.setSectionPaint("SamSung Grand", new Color(102, 255, 102));
-//        piePlot.setSectionPaint("MotoG", new Color(255, 102, 153));
-//        piePlot.setSectionPaint("Nokia Lumia", new Color(0, 204, 204));
-//
-//        piePlot.setBackgroundPaint(Color.white);
-//
-//        //create chartPanel to display chart(graph)
-//        ChartPanel barChartPanel = new ChartPanel(piechart);
-//        panelBarChart.removeAll();
-//        panelBarChart.add(barChartPanel, BorderLayout.CENTER);
-//        panelBarChart.validate();
-//    }
-
-    /*=============================================================================*/
-//    public void showLineChart() {
-//        //create dataset for the graph
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//        dataset.setValue(200, "Amoun", "january");
-//        dataset.setValue(150, "Amoun", "february");
-//        dataset.setValue(18, "Amount", "march");
-//        dataset.setValue(100, "Amount", "april");
-//        dataset.setValue(80, "Amount", "may");
-//        dataset.setValue(250, "Amount", "june");
-//
-//        //create chart
-//        JFreeChart linechart = ChartFactory.createLineChart("contribution", "monthly", "amount",
-//                dataset, PlotOrientation.VERTICAL, false, true, false);
-//
-//        //create plot object
-//        CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
-//        // lineCategoryPlot.setRangeGridlinePaint(Color.BLUE);
-//        lineCategoryPlot.setBackgroundPaint(Color.white);
-//
-//        //create render object to change the moficy the line properties like color
-//        LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer) lineCategoryPlot.getRenderer();
-//        Color lineChartColor = new Color(204, 0, 51);
-//        lineRenderer.setSeriesPaint(0, lineChartColor);
-//
-//        //create chartPanel to display chart(graph)
-//        ChartPanel lineChartPanel = new ChartPanel(linechart);
-//        
-//        panelBarChart.add(lineChartPanel, BorderLayout.CENTER);
-//        panelBarChart.validate();
-//    }
-
-    /*========================================================================================*/
-//    public void showHistogram() {
-//
-//        double[] values = {95, 49, 14, 59, 50, 66, 47, 40, 1, 67,
-//            12, 58, 28, 63, 14, 9, 31, 17, 94, 71,
-//            49, 64, 73, 97, 15, 63, 10, 12, 31, 62,
-//            93, 49, 74, 90, 59, 14, 15, 88, 26, 57,
-//            77, 44, 58, 91, 10, 67, 57, 19, 88, 84
-//        };
-//
-//        HistogramDataset dataset = new HistogramDataset();
-//        dataset.addSeries("key", values, 20);
-//
-//        JFreeChart chart = ChartFactory.createHistogram("JFreeChart Histogram", "Data", "Frequency", dataset, PlotOrientation.VERTICAL, false, true, false);
-//        XYPlot plot = chart.getXYPlot();
-//        plot.setBackgroundPaint(Color.WHITE);
-//
-//        ChartPanel barpChartPanel2 = new ChartPanel(chart);
-//        jPanel3.removeAll();
-//        jPanel3.add(barpChartPanel2, BorderLayout.CENTER);
-//        jPanel3.validate();
-//    }
-
-    /*========================================================================================*/
-//    public void showBarChart() {
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//        dataset.setValue(200, "Amount", "january");
-//        dataset.setValue(150, "Amount", "february");
-//        dataset.setValue(18, "Amount", "march");
-//        dataset.setValue(100, "Amount", "april");
-//        dataset.setValue(80, "Amount", "may");
-//        dataset.setValue(250, "Amount", "june");
-//
-//        JFreeChart chart = ChartFactory.createBarChart("contribution", "monthly", "amount",
-//                dataset, PlotOrientation.VERTICAL, false, true, false);
-//
-//        CategoryPlot categoryPlot = chart.getCategoryPlot();
-//        //categoryPlot.setRangeGridlinePaint(Color.BLUE);
-//        categoryPlot.setBackgroundPaint(Color.WHITE);
-//        BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
-//        Color clr3 = new Color(204, 0, 51);
-//        renderer.setSeriesPaint(0, clr3);
-//
-//        ChartPanel barpChartPanel = new ChartPanel(chart);
-//        panelBarChart.removeAll();
-//        panelBarChart.add(barpChartPanel, BorderLayout.CENTER);
-//        panelBarChart.validate();
-//
-//    }
     public void SetStatusButton(JButton btn) {
         if (tbl_Sach.getSelectedRow() != -1) {
             btn.setEnabled(true);
@@ -274,20 +165,18 @@ public class Home extends javax.swing.JFrame {
         jtf.setForeground(Color.BLACK);
     }
 
-//    public void ShowBook() {
-//        List<Sach> listSach = SachDAO.getInstant().selectAll();
-//        SachTableModel.setRowCount(0);
-//        listSach.forEach((sach) -> {
-//            SachTableModel.addRow(new Object[]{sach.getId(),
-//                sach.getTenSach(), sach.getTheLoai(), sach.getTacGia(), sach.getNamXB(),
-//                sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
-//        });
-//        
-//    }
     public void ShowBookOnCombobox() {
         List<Sach> listSach = SachDAO.getInstant().selectAll();
         listSach.forEach((sach) -> {
             cbx_Books.addItem("" + String.valueOf(sach.getId()) + " | " + sach.getTenSach());
+        });
+
+    }
+
+    public void ShowDocGiaOnCombobox() {
+        List<DocGia> listDocGia = DocGiaDAO.getInstant().selectAll();
+        listDocGia.forEach((d) -> {
+            cbx_DocGia.addItem("" + String.valueOf(d.getMDG()) + " | " + d.getHo_Ten());
         });
     }
 
@@ -303,7 +192,7 @@ public class Home extends javax.swing.JFrame {
         Home.setVisible(false);
         rightPanelDocGia.setVisible(false);
         rightPanelSach.setVisible(false);
-        txt.setVisible(false);
+        rightPanelPhieuMuon.setVisible(false);
         rightPanelThongke.setVisible(false);
         rightPanelInfo.setVisible(false);
         about_us.setVisible(false);
@@ -399,14 +288,14 @@ public class Home extends javax.swing.JFrame {
         rdNu = new javax.swing.JRadioButton();
         rdNam = new javax.swing.JRadioButton();
         dateChoose = new com.toedter.calendar.JDateChooser();
-        txt = new javax.swing.JPanel();
+        rightPanelPhieuMuon = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbl_PhieuMuon = new javax.swing.JTable();
+        cbx_DocGia = new javax.swing.JComboBox<>();
         cbx_Books = new javax.swing.JComboBox<>();
         lb_chooseBook = new javax.swing.JLabel();
         lb_search = new javax.swing.JLabel();
         lb_IdBook1 = new javax.swing.JLabel();
-        txtNgayMuon = new javax.swing.JTextField();
         lb_IdBook4 = new javax.swing.JLabel();
         txtMaPhieuMuon = new javax.swing.JTextField();
         lb_IdBook2 = new javax.swing.JLabel();
@@ -415,7 +304,6 @@ public class Home extends javax.swing.JFrame {
         btm_editBook1 = new javax.swing.JButton();
         btn_delBook2 = new javax.swing.JButton();
         lb_IdBook5 = new javax.swing.JLabel();
-        txtNgayMuon1 = new javax.swing.JTextField();
         btn_resetPM = new javax.swing.JButton();
         panel_sachMuon = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
@@ -425,7 +313,9 @@ public class Home extends javax.swing.JFrame {
         tbl_sachMuon = new javax.swing.JTable();
         btn_save = new javax.swing.JButton();
         lb_IdBook6 = new javax.swing.JLabel();
-        txtNgayMuon2 = new javax.swing.JTextField();
+        dateChooseNgayTra = new com.toedter.calendar.JDateChooser();
+        dateChooseNgayMuon = new com.toedter.calendar.JDateChooser();
+        dateChooseNgayHenTra = new com.toedter.calendar.JDateChooser();
         rightPanelInfo = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         lb_HelloUser1 = new javax.swing.JLabel();
@@ -1316,9 +1206,10 @@ public class Home extends javax.swing.JFrame {
         dateChoose.setMinSelectableDate(new java.util.Date(-62109611907000L));
         rightPanelDocGia.add(dateChoose, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, 195, 32));
 
-        txt.setBackground(new java.awt.Color(242, 247, 251));
-        txt.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        rightPanelPhieuMuon.setBackground(new java.awt.Color(242, 247, 251));
+        rightPanelPhieuMuon.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        tbl_PhieuMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tbl_PhieuMuon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1342,8 +1233,11 @@ public class Home extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbl_PhieuMuon.setRowHeight(23);
         tbl_PhieuMuon.setSelectionBackground(new java.awt.Color(0, 204, 102));
         tbl_PhieuMuon.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tbl_PhieuMuon.setShowHorizontalLines(true);
+        tbl_PhieuMuon.setSurrendersFocusOnKeystroke(true);
         tbl_PhieuMuon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_PhieuMuonMouseClicked(evt);
@@ -1351,7 +1245,34 @@ public class Home extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tbl_PhieuMuon);
 
-        txt.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 419, 1190, 390));
+        rightPanelPhieuMuon.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 419, 1190, 390));
+
+        cbx_DocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbx_DocGia.setMaximumRowCount(26);
+        cbx_DocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        cbx_DocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbx_DocGia.setKeySelectionManager(null);
+        cbx_DocGia.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbx_DocGiaItemStateChanged(evt);
+            }
+        });
+        cbx_DocGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbx_DocGiaMouseClicked(evt);
+            }
+        });
+        cbx_DocGia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbx_DocGiaActionPerformed(evt);
+            }
+        });
+        cbx_DocGia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbx_DocGiaKeyPressed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(cbx_DocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 140, 195, 32));
 
         cbx_Books.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbx_Books.setMaximumRowCount(26);
@@ -1378,33 +1299,20 @@ public class Home extends javax.swing.JFrame {
                 cbx_BooksKeyPressed(evt);
             }
         });
-        txt.add(cbx_Books, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 220, 190, 30));
+        rightPanelPhieuMuon.add(cbx_Books, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 220, 195, 32));
 
         lb_chooseBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_chooseBook.setText("Chọn sách");
-        txt.add(lb_chooseBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 80, 30));
-        txt.add(lb_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, 20, 20));
+        rightPanelPhieuMuon.add(lb_chooseBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 80, 30));
+        rightPanelPhieuMuon.add(lb_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, 20, 20));
 
         lb_IdBook1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook1.setText("Mã PM");
-        txt.add(lb_IdBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 70, -1));
-
-        txtNgayMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtNgayMuon.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtNgayMuonCaretUpdate(evt);
-            }
-        });
-        txtNgayMuon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNgayMuonActionPerformed(evt);
-            }
-        });
-        txt.add(txtNgayMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, 195, 32));
+        rightPanelPhieuMuon.add(lb_IdBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 70, -1));
 
         lb_IdBook4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook4.setText("Ngày Mượn");
-        txt.add(lb_IdBook4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, 90, 30));
+        rightPanelPhieuMuon.add(lb_IdBook4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, 90, 30));
 
         txtMaPhieuMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtMaPhieuMuon.addCaretListener(new javax.swing.event.CaretListener() {
@@ -1417,19 +1325,21 @@ public class Home extends javax.swing.JFrame {
                 txtMaPhieuMuonActionPerformed(evt);
             }
         });
-        txt.add(txtMaPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 76, 195, 32));
+        rightPanelPhieuMuon.add(txtMaPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 76, 195, 32));
 
         lb_IdBook2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook2.setText("Mã ĐG");
-        txt.add(lb_IdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 80, -1));
+        rightPanelPhieuMuon.add(lb_IdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 80, -1));
 
         txtIdBook2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtIdBook2.setEnabled(false);
         txtIdBook2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdBook2ActionPerformed(evt);
             }
         });
-        txt.add(txtIdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 146, 195, 32));
+        rightPanelPhieuMuon.add(txtIdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 180, 195, 32));
+        txtIdBook2.setVisible(false);
 
         btn_insertBook2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_insertBook2.setText("Insert");
@@ -1444,12 +1354,12 @@ public class Home extends javax.swing.JFrame {
                 btn_insertBook2ActionPerformed(evt);
             }
         });
-        txt.add(btn_insertBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 108, 39));
+        rightPanelPhieuMuon.add(btn_insertBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 108, 39));
 
         btm_editBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btm_editBook1.setText("Update");
         btm_editBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt.add(btm_editBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 108, 39));
+        rightPanelPhieuMuon.add(btm_editBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 108, 39));
 
         btn_delBook2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_delBook2.setText("Delete");
@@ -1464,24 +1374,11 @@ public class Home extends javax.swing.JFrame {
                 btn_delBook2ActionPerformed(evt);
             }
         });
-        txt.add(btn_delBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, 108, 39));
+        rightPanelPhieuMuon.add(btn_delBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, 108, 39));
 
         lb_IdBook5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook5.setText("Ngày hẹn trả");
-        txt.add(lb_IdBook5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, 30));
-
-        txtNgayMuon1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtNgayMuon1.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtNgayMuon1CaretUpdate(evt);
-            }
-        });
-        txtNgayMuon1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNgayMuon1ActionPerformed(evt);
-            }
-        });
-        txt.add(txtNgayMuon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 150, 195, 32));
+        rightPanelPhieuMuon.add(lb_IdBook5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, 30));
 
         btn_resetPM.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_resetPM.setText("Reset");
@@ -1491,7 +1388,7 @@ public class Home extends javax.swing.JFrame {
                 btn_resetPMActionPerformed(evt);
             }
         });
-        txt.add(btn_resetPM, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 300, 108, 39));
+        rightPanelPhieuMuon.add(btn_resetPM, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 300, 108, 39));
 
         panel_sachMuon.setBackground(new java.awt.Color(242, 247, 251));
         panel_sachMuon.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -1577,25 +1474,21 @@ public class Home extends javax.swing.JFrame {
         });
         panel_sachMuon.add(btn_save, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 380, 80, 30));
 
-        txt.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, 416));
+        rightPanelPhieuMuon.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, 416));
         panel_sachMuon.setVisible(false);
 
         lb_IdBook6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook6.setText("Ngày trả");
-        txt.add(lb_IdBook6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, -1, 30));
+        rightPanelPhieuMuon.add(lb_IdBook6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, -1, 30));
 
-        txtNgayMuon2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtNgayMuon2.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtNgayMuon2CaretUpdate(evt);
-            }
-        });
-        txtNgayMuon2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNgayMuon2ActionPerformed(evt);
-            }
-        });
-        txt.add(txtNgayMuon2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 195, 32));
+        dateChooseNgayTra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelPhieuMuon.add(dateChooseNgayTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, 195, 32));
+
+        dateChooseNgayMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelPhieuMuon.add(dateChooseNgayMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 72, 195, 32));
+
+        dateChooseNgayHenTra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelPhieuMuon.add(dateChooseNgayHenTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 150, 195, 32));
 
         rightPanelInfo.setBackground(new java.awt.Color(255, 255, 255));
         rightPanelInfo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1762,7 +1655,7 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(rightPanelSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rightPanelDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 1190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(rightPanelPhieuMuon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1773,7 +1666,7 @@ public class Home extends javax.swing.JFrame {
             .addComponent(rightPanelSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(rightPanelDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(rightPanelPhieuMuon, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -1830,11 +1723,12 @@ public class Home extends javax.swing.JFrame {
     private void lb_PhieuMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_PhieuMuonMouseClicked
         this.setTitle("Loan Slip - Library Management System");
         setVisibleFalse();
-        txt.setVisible(true);
+        rightPanelPhieuMuon.setVisible(true);
         resetFontColor();
         lb_PhieuMuon.setForeground(Color.BLACK);
         ShowPhieuMuon sh = new ShowPhieuMuon();
         sh.ShowOnTablePM(PhieuMuonTableModel);
+//        ShowBookOnCombobox();
     }//GEN-LAST:event_lb_PhieuMuonMouseClicked
 
     private void lb_ThongKeBaoCaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_ThongKeBaoCaoMouseClicked
@@ -1960,22 +1854,6 @@ public class Home extends javax.swing.JFrame {
         pnl_Thongkebaocao.setBackground(new Color(255, 102, 102));
     }//GEN-LAST:event_lb_ThongKeBaoCaoMouseExited
 
-    private void txtNgayMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNgayMuonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgayMuonActionPerformed
-
-    private void txtNgayMuonCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtNgayMuonCaretUpdate
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgayMuonCaretUpdate
-
-    private void txtNgayMuon1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtNgayMuon1CaretUpdate
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgayMuon1CaretUpdate
-
-    private void txtNgayMuon1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNgayMuon1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgayMuon1ActionPerformed
-
     private void lb_infoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_infoMouseClicked
         this.setTitle("About");
         setVisibleFalse();
@@ -2032,7 +1910,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btm_editDocGiaActionPerformed
 
     private void btn_resetPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetPMActionPerformed
-        Component[] children = txt.getComponents();
+        Component[] children = rightPanelPhieuMuon.getComponents();
         for (int i = 0, j = 1; i < children.length; i++) {
             if (children[i] instanceof JTextField) {
                 ((JTextField) children[i]).setText("");
@@ -2118,6 +1996,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_resetDocGiaMouseClicked
 
     private void cbx_BooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_BooksActionPerformed
+
         boolean check = true;
         if (cbx_Books.getSelectedIndex() == 0) {
             check = false;
@@ -2131,12 +2010,12 @@ public class Home extends javax.swing.JFrame {
         }
         String c = null;
         if (check == true) {
-            c = JOptionPane.showInputDialog(txt, "Nhập số lượng sách: " + item.toString(), "0");
+            c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "0");
 
         }
         while (!c.matches("\\d+")) {
-            JOptionPane.showMessageDialog(txt, "Chỉ nhập số!!!");
-            c = JOptionPane.showInputDialog(txt, "Nhập số lượng sách: " + item.toString(), "0");
+            JOptionPane.showMessageDialog(rightPanelPhieuMuon, "Chỉ nhập số!!!");
+            c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "0");
         }
         if (check == true) {
             listSachMuon.add((String) item);
@@ -2329,14 +2208,6 @@ public class Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_xoaDocGiaMouseClicked
 
-    private void txtNgayMuon2CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtNgayMuon2CaretUpdate
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgayMuon2CaretUpdate
-
-    private void txtNgayMuon2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNgayMuon2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgayMuon2ActionPerformed
-
     private void tbl_PhieuMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_PhieuMuonMouseClicked
         // TODO add your handling code here:
         String id = null;
@@ -2346,18 +2217,51 @@ public class Home extends javax.swing.JFrame {
         try {
             id = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 0).toString();
             Ma_DG = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 1).toString();
-            Ngay_Muon = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 2).toString();
-            Ngay_Hen_Tra = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 3).toString();
+            if (PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 2) == null) {
+                dateChooseNgayMuon.setDate(null);
+            } else {
+                Date NgayMuon = new SimpleDateFormat("yyyy-MM-dd").parse(PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 2).toString());
+                dateChooseNgayMuon.setDate(NgayMuon);
+            }
+
+            if (PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 3) == null) {
+                dateChooseNgayHenTra.setDate(null);
+            } else {
+                Date NgayHenTra = new SimpleDateFormat("yyyy-MM-dd").parse(PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 3).toString());
+                dateChooseNgayHenTra.setDate(NgayHenTra);
+            }
+
+            if (PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 5) == null) {
+                dateChooseNgayTra.setDate(null);
+            } else {
+                Date NgayTra = new SimpleDateFormat("yyyy-MM-dd").parse(PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 5).toString());
+                dateChooseNgayTra.setDate(NgayTra);
+            }
 //        String  = PhieuMuonTableModel.getValueAt(tbl_Sach.getSelectedRow(), 4).toString();
-            String Ngay_TRa = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 5).toString();
         } catch (Exception e) {
         }
-        
+
+        try {
+            if (DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3) == null) {
+                dateChoose.setDate(null);
+            } else {
+                Date NgaySinh = new SimpleDateFormat("yyyy-MM-dd").parse(DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3).toString());
+                dateChoose.setDate(NgaySinh);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         txtMaPhieuMuon.setText(id);
         txtIdBook2.setText(Ma_DG);
-        txtNgayMuon.setText(Ngay_Muon);
-        txtNgayMuon1.setText(Ngay_Hen_Tra);
-        
+        for (int i = 0; i < cbx_DocGia.getItemCount() && cbx_DocGia.getItemCount() != 0; i++) {
+            String item = cbx_DocGia.getItemAt(i+1).toString();
+            String[] DocG = item.split("\\s|[A-Za-z]+");
+            if (DocG[0].equals(Ma_DG)) {
+                cbx_DocGia.setSelectedItem(item);
+                break;
+            }
+        }
     }//GEN-LAST:event_tbl_PhieuMuonMouseClicked
 
     private void btn_delBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delBook2MouseClicked
@@ -2375,6 +2279,33 @@ public class Home extends javax.swing.JFrame {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_insertBook2MouseClicked
+
+    private void cbx_DocGiaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_DocGiaItemStateChanged
+
+    }//GEN-LAST:event_cbx_DocGiaItemStateChanged
+
+    private void cbx_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_DocGiaMouseClicked
+
+    }//GEN-LAST:event_cbx_DocGiaMouseClicked
+
+    private void cbx_DocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_DocGiaActionPerformed
+
+        boolean check = true;
+        if (cbx_DocGia.getSelectedIndex() == 0) {
+            check = false;
+        }
+        Object item = cbx_DocGia.getItemAt(cbx_DocGia.getSelectedIndex());
+        System.out.println("Bạn vừa chọn combobox DocGia vị trí: " + cbx_DocGia.getSelectedIndex());
+        if (check == true) {
+            String[] DocG = item.toString().split("\\s|[A-Za-z]+");
+            System.out.println(DocG[0]);
+            txtIdBook2.setText(DocG[0]);
+        }
+    }//GEN-LAST:event_cbx_DocGiaActionPerformed
+
+    private void cbx_DocGiaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_DocGiaKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbx_DocGiaKeyPressed
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
@@ -2665,6 +2596,18 @@ public class Home extends javax.swing.JFrame {
 
     public JDateChooser getDateChoose() {
         return dateChoose;
+    }
+
+    public JDateChooser getDateChooseNgayHenTra() {
+        return dateChooseNgayHenTra;
+    }
+
+    public JDateChooser getDateChooseNgayMuon() {
+        return dateChooseNgayMuon;
+    }
+
+    public JDateChooser getDateChooseNgayTra() {
+        return dateChooseNgayTra;
     }
 
     public JLabel getLb_HelloUser() {
@@ -2996,7 +2939,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JPanel getRightPanelPhieuMuon() {
-        return txt;
+        return rightPanelPhieuMuon;
     }
 
     public JPanel getRightPanelThongke() {
@@ -3036,19 +2979,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JPanel getTxt() {
-        return txt;
-    }
-
-    public JTextField getTxtNgayMuon2() {
-        return txtNgayMuon2;
-    }
-
-    public JTextField getTxtNgayMuon() {
-        return txtNgayMuon;
-    }
-
-    public JTextField getTxtNgayMuon1() {
-        return txtNgayMuon1;
+        return rightPanelPhieuMuon;
     }
 
     public JTextField getTxtSearchBook() {
@@ -3112,8 +3043,12 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxSortBook;
     private javax.swing.JComboBox<String> cbxSortDocGia;
     private javax.swing.JComboBox<String> cbx_Books;
+    private javax.swing.JComboBox<String> cbx_DocGia;
     private javax.swing.JLabel copyright;
     private com.toedter.calendar.JDateChooser dateChoose;
+    private com.toedter.calendar.JDateChooser dateChooseNgayHenTra;
+    private com.toedter.calendar.JDateChooser dateChooseNgayMuon;
+    private com.toedter.calendar.JDateChooser dateChooseNgayTra;
     private javax.swing.JLabel img_dashbroard;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -3182,6 +3117,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdNu;
     private javax.swing.JPanel rightPanelDocGia;
     private javax.swing.JPanel rightPanelInfo;
+    private javax.swing.JPanel rightPanelPhieuMuon;
     private javax.swing.JPanel rightPanelSach;
     private javax.swing.JPanel rightPanelThongke;
     private javax.swing.JSpinner spiner_bookQuantity;
@@ -3189,7 +3125,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTable tbl_PhieuMuon;
     private javax.swing.JTable tbl_Sach;
     private javax.swing.JTable tbl_sachMuon;
-    private javax.swing.JPanel txt;
     private javax.swing.JTextField txtAuthor;
     private javax.swing.JTextField txtBookName;
     private javax.swing.JTextField txtCCCD;
@@ -3197,9 +3132,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField txtIdBook2;
     private javax.swing.JTextField txtIdDocGia;
     private javax.swing.JTextField txtMaPhieuMuon;
-    private javax.swing.JTextField txtNgayMuon;
-    private javax.swing.JTextField txtNgayMuon1;
-    private javax.swing.JTextField txtNgayMuon2;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtPublishYear;
     private javax.swing.JTextField txtPublisher;

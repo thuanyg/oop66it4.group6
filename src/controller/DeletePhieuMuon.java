@@ -21,8 +21,8 @@ public class DeletePhieuMuon {
     }
 
     public void Delete() {
-        int c = JOptionPane.showConfirmDialog(home, "Bạn chắc chắn muốn xóa sách? [ID = "
-                + home.getTxtMaPhieuMuon().getText().trim() + ", Name = "
+        int c = JOptionPane.showConfirmDialog(home, "Bạn chắc chắn muốn xóa? [Mã PM = "
+                + home.getTxtMaPhieuMuon().getText().trim()
                 , "Delele confirm", JOptionPane.YES_NO_OPTION);
         // c = 0 -> yes, c = 1 -> no
         if (c == 0) {
@@ -30,9 +30,7 @@ public class DeletePhieuMuon {
             int rs = PhieuMuonDAO.getInstant().Delete(id);
             //rs = 1 nếu xóa thành công
             if (rs == 1) {
-                JOptionPane.showMessageDialog(home, "Xóa thành công! [ID = " + home.getTxtIdBook().getText().trim()
-                        + ", Name = " + home.getTxtBookName().getText().trim() + "]");
-                home.getTxtIdBook().setEditable(true);
+                JOptionPane.showMessageDialog(home, "Xóa thành công! [ID = " + home.getTxtMaPhieuMuon().getText().trim());
             } else {
                 JOptionPane.showMessageDialog(home, "Xảy ra lỗi khi xóa!!!");
             }

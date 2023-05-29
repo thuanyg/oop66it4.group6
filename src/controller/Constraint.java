@@ -129,5 +129,14 @@ public class Constraint {
         }
         return flag_id && flag_cccd;
     }
-
+    
+    // Check input PhieuMuon
+    public boolean PhieuMuonValidate(){
+        boolean flag = true;
+        String MaPM = home.getTxtMaPhieuMuon().getText().trim();
+        
+        
+        
+        return flag;
+    }
 }
