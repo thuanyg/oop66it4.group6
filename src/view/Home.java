@@ -1721,6 +1721,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_insertBook2ActionPerformed
 
     private void lb_PhieuMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_PhieuMuonMouseClicked
+        
         this.setTitle("Loan Slip - Library Management System");
         setVisibleFalse();
         rightPanelPhieuMuon.setVisible(true);

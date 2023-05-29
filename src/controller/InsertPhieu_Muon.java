@@ -46,9 +46,9 @@ public class InsertPhieu_Muon {
                 Ngay_Hen_Tra = sdf.format(home.getDateChooseNgayHenTra().getDate());
             }
             if (home.getDateChooseNgayTra().getDate() == null) {
-                Ngay_Muon = null;
+                Ngay_Tra = null;
             } else {
-                Ngay_Muon = sdf.format(home.getDateChooseNgayTra().getDate());
+                Ngay_Tra = sdf.format(home.getDateChooseNgayTra().getDate());
             }
         } catch (NumberFormatException numberFormatException) {
         }
