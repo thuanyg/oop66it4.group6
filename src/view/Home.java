@@ -2068,7 +2068,6 @@ public class Home extends javax.swing.JFrame {
           listSachMuon.clear();
           listSoLuongMuon.clear();
           panel_sachMuon.setVisible(false);
-
     }//GEN-LAST:event_btn_saveActionPerformed
 
     private void tbl_sachMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonMouseClicked
