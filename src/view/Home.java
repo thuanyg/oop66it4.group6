@@ -1471,7 +1471,7 @@ public class Home extends javax.swing.JFrame {
         panel_sachMuon.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 370, 310));
 
         btn_save.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_save.setText("Save");
+        btn_save.setText("Clear");
         btn_save.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2051,19 +2051,23 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_cbx_BooksKeyPressed
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-        listSoLuongMuon.clear();
-        for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
-            int num = (int) SachMuonTableModel.getValueAt(i, 1);
-            listSoLuongMuon.add(num);
-        }
-        // Check listSoLMuon
-        for (Integer integer : listSoLuongMuon) {
-            System.out.println(integer);
-        }
-        // Update Table 
-        for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
-            SachMuonTableModel.setValueAt(listSoLuongMuon.get(i), i, 1);
-        }
+//        listSoLuongMuon.clear();
+//        for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
+//            int num = (int) SachMuonTableModel.getValueAt(i, 1);
+//            listSoLuongMuon.add(num);
+//        }
+//        // Check listSoLMuon
+//        for (Integer integer : listSoLuongMuon) {
+//            System.out.println(integer);
+//        }
+//        // Update Table 
+//        for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
+//            SachMuonTableModel.setValueAt(listSoLuongMuon.get(i), i, 1);
+//        }
+
+          listSachMuon.clear();
+          listSoLuongMuon.clear();
+          panel_sachMuon.setVisible(false);
 
     }//GEN-LAST:event_btn_saveActionPerformed
 
