@@ -318,7 +318,7 @@ public class Home extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tbl_sachMuon = new javax.swing.JTable();
-        btn_save = new javax.swing.JButton();
+        btn_clear = new javax.swing.JButton();
         lb_IdBook6 = new javax.swing.JLabel();
         dateChooseNgayTra = new com.toedter.calendar.JDateChooser();
         dateChooseNgayMuon = new com.toedter.calendar.JDateChooser();
@@ -1481,15 +1481,15 @@ public class Home extends javax.swing.JFrame {
 
         panel_sachMuon.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 370, 310));
 
-        btn_save.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_save.setText("Clear");
-        btn_save.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_save.addActionListener(new java.awt.event.ActionListener() {
+        btn_clear.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_clear.setText("Clear");
+        btn_clear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_saveActionPerformed(evt);
+                btn_clearActionPerformed(evt);
             }
         });
-        panel_sachMuon.add(btn_save, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 380, 80, 30));
+        panel_sachMuon.add(btn_clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 380, 80, 30));
 
         rightPanelPhieuMuon.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, 416));
         panel_sachMuon.setVisible(false);
@@ -2061,7 +2061,7 @@ public class Home extends javax.swing.JFrame {
         }        // TODO add your handling code here:
     }//GEN-LAST:event_cbx_BooksKeyPressed
 
-    private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
+    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
 //        listSoLuongMuon.clear();
 //        for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
 //            int num = (int) SachMuonTableModel.getValueAt(i, 1);
@@ -2079,7 +2079,7 @@ public class Home extends javax.swing.JFrame {
           listSachMuon.clear();
           listSoLuongMuon.clear();
           panel_sachMuon.setVisible(false);
-    }//GEN-LAST:event_btn_saveActionPerformed
+    }//GEN-LAST:event_btn_clearActionPerformed
 
     private void tbl_sachMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonMouseClicked
 
@@ -2311,6 +2311,7 @@ public class Home extends javax.swing.JFrame {
         del.Delete();
         ShowPhieuMuon show = new ShowPhieuMuon();
         show.ShowOnTablePM(PhieuMuonTableModel);
+        
     }//GEN-LAST:event_btn_delBook2MouseClicked
 
     private void btn_insertBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook2MouseClicked
@@ -2744,7 +2745,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JButton getBtn_save() {
-        return btn_save;
+        return btn_clear;
     }
 
     public ButtonGroup getButtonGroupGender() {
@@ -2829,6 +2830,18 @@ public class Home extends javax.swing.JFrame {
 
     public JButton getBtn_reseBook() {
         return btn_reseBook;
+    }
+
+    public JButton getBtm_editPM() {
+        return btm_editPM;
+    }
+
+    public JButton getBtn_clear() {
+        return btn_clear;
+    }
+
+    public JComboBox<String> getCbx_DocGia() {
+        return cbx_DocGia;
     }
 
     public JButton getBtn_resetDocGia() {
@@ -3070,6 +3083,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btm_editBook;
     private javax.swing.JButton btm_editDocGia;
     private javax.swing.JButton btm_editPM;
+    private javax.swing.JButton btn_clear;
     private javax.swing.JLabel btn_contact;
     private javax.swing.JButton btn_delBook;
     private javax.swing.JButton btn_delBook2;
@@ -3088,7 +3102,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btn_reseBook;
     private javax.swing.JButton btn_resetDocGia;
     private javax.swing.JButton btn_resetPM;
-    private javax.swing.JButton btn_save;
     private javax.swing.JLabel btn_thuan;
     private javax.swing.JLabel btn_vanh;
     private javax.swing.JButton btn_xoaDocGia;

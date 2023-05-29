@@ -60,6 +60,7 @@ public class InsertPhieu_Muon {
             JOptionPane.showMessageDialog(home, "Thêm thành công! ID = " + Ma_PM);
             InsertSachPhieuMuon ins2 = new InsertSachPhieuMuon(home);
             ins2.Insert();
+            home.getBtn_clear().doClick();
             ShowPhieuMuon s = new ShowPhieuMuon();
             s.ShowOnTablePM(home.getPhieuMuonTableModel());
         } else {

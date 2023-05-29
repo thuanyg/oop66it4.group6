@@ -30,7 +30,8 @@ public class DeletePhieuMuon {
             int rs = PhieuMuonDAO.getInstant().Delete(id);
             //rs = 1 nếu xóa thành công
             if (rs == 1) {
-                JOptionPane.showMessageDialog(home, "Xóa thành công! [ID = " + home.getTxtMaPhieuMuon().getText().trim());
+                JOptionPane.showMessageDialog(home, "Xóa thành công! ID = " + home.getTxtMaPhieuMuon().getText().trim());
+                home.getBtn_clear().doClick();
             } else {
                 JOptionPane.showMessageDialog(home, "Xảy ra lỗi khi xóa!!!");
             }
