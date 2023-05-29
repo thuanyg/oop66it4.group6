@@ -51,13 +51,19 @@ import controller.DeletePhieuMuon;
 import controller.InsertBookController;
 import controller.InsertDocGiaController;
 import controller.InsertPhieu_Muon;
+import controller.InsertSachPhieuMuon;
 import controller.ShowPhieuMuon;
 import controller.UpdateBookController;
 import controller.UpdateDocGiaController;
-import controller.showDocGia;
+import controller.ShowDocGia;
 import dao.DocGiaDAO;
+import database.JDBCUtil;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -1215,14 +1221,14 @@ public class Home extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã PM", "Mã độc giả", "Ngày mượn", "Ngày hẹn trả", "Sách mượn", "Ngày Trả"
+                "Mã PM", "Mã độc giả", "Ngày mượn", "Ngày hẹn trả", "Ngày Trả"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1397,9 +1403,9 @@ public class Home extends javax.swing.JFrame {
 
         lablelTongSach.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lablelTongSach.setForeground(new java.awt.Color(0, 102, 51));
-        lablelTongSach.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lablelTongSach.setText("Tổng số sách mượn: ");
-        panel_sachMuon.add(lablelTongSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(-60, 380, 360, 30));
+        lablelTongSach.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lablelTongSach.setText("Tổng số sách mượn đã chọn: ");
+        panel_sachMuon.add(lablelTongSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 280, 40));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
@@ -1445,7 +1451,7 @@ public class Home extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbl_sachMuon.setGridColor(new java.awt.Color(51, 51, 51));
+        tbl_sachMuon.setGridColor(new java.awt.Color(204, 204, 204));
         tbl_sachMuon.setPreferredSize(new java.awt.Dimension(500, 300));
         tbl_sachMuon.setSelectionBackground(new java.awt.Color(0, 204, 102));
         tbl_sachMuon.setShowGrid(false);
@@ -1472,7 +1478,7 @@ public class Home extends javax.swing.JFrame {
                 btn_saveActionPerformed(evt);
             }
         });
-        panel_sachMuon.add(btn_save, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 380, 80, 30));
+        panel_sachMuon.add(btn_save, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 380, 80, 30));
 
         rightPanelPhieuMuon.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, 416));
         panel_sachMuon.setVisible(false);
@@ -1696,7 +1702,7 @@ public class Home extends javax.swing.JFrame {
         resetFontColor();
         lb_QuanLyDocGia.setForeground(Color.BLACK);
         if (tbl_DocGia.getRowCount() == 0) {
-            showDocGia.getInstance().showDocGia(DocGTableModel);
+            ShowDocGia.getInstance().showDocGia(DocGTableModel);
         }
     }//GEN-LAST:event_lb_QuanLyDocGiaMouseClicked
 
@@ -1721,7 +1727,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_insertBook2ActionPerformed
 
     private void lb_PhieuMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_PhieuMuonMouseClicked
-        
+
         this.setTitle("Loan Slip - Library Management System");
         setVisibleFalse();
         rightPanelPhieuMuon.setVisible(true);
@@ -2027,7 +2033,7 @@ public class Home extends javax.swing.JFrame {
         listSachMuon.forEach((list) -> {
             SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
         });
-        lablelTongSach.setText("Tổng số sách: " + TongSachMuon());
+        lablelTongSach.setText("Tổng số sách mượn đã chọn: " + TongSachMuon());
     }//GEN-LAST:event_cbx_BooksActionPerformed
 
     private void cbx_BooksItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_BooksItemStateChanged
@@ -2185,7 +2191,7 @@ public class Home extends javax.swing.JFrame {
                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        showDocGia.getInstance().showDocGia(DocGTableModel);
+        ShowDocGia.getInstance().showDocGia(DocGTableModel);
     }//GEN-LAST:event_btn_insertDocGiaMouseClicked
 
     private void tbl_DocGiaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DocGiaMousePressed
@@ -2198,13 +2204,13 @@ public class Home extends javax.swing.JFrame {
             UpdateDocGiaController upd = new UpdateDocGiaController(this);
             upd.Update();
         }
-        showDocGia.getInstance().showDocGia(DocGTableModel);
+        ShowDocGia.getInstance().showDocGia(DocGTableModel);
     }//GEN-LAST:event_btm_editDocGiaMouseClicked
 
     private void btn_xoaDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_xoaDocGiaMouseClicked
         DeleteDocGiaController del = new DeleteDocGiaController(this);
         if (del.Delete() != 0) {
-            showDocGia.getInstance().showDocGia(DocGTableModel);
+            ShowDocGia.getInstance().showDocGia(DocGTableModel);
             btn_resetDocGia.doClick();
         }
     }//GEN-LAST:event_btn_xoaDocGiaMouseClicked
@@ -2232,13 +2238,12 @@ public class Home extends javax.swing.JFrame {
                 dateChooseNgayHenTra.setDate(NgayHenTra);
             }
 
-            if (PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 5) == null) {
+            if (PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 4) == null) {
                 dateChooseNgayTra.setDate(null);
             } else {
                 Date NgayTra = new SimpleDateFormat("yyyy-MM-dd").parse(PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 5).toString());
                 dateChooseNgayTra.setDate(NgayTra);
             }
-//        String  = PhieuMuonTableModel.getValueAt(tbl_Sach.getSelectedRow(), 4).toString();
         } catch (Exception e) {
         }
 
@@ -2256,13 +2261,45 @@ public class Home extends javax.swing.JFrame {
         txtMaPhieuMuon.setText(id);
         txtIdBook2.setText(Ma_DG);
         for (int i = 0; i < cbx_DocGia.getItemCount() && cbx_DocGia.getItemCount() != 0; i++) {
-            String item = cbx_DocGia.getItemAt(i+1).toString();
+            String item = cbx_DocGia.getItemAt(i + 1).toString();
             String[] DocG = item.split("\\s|[A-Za-z]+");
             if (DocG[0].equals(Ma_DG)) {
                 cbx_DocGia.setSelectedItem(item);
                 break;
             }
         }
+        panel_sachMuon.setVisible(true);
+        listSachMuon.clear();
+        listSoLuongMuon.clear();
+        // add item from tables to Table Sach_PM while click
+        int idSach = 0, soLuong = 0;
+        String tenSach = null;
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            Statement st = connection.createStatement();
+            String sql = "Select Sach.Ma_Sach, Sach.Ten_Sach, Sach_PhieuMuon.SoLuong From (Sach\n"
+                    + "  Join Sach_PhieuMuon ON Sach.Ma_Sach = Sach_PhieuMuon.Ma_Sach\n"
+                    + "  Join Phieu_Muon ON Sach_PhieuMuon.Ma_PM = Phieu_Muon.Ma_PM)\n"
+                    + "  WHERE Phieu_Muon.Ma_Doc_Gia = " + Ma_DG + " and Phieu_Muon.Ma_PM = " + id;
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()) {
+                idSach = rs.getInt("Ma_Sach");
+                tenSach = rs.getString("Ten_Sach");
+                soLuong = rs.getInt("SoLuong");
+                String str = String.valueOf(idSach) + " | " + String.valueOf(tenSach);
+                listSachMuon.add(str);
+                listSoLuongMuon.add(soLuong);
+            }
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        SachMuonTableModel.setRowCount(0);
+        listSachMuon.forEach((list) -> {
+            SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+        });
+        lablelTongSach.setText("Tổng số sách mượn đã chọn: " + TongSachMuon());
     }//GEN-LAST:event_tbl_PhieuMuonMouseClicked
 
     private void btn_delBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delBook2MouseClicked
@@ -2274,8 +2311,10 @@ public class Home extends javax.swing.JFrame {
 
     private void btn_insertBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook2MouseClicked
         InsertPhieu_Muon ins = new InsertPhieu_Muon(this);
+        InsertSachPhieuMuon ins2 = new InsertSachPhieuMuon(this);
         try {
             ins.InsertPhieu_Muon();
+            ins2.Insert();
         } catch (ParseException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }

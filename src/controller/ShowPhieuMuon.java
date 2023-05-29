@@ -22,7 +22,7 @@ public class ShowPhieuMuon {
     public void ShowOnTablePM(DefaultTableModel tableModel) {
         tableModel.setRowCount(0);
         list.forEach((pm) -> {
-            tableModel.addRow(new Object[]{pm.getMa_PM(), pm.getMa_Doc_Gia(), pm.getNgay_Muon(), pm.getNgay_Hen_Tra(),null ,pm.getNgay_Tra()});
+            tableModel.addRow(new Object[]{pm.getMa_PM(), pm.getMa_Doc_Gia(), pm.getNgay_Muon(), pm.getNgay_Hen_Tra(),pm.getNgay_Tra()});
         });
     }
 }

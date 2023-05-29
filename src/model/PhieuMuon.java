@@ -12,6 +12,9 @@ public class PhieuMuon {
     private int Ma_PM,Ma_Doc_Gia;
     private String Ngay_Muon,Ngay_Hen_Tra,Ngay_Tra;
 
+    public PhieuMuon() {
+    }
+
     public PhieuMuon(int Ma_PM, int Ma_Doc_Gia, String Ngay_Muon, String Ngay_Hen_Tra, String Ngay_Tra) {
         this.Ma_PM = Ma_PM;
         this.Ma_Doc_Gia = Ma_Doc_Gia;

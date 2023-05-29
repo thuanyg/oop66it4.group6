@@ -16,16 +16,16 @@ import view.Home;
  *
  * @author ACER
  */
-public class showDocGia extends Home {
+public class ShowDocGia extends Home {
 
     List<DocGia> listDocGia = DocGiaDAO.getInstant().selectAll();
 
-    public showDocGia() {
+    public ShowDocGia() {
 
     }
 
-    public static showDocGia getInstance() {
-        return new showDocGia();
+    public static ShowDocGia getInstance() {
+        return new ShowDocGia();
     }
 
     public void showDocGia(DefaultTableModel tableModel) {

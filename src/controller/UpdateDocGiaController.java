@@ -46,7 +46,7 @@ public class UpdateDocGiaController {
         int rs = DocGiaDAO.getInstant().Update(docGia);
         if (rs > 0) {
             JOptionPane.showMessageDialog(home, "Update thành công! [ID = " + ma + ", Name = " + hoTen + "]");
-            showDocGia.getInstance().showDocGia(home.getDocGTableModel());
+            ShowDocGia.getInstance().showDocGia(home.getDocGTableModel());
         } else {
             JOptionPane.showMessageDialog(home, "Update thất bại, hãy kiểm tra lại!");
         }

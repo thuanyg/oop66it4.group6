@@ -58,7 +58,7 @@ public class InsertDocGiaController {
         System.out.println(rs);
         if (rs > 0) {
             JOptionPane.showMessageDialog(home, "Thêm thành công! [ID = " + Ma_DG + ", Name = " + Ho_Ten + "]");
-            showDocGia.getInstance().showDocGia(home.getDocGTableModel());
+            ShowDocGia.getInstance().showDocGia(home.getDocGTableModel());
         } else {
             JOptionPane.showMessageDialog(home, "Thêm thất bại, hãy kiểm tra lại!");
         }
