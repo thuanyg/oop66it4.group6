@@ -56,6 +56,7 @@ import controller.ShowPhieuMuon;
 import controller.UpdateBookController;
 import controller.UpdateDocGiaController;
 import controller.ShowDocGia;
+import controller.UpdatePhieuMuonController;
 import dao.DocGiaDAO;
 import database.JDBCUtil;
 import java.awt.Point;
@@ -307,7 +308,7 @@ public class Home extends javax.swing.JFrame {
         lb_IdBook2 = new javax.swing.JLabel();
         txtIdBook2 = new javax.swing.JTextField();
         btn_insertBook2 = new javax.swing.JButton();
-        btm_editBook1 = new javax.swing.JButton();
+        btm_editPM = new javax.swing.JButton();
         btn_delBook2 = new javax.swing.JButton();
         lb_IdBook5 = new javax.swing.JLabel();
         btn_resetPM = new javax.swing.JButton();
@@ -1362,10 +1363,20 @@ public class Home extends javax.swing.JFrame {
         });
         rightPanelPhieuMuon.add(btn_insertBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 108, 39));
 
-        btm_editBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btm_editBook1.setText("Update");
-        btm_editBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        rightPanelPhieuMuon.add(btm_editBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 108, 39));
+        btm_editPM.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btm_editPM.setText("Update");
+        btm_editPM.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btm_editPM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btm_editPMMouseClicked(evt);
+            }
+        });
+        btm_editPM.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btm_editPMKeyPressed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(btm_editPM, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 108, 39));
 
         btn_delBook2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_delBook2.setText("Delete");
@@ -2340,6 +2351,15 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbx_DocGiaKeyPressed
 
+    private void btm_editPMKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btm_editPMKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btm_editPMKeyPressed
+
+    private void btm_editPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editPMMouseClicked
+        UpdatePhieuMuonController upd = new UpdatePhieuMuonController(this);      
+        upd.Update();
+    }//GEN-LAST:event_btm_editPMMouseClicked
+
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
         String hoten = null;
@@ -2756,7 +2776,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JButton getBtm_editBook1() {
-        return btm_editBook1;
+        return btm_editPM;
     }
 
     public JLabel getBtn_contact() {
@@ -3048,8 +3068,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JFrame barChart;
     private javax.swing.JLabel bground;
     private javax.swing.JButton btm_editBook;
-    private javax.swing.JButton btm_editBook1;
     private javax.swing.JButton btm_editDocGia;
+    private javax.swing.JButton btm_editPM;
     private javax.swing.JLabel btn_contact;
     private javax.swing.JButton btn_delBook;
     private javax.swing.JButton btn_delBook2;

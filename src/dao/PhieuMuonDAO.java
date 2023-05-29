@@ -51,7 +51,25 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
 
     @Override
     public int Update(PhieuMuon t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rs = 0;
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            JDBCUtil.printInfo(connection);
+            String sql = "UPDATE Phieu_Muon SET Ma_PM = ?, Ma_Doc_Gia = ?, Ngay_Muon = ?, Ngay_Hen_Tra = ?, Ngay_Tra=?"
+                    + " WHERE Ma_PM = " + t.getMa_PM();
+            System.out.println(sql);
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, t.getMa_PM());
+            pst.setInt(2, t.getMa_Doc_Gia());
+            pst.setString(3, t.getNgay_Muon());
+            pst.setString(4, t.getNgay_Hen_Tra());
+            pst.setString(5, t.getNgay_Tra());
+            rs = pst.executeUpdate();
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 
     @Override
