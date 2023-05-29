@@ -21,7 +21,7 @@ public class DeletePhieuMuon {
     }
 
     public void Delete() {
-        int c = JOptionPane.showConfirmDialog(home, "Bạn chắc chắn muốn xóa? [Mã PM = "
+        int c = JOptionPane.showConfirmDialog(home, "Bạn chắc chắn muốn xóa? Mã PM = "
                 + home.getTxtMaPhieuMuon().getText().trim()
                 , "Delele confirm", JOptionPane.YES_NO_OPTION);
         // c = 0 -> yes, c = 1 -> no

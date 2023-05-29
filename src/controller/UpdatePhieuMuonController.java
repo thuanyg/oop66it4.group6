@@ -5,9 +5,11 @@
 package controller;
 
 import dao.PhieuMuonDAO;
+import dao.SachPhieuMuonDAO;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import model.PhieuMuon;
+import model.Sach;
 import view.Home;
 
 /**
@@ -15,6 +17,7 @@ import view.Home;
  * @author HOANG TIEN THUAN
  */
 public class UpdatePhieuMuonController {
+
     private Home home;
 
     public UpdatePhieuMuonController(Home home) {
@@ -54,7 +57,13 @@ public class UpdatePhieuMuonController {
         System.out.println(rs);
         if (rs > 0) {
             JOptionPane.showMessageDialog(home, "Sửa thành công! ID = " + Ma_PM);
-            home.getBtn_clear().doClick();
+//            home.getBtn_clear().doClick();
+            // Nếu Bảng sách mượn đang có dữ liệu.Xóa dữ liệu cũ->Lấy tất cả dữ liệu vừa sửa insert vào Sach_PhieuMuon.
+            DeleteSachPhieuMuon del = new DeleteSachPhieuMuon(home);
+            del.Delete();
+            // Insert mới
+            InsertSachPhieuMuon ins = new InsertSachPhieuMuon(home);
+            ins.Insert();
             ShowPhieuMuon s = new ShowPhieuMuon();
             s.ShowOnTablePM(home.getPhieuMuonTableModel());
         } else {

@@ -34,10 +34,10 @@ public class InsertSachPhieuMuon {
             pm.setMa_PM(Integer.parseInt(home.getTxtMaPhieuMuon().getText().trim()));
             rs = SachPhieuMuonDAO.getInstant().Insert(s, pm, soLuongSachMuon);
         }
-        if (rs > 0) {
-            JOptionPane.showMessageDialog(home, "Dữ liệu tbl.Sach_PhieuMuon đã được cập nhật!");
-        } else {
-            JOptionPane.showMessageDialog(home, "Thêm thất bại, hãy kiểm tra lại!");
-        }
+//        if (rs > 0) {
+//            JOptionPane.showMessageDialog(home, "Dữ liệu tbl.Sach_PhieuMuon đã được cập nhật!");
+//        } else {
+//            JOptionPane.showMessageDialog(home, "Thêm thất bại, hãy kiểm tra lại!");
+//        }
     }
 }
