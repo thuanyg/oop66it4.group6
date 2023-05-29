@@ -47,8 +47,10 @@ import com.toedter.calendar.JDateChooser;
 import controller.Constraint;
 import controller.DeleteBookController;
 import controller.DeleteDocGiaController;
+import controller.DeletePhieuMuon;
 import controller.InsertBookController;
 import controller.InsertDocGiaController;
+import controller.ShowPhieuMuon;
 import controller.UpdateBookController;
 import controller.UpdateDocGiaController;
 import controller.showDocGia;
@@ -69,7 +71,7 @@ import javax.swing.JRadioButton;
  */
 public class Home extends javax.swing.JFrame {
 
-    DefaultTableModel SachTableModel, SachMuonTableModel, DocGTableModel;
+    DefaultTableModel SachTableModel, SachMuonTableModel, DocGTableModel, PhieuMuonTableModel;
     List<String> listSachMuon = new ArrayList<>();
     List<Integer> listSoLuongMuon = new ArrayList<>();
     private int indexSelectRow;
@@ -89,6 +91,7 @@ public class Home extends javax.swing.JFrame {
         SachTableModel = (DefaultTableModel) tbl_Sach.getModel();
         SachMuonTableModel = (DefaultTableModel) tbl_sachMuon.getModel();
         DocGTableModel = (DefaultTableModel) tbl_DocGia.getModel();
+        PhieuMuonTableModel = (DefaultTableModel) tbl_PhieuMuon.getModel();
 //        ShowBook();
         ShowBookOnCombobox();
         // Add placeholder
@@ -420,6 +423,8 @@ public class Home extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tbl_sachMuon = new javax.swing.JTable();
         btn_save = new javax.swing.JButton();
+        lb_IdBook6 = new javax.swing.JLabel();
+        txtNgayMuon2 = new javax.swing.JTextField();
         rightPanelInfo = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         lb_HelloUser1 = new javax.swing.JLabel();
@@ -1318,14 +1323,14 @@ public class Home extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã PM", "Mã độc giả", "Ngày mượn", "Ngày hẹn trả", "Sách mượn"
+                "Mã PM", "Mã độc giả", "Ngày mượn", "Ngày hẹn trả", "Sách mượn", "Ngày Trả"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1338,6 +1343,11 @@ public class Home extends javax.swing.JFrame {
         });
         tbl_PhieuMuon.setSelectionBackground(new java.awt.Color(0, 204, 102));
         tbl_PhieuMuon.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tbl_PhieuMuon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_PhieuMuonMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tbl_PhieuMuon);
 
         rightPanelPhieuMuon.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 419, 1190, 390));
@@ -1367,7 +1377,7 @@ public class Home extends javax.swing.JFrame {
                 cbx_BooksKeyPressed(evt);
             }
         });
-        rightPanelPhieuMuon.add(cbx_Books, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 220, 360, 30));
+        rightPanelPhieuMuon.add(cbx_Books, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 220, 190, 30));
 
         lb_chooseBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_chooseBook.setText("Chọn sách");
@@ -1438,6 +1448,11 @@ public class Home extends javax.swing.JFrame {
         btn_delBook2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btn_delBook2.setText("Delete");
         btn_delBook2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_delBook2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_delBook2MouseClicked(evt);
+            }
+        });
         btn_delBook2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_delBook2ActionPerformed(evt);
@@ -1558,6 +1573,23 @@ public class Home extends javax.swing.JFrame {
 
         rightPanelPhieuMuon.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, 416));
         panel_sachMuon.setVisible(false);
+
+        lb_IdBook6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_IdBook6.setText("Ngày trả");
+        rightPanelPhieuMuon.add(lb_IdBook6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, -1, 30));
+
+        txtNgayMuon2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNgayMuon2.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtNgayMuon2CaretUpdate(evt);
+            }
+        });
+        txtNgayMuon2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNgayMuon2ActionPerformed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(txtNgayMuon2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 195, 32));
 
         rightPanelInfo.setBackground(new java.awt.Color(255, 255, 255));
         rightPanelInfo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1795,6 +1827,8 @@ public class Home extends javax.swing.JFrame {
         rightPanelPhieuMuon.setVisible(true);
         resetFontColor();
         lb_PhieuMuon.setForeground(Color.BLACK);
+        ShowPhieuMuon sh = new ShowPhieuMuon();
+        sh.ShowOnTablePM(PhieuMuonTableModel);
     }//GEN-LAST:event_lb_PhieuMuonMouseClicked
 
     private void lb_ThongKeBaoCaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_ThongKeBaoCaoMouseClicked
@@ -2288,6 +2322,44 @@ public class Home extends javax.swing.JFrame {
             btn_resetDocGia.doClick();
         }
     }//GEN-LAST:event_btn_xoaDocGiaMouseClicked
+
+    private void txtNgayMuon2CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtNgayMuon2CaretUpdate
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNgayMuon2CaretUpdate
+
+    private void txtNgayMuon2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNgayMuon2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNgayMuon2ActionPerformed
+
+    private void tbl_PhieuMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_PhieuMuonMouseClicked
+        // TODO add your handling code here:
+        String id = null;
+        String Ma_DG = null;
+        String Ngay_Muon = null;
+        String Ngay_Hen_Tra = null;
+        try {
+            id = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 0).toString();
+            Ma_DG = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 1).toString();
+            Ngay_Muon = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 2).toString();
+            Ngay_Hen_Tra = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 3).toString();
+//        String  = PhieuMuonTableModel.getValueAt(tbl_Sach.getSelectedRow(), 4).toString();
+            String Ngay_TRa = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 5).toString();
+        } catch (Exception e) {
+        }
+        
+        txtMaPhieuMuon.setText(id);
+        txtIdBook2.setText(Ma_DG);
+        txtNgayMuon.setText(Ngay_Muon);
+        txtNgayMuon1.setText(Ngay_Hen_Tra);
+        
+    }//GEN-LAST:event_tbl_PhieuMuonMouseClicked
+
+    private void btn_delBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delBook2MouseClicked
+        DeletePhieuMuon del = new DeletePhieuMuon(this);
+        del.Delete();
+        ShowPhieuMuon show = new ShowPhieuMuon();
+        show.ShowOnTablePM(PhieuMuonTableModel);
+    }//GEN-LAST:event_btn_delBook2MouseClicked
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
@@ -3030,6 +3102,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lb_IdBook2;
     private javax.swing.JLabel lb_IdBook4;
     private javax.swing.JLabel lb_IdBook5;
+    private javax.swing.JLabel lb_IdBook6;
     private javax.swing.JLabel lb_IdDocGia;
     private javax.swing.JLabel lb_PhieuMuon;
     private javax.swing.JLabel lb_QuanLyDocGia;
@@ -3087,6 +3160,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField txtMaPhieuMuon;
     private javax.swing.JTextField txtNgayMuon;
     private javax.swing.JTextField txtNgayMuon1;
+    private javax.swing.JTextField txtNgayMuon2;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtPublishYear;
     private javax.swing.JTextField txtPublisher;
