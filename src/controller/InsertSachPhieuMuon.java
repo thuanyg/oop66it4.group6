@@ -35,7 +35,7 @@ public class InsertSachPhieuMuon {
             rs = SachPhieuMuonDAO.getInstant().Insert(s, pm, soLuongSachMuon);
         }
         if (rs > 0) {
-            JOptionPane.showMessageDialog(home, "Thêm thành công vào Sach_PhieuMuon!");
+            JOptionPane.showMessageDialog(home, "Dữ liệu đã được cập nhật!");
         } else {
             JOptionPane.showMessageDialog(home, "Thêm thất bại, hãy kiểm tra lại!");
         }

@@ -2241,22 +2241,12 @@ public class Home extends javax.swing.JFrame {
             if (PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 4) == null) {
                 dateChooseNgayTra.setDate(null);
             } else {
-                Date NgayTra = new SimpleDateFormat("yyyy-MM-dd").parse(PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 5).toString());
+                Date NgayTra = new SimpleDateFormat("yyyy-MM-dd").parse(PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 4).toString());
                 dateChooseNgayTra.setDate(NgayTra);
             }
         } catch (Exception e) {
         }
 
-        try {
-            if (DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3) == null) {
-                dateChoose.setDate(null);
-            } else {
-                Date NgaySinh = new SimpleDateFormat("yyyy-MM-dd").parse(DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3).toString());
-                dateChoose.setDate(NgaySinh);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         txtMaPhieuMuon.setText(id);
         txtIdBook2.setText(Ma_DG);
@@ -2311,10 +2301,10 @@ public class Home extends javax.swing.JFrame {
 
     private void btn_insertBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook2MouseClicked
         InsertPhieu_Muon ins = new InsertPhieu_Muon(this);
-        InsertSachPhieuMuon ins2 = new InsertSachPhieuMuon(this);
+        
         try {
             ins.InsertPhieu_Muon();
-            ins2.Insert();
+            
         } catch (ParseException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }

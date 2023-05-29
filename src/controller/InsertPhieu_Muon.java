@@ -57,7 +57,9 @@ public class InsertPhieu_Muon {
         int rs = PhieuMuonDAO.getInstant().Insert(pm);
         System.out.println(rs);
         if (rs > 0) {
-            JOptionPane.showMessageDialog(home, "Thêm thành công! [ID = " + Ma_PM);
+            JOptionPane.showMessageDialog(home, "Thêm thành công! ID = " + Ma_PM);
+            InsertSachPhieuMuon ins2 = new InsertSachPhieuMuon(home);
+            ins2.Insert();
             ShowPhieuMuon s = new ShowPhieuMuon();
             s.ShowOnTablePM(home.getPhieuMuonTableModel());
         } else {
