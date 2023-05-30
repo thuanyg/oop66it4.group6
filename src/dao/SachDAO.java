@@ -283,4 +283,82 @@ public class SachDAO implements DAOInterface<Sach> {
         }
         return SGia;
     }
+    public ArrayList<Sach> SortByTheLoai(){
+        ArrayList<Sach> STheLoai = new ArrayList<>();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            Statement st = connection.createStatement();
+            String sql = "SELECT*from Sach order by The_Loai asc";
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_Sach");
+                String tenSach = rs.getString("Ten_Sach");
+                String theLoai = rs.getString("The_Loai");
+                String tacGia = rs.getString("Ten_TG");
+                int namXB = rs.getInt("NamXB");
+                String nhaXB = rs.getString("NhaXB");
+                int soL = rs.getInt("SL");
+                float gia = rs.getFloat("Gia_Sach");
+                Sach sach = new Sach(id, tenSach, theLoai, tacGia, namXB, nhaXB, soL, gia);
+                STheLoai.add(sach);
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return STheLoai;
+    }
+    public ArrayList<Sach> SortByTacGia(){
+        ArrayList<Sach> STacGia = new ArrayList<>();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            Statement st = connection.createStatement();
+            String sql = "SELECT*from Sach order by Ten_TG asc";
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_Sach");
+                String tenSach = rs.getString("Ten_Sach");
+                String theLoai = rs.getString("The_Loai");
+                String tacGia = rs.getString("Ten_TG");
+                int namXB = rs.getInt("NamXB");
+                String nhaXB = rs.getString("NhaXB");
+                int soL = rs.getInt("SL");
+                float gia = rs.getFloat("Gia_Sach");
+                Sach sach = new Sach(id, tenSach, theLoai, tacGia, namXB, nhaXB, soL, gia);
+                STacGia.add(sach);
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return STacGia;
+    }
+    public ArrayList<Sach> SortByNhaXb(){
+        ArrayList<Sach> SNhaXB = new ArrayList<>();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            Statement st = connection.createStatement();
+            String sql = "SELECT*from Sach order by NhaXB asc";
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_Sach");
+                String tenSach = rs.getString("Ten_Sach");
+                String theLoai = rs.getString("The_Loai");
+                String tacGia = rs.getString("Ten_TG");
+                int namXB = rs.getInt("NamXB");
+                String nhaXB = rs.getString("NhaXB");
+                int soL = rs.getInt("SL");
+                float gia = rs.getFloat("Gia_Sach");
+                Sach sach = new Sach(id, tenSach, theLoai, tacGia, namXB, nhaXB, soL, gia);
+                SNhaXB.add(sach);
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return SNhaXB;
+    }
 }

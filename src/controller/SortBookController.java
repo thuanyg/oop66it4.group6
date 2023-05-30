@@ -43,6 +43,36 @@ public class SortBookController {
                     sach.getTenSach(), sach.getTheLoai(), sach.getTacGia(), sach.getNamXB(),
                     sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
             });
+        }if (idx == 2) {
+            ArrayList<Sach> listSach = SachDAO.getInstant().SortByTacGia();
+            // TacGia
+            home.getSachTableModel().setRowCount(0);
+            listSach.forEach((sach) -> {
+                home.getSachTableModel().addRow(new Object[]{sach.getId(),
+                    sach.getTenSach(), sach.getTheLoai(), sach.getTacGia(), sach.getNamXB(),
+                    sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
+            });
+        }
+        if (idx == 3) {
+            ArrayList<Sach> listSach = SachDAO.getInstant().SortByNhaXb();
+            // NhaXB
+            home.getSachTableModel().setRowCount(0);
+            listSach.forEach((sach) -> {
+                home.getSachTableModel().addRow(new Object[]{sach.getId(),
+                    sach.getTenSach(), sach.getTheLoai(), sach.getTacGia(), sach.getNamXB(),
+                    sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
+            });
+        }
+       
+        if (idx == 5) {
+            ArrayList<Sach> listSach = SachDAO.getInstant().SortByTheLoai();
+            // TheLoai
+            home.getSachTableModel().setRowCount(0);
+            listSach.forEach((sach) -> {
+                home.getSachTableModel().addRow(new Object[]{sach.getId(),
+                    sach.getTenSach(), sach.getTheLoai(), sach.getTacGia(), sach.getNamXB(),
+                    sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
+            });
         }
           if (idx == 4) {
             ArrayList<Sach> listSach = SachDAO.getInstant().SortBySoLuong();
@@ -54,6 +84,8 @@ public class SortBookController {
                     sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
             });
         }
+          
+          
            if (idx == 6) {
             ArrayList<Sach> listSach = SachDAO.getInstant().SortByGia();
             // Giá
