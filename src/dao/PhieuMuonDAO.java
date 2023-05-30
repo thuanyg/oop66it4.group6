@@ -126,6 +126,124 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public ArrayList<PhieuMuon> SortMaPhieu() {
+        ArrayList<PhieuMuon> list = new ArrayList<>();
+        Connection c = null;
+        try {
+            c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ma_PM DESC";
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_PM");
+                String NgayMuon = rs.getString("Ngay_Muon");
+                String NgayHenTra = rs.getString("Ngay_Hen_Tra");
+                String NgayTra = rs.getString("Ngay_Tra");
+                int Ma_DG = rs.getInt("Ma_Doc_Gia");
+                PhieuMuon pm = new PhieuMuon(id, Ma_DG, NgayMuon, NgayHenTra, NgayTra);
+                list.add(pm);
 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuMuonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public ArrayList<PhieuMuon> SortMaDocGia() {
+        ArrayList<PhieuMuon> list = new ArrayList<>();
+        Connection c = null;
+        try {
+            c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ma_Doc_Gia DESC";
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_PM");
+                String NgayMuon = rs.getString("Ngay_Muon");
+                String NgayHenTra = rs.getString("Ngay_Hen_Tra");
+                String NgayTra = rs.getString("Ngay_Tra");
+                int Ma_DG = rs.getInt("Ma_Doc_Gia");
+                PhieuMuon pm = new PhieuMuon(id, Ma_DG, NgayMuon, NgayHenTra, NgayTra);
+                list.add(pm);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuMuonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public ArrayList<PhieuMuon> SortNgayMuon() {
+        ArrayList<PhieuMuon> list = new ArrayList<>();
+        Connection c = null;
+        try {
+            c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ngay_Muon DESC";
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_PM");
+                String NgayMuon = rs.getString("Ngay_Muon");
+                String NgayHenTra = rs.getString("Ngay_Hen_Tra");
+                String NgayTra = rs.getString("Ngay_Tra");
+                int Ma_DG = rs.getInt("Ma_Doc_Gia");
+                PhieuMuon pm = new PhieuMuon(id, Ma_DG, NgayMuon, NgayHenTra, NgayTra);
+                list.add(pm);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuMuonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public ArrayList<PhieuMuon> SortNgayHenTra() {
+        ArrayList<PhieuMuon> list = new ArrayList<>();
+        Connection c = null;
+        try {
+            c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ngay_Hen_Tra DESC";
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_PM");
+                String NgayMuon = rs.getString("Ngay_Muon");
+                String NgayHenTra = rs.getString("Ngay_Hen_Tra");
+                String NgayTra = rs.getString("Ngay_Tra");
+                int Ma_DG = rs.getInt("Ma_Doc_Gia");
+                PhieuMuon pm = new PhieuMuon(id, Ma_DG, NgayMuon, NgayHenTra, NgayTra);
+                list.add(pm);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuMuonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public ArrayList<PhieuMuon> SortNgayTra() {
+        ArrayList<PhieuMuon> list = new ArrayList<>();
+        Connection c = null;
+        try {
+            c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ngay_Tra DESC";
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_PM");
+                String NgayMuon = rs.getString("Ngay_Muon");
+                String NgayHenTra = rs.getString("Ngay_Hen_Tra");
+                String NgayTra = rs.getString("Ngay_Tra");
+                int Ma_DG = rs.getInt("Ma_Doc_Gia");
+                PhieuMuon pm = new PhieuMuon(id, Ma_DG, NgayMuon, NgayHenTra, NgayTra);
+                list.add(pm);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuMuonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
 }

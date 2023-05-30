@@ -45,6 +45,7 @@ import controller.UpdateBookController;
 import controller.UpdateDocGiaController;
 import controller.ShowDocGia;
 import controller.SortBookController;
+import controller.SortPhieuMuonController;
 import controller.UpdatePhieuMuonController;
 import dao.DocGiaDAO;
 import database.JDBCUtil;
@@ -294,6 +295,8 @@ public class Home extends javax.swing.JFrame {
         dateChooseNgayTra = new com.toedter.calendar.JDateChooser();
         dateChooseNgayMuon = new com.toedter.calendar.JDateChooser();
         dateChooseNgayHenTra = new com.toedter.calendar.JDateChooser();
+        lb_SortBy2 = new javax.swing.JLabel();
+        cbxSortPhieuMuon = new javax.swing.JComboBox<>();
         rightPanelThongke = new javax.swing.JPanel();
         DashbroadOnTop = new javax.swing.JPanel();
         btn_moreInfoBook = new javax.swing.JLabel();
@@ -506,7 +509,6 @@ public class Home extends javax.swing.JFrame {
         tbl_Sach.setGridColor(new java.awt.Color(204, 204, 204));
         tbl_Sach.setRowHeight(23);
         tbl_Sach.setSelectionBackground(new java.awt.Color(0, 204, 102));
-        tbl_Sach.setSelectionForeground(new java.awt.Color(255, 255, 255));
         tbl_Sach.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_Sach.setShowGrid(false);
         tbl_Sach.setShowHorizontalLines(true);
@@ -795,8 +797,6 @@ public class Home extends javax.swing.JFrame {
         });
         tbl_PhieuMuon.setRowHeight(23);
         tbl_PhieuMuon.setSelectionBackground(new java.awt.Color(0, 204, 102));
-        tbl_PhieuMuon.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        tbl_PhieuMuon.setShowHorizontalLines(true);
         tbl_PhieuMuon.setSurrendersFocusOnKeystroke(true);
         tbl_PhieuMuon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1069,6 +1069,24 @@ public class Home extends javax.swing.JFrame {
 
         dateChooseNgayHenTra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rightPanelPhieuMuon.add(dateChooseNgayHenTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 145, 195, 32));
+
+        lb_SortBy2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_SortBy2.setText("Sắp xếp theo: ");
+        rightPanelPhieuMuon.add(lb_SortBy2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, -1, -1));
+
+        cbxSortPhieuMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbxSortPhieuMuon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã phiếu mượn", "Mã độc giả", "Ngày mượn", "Ngày hẹn trả", "Ngày trả" }));
+        cbxSortPhieuMuon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxSortPhieuMuonMouseClicked(evt);
+            }
+        });
+        cbxSortPhieuMuon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSortPhieuMuonActionPerformed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(cbxSortPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, -1, -1));
 
         rightPanelThongke.setBackground(new java.awt.Color(242, 247, 251));
         rightPanelThongke.addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener() {
@@ -1483,9 +1501,7 @@ public class Home extends javax.swing.JFrame {
         tbl_DocGia.setGridColor(new java.awt.Color(204, 204, 204));
         tbl_DocGia.setRowHeight(23);
         tbl_DocGia.setSelectionBackground(new java.awt.Color(0, 204, 102));
-        tbl_DocGia.setSelectionForeground(new java.awt.Color(255, 255, 255));
         tbl_DocGia.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_DocGia.setShowHorizontalLines(true);
         tbl_DocGia.setSurrendersFocusOnKeystroke(true);
         tbl_DocGia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2571,6 +2587,15 @@ public class Home extends javax.swing.JFrame {
         sort.Sort();
     }//GEN-LAST:event_cbxSortBookActionPerformed
 
+    private void cbxSortPhieuMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxSortPhieuMuonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxSortPhieuMuonMouseClicked
+
+    private void cbxSortPhieuMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSortPhieuMuonActionPerformed
+        SortPhieuMuonController sp = new SortPhieuMuonController(this);
+        sp.Sort();
+    }//GEN-LAST:event_cbxSortPhieuMuonActionPerformed
+
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
         String hoten = null;
@@ -3283,6 +3308,11 @@ public class Home extends javax.swing.JFrame {
         return tbl_sachMuonTemp;
     }
 
+    public JComboBox<String> getCbxSortPhieuMuon() {
+        return cbxSortPhieuMuon;
+    }
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DashbroadOnTop;
@@ -3329,6 +3359,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroupGender;
     private javax.swing.JComboBox<String> cbxSortBook;
     private javax.swing.JComboBox<String> cbxSortDocGia;
+    private javax.swing.JComboBox<String> cbxSortPhieuMuon;
     private javax.swing.JComboBox<String> cbx_Books;
     private javax.swing.JComboBox<String> cbx_DocGia;
     private javax.swing.JLabel copyright;
@@ -3371,6 +3402,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lb_QuanLySach;
     private javax.swing.JLabel lb_SortBy;
     private javax.swing.JLabel lb_SortBy1;
+    private javax.swing.JLabel lb_SortBy2;
     private javax.swing.JLabel lb_TenDocGia;
     private javax.swing.JLabel lb_ThongKeBaoCao;
     private javax.swing.JLabel lb_author;
