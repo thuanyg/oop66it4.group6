@@ -34,5 +34,35 @@ public class SortBookController {
                     sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
             });
         } 
+         if (idx == 0) {
+            ArrayList<Sach> listSach = SachDAO.getInstant().SortByMaSach();
+            // Mã sách
+            home.getSachTableModel().setRowCount(0);
+            listSach.forEach((sach) -> {
+                home.getSachTableModel().addRow(new Object[]{sach.getId(),
+                    sach.getTenSach(), sach.getTheLoai(), sach.getTacGia(), sach.getNamXB(),
+                    sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
+            });
+        }
+          if (idx == 4) {
+            ArrayList<Sach> listSach = SachDAO.getInstant().SortBySoLuong();
+            // Số lượng
+            home.getSachTableModel().setRowCount(0);
+            listSach.forEach((sach) -> {
+                home.getSachTableModel().addRow(new Object[]{sach.getId(),
+                    sach.getTenSach(), sach.getTheLoai(), sach.getTacGia(), sach.getNamXB(),
+                    sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
+            });
+        }
+           if (idx == 6) {
+            ArrayList<Sach> listSach = SachDAO.getInstant().SortByGia();
+            // Giá
+            home.getSachTableModel().setRowCount(0);
+            listSach.forEach((sach) -> {
+                home.getSachTableModel().addRow(new Object[]{sach.getId(),
+                    sach.getTenSach(), sach.getTheLoai(), sach.getTacGia(), sach.getNamXB(),
+                    sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
+            });
+        }
     }
 }
