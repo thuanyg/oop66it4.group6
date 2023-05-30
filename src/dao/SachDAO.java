@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.Sach;
@@ -147,7 +148,10 @@ public class SachDAO implements DAOInterface<Sach> {
             Connection connection = JDBCUtil.getConnection();
 //            JDBCUtil.printInfo(connection);
             Statement st = connection.createStatement();
-            String sql = "SELECT * FROM Sach WHERE Ten_Sach like N'%" + s + "%'";
+            String sql = "SELECT * FROM Sach WHERE Ten_Sach like N'%" + s 
+                    + "%' OR Ma_Sach like N'%" + s + "%' OR The_Loai like N'%" + s + "%' OR Ten_TG like N'%" + s 
+                    + "%' OR NamXB like N'%" + s + "%' OR NhaXB like N'%" + s + "%' OR SL like N'%" + s 
+                    + "%' OR Gia_Sach like N'%" + s + "%'";
             System.out.println(sql);
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
@@ -169,12 +173,36 @@ public class SachDAO implements DAOInterface<Sach> {
         return arr;
     }
 
-    public void SearchWithoutDB(String c) {
-        Home home = new Home();
-        DefaultTableModel model = home.getSachTableModel();
-        TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(model);
+    public void SearchWithoutDB(Home home,String c) {
+        TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(home.getSachTableModel());
         home.getTbl_Sach().setRowSorter(trs);
-//        trs.setRowFilter(RowFilters.regexFilter(c));
+        trs.setRowFilter(RowFilter.regexFilter(c));
     }
+    
+    public ArrayList<Sach> SortByName(){
+        ArrayList<Sach> results = new ArrayList<>();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            Statement st = connection.createStatement();
+            String sql = "SELECT * FROM Sach ORDER BY Ten_Sach ASC";
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_Sach");
+                String tenSach = rs.getString("Ten_Sach");
+                String theLoai = rs.getString("The_Loai");
+                String tacGia = rs.getString("Ten_TG");
+                int namXB = rs.getInt("NamXB");
+                String nhaXB = rs.getString("NhaXB");
+                int soL = rs.getInt("SL");
+                float gia = rs.getFloat("Gia_Sach");
+                Sach sach = new Sach(id, tenSach, theLoai, tacGia, namXB, nhaXB, soL, gia);
+                results.add(sach);
+            }
 
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
 }
