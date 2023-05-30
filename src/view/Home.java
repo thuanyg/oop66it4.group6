@@ -297,6 +297,7 @@ public class Home extends javax.swing.JFrame {
         dateChooseNgayHenTra = new com.toedter.calendar.JDateChooser();
         lb_SortBy2 = new javax.swing.JLabel();
         cbxSortPhieuMuon = new javax.swing.JComboBox<>();
+        txtSearchPhieuMuon = new javax.swing.JTextField();
         rightPanelThongke = new javax.swing.JPanel();
         DashbroadOnTop = new javax.swing.JPanel();
         btn_moreInfoBook = new javax.swing.JLabel();
@@ -1087,6 +1088,34 @@ public class Home extends javax.swing.JFrame {
             }
         });
         rightPanelPhieuMuon.add(cbxSortPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, -1, -1));
+
+        txtSearchPhieuMuon.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        txtSearchPhieuMuon.setForeground(new java.awt.Color(153, 153, 153));
+        txtSearchPhieuMuon.setText("Tìm kiếm phiếu mượn");
+        txtSearchPhieuMuon.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchPhieuMuonCaretUpdate(evt);
+            }
+        });
+        txtSearchPhieuMuon.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSearchPhieuMuonFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtSearchPhieuMuonFocusLost(evt);
+            }
+        });
+        txtSearchPhieuMuon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchPhieuMuonActionPerformed(evt);
+            }
+        });
+        txtSearchPhieuMuon.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchPhieuMuonKeyReleased(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(txtSearchPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 16, 280, 40));
 
         rightPanelThongke.setBackground(new java.awt.Color(242, 247, 251));
         rightPanelThongke.addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener() {
@@ -2596,6 +2625,33 @@ public class Home extends javax.swing.JFrame {
         sp.Sort();
     }//GEN-LAST:event_cbxSortPhieuMuonActionPerformed
 
+    private void txtSearchPhieuMuonCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonCaretUpdate
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchPhieuMuonCaretUpdate
+
+    private void txtSearchPhieuMuonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonFocusGained
+        if (txtSearchPhieuMuon.getText().equals("Tìm kiếm phiếu mượn")) {
+            txtSearchPhieuMuon.setText(null);
+            txtSearchPhieuMuon.requestFocus();
+            RemovePlaceHolderStyle(txtSearchPhieuMuon);
+        }
+    }//GEN-LAST:event_txtSearchPhieuMuonFocusGained
+
+    private void txtSearchPhieuMuonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonFocusLost
+        if (txtSearchPhieuMuon.getText().length() == 0) {
+            AddPlaceHolderStyle(txtSearchPhieuMuon);
+            txtSearchPhieuMuon.setText("Tìm kiếm phiếu mượn");
+        }
+    }//GEN-LAST:event_txtSearchPhieuMuonFocusLost
+
+    private void txtSearchPhieuMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchPhieuMuonActionPerformed
+
+    private void txtSearchPhieuMuonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchPhieuMuonKeyReleased
+
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
         String hoten = null;
@@ -3459,6 +3515,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField txtSDT;
     private javax.swing.JTextField txtSearchBook;
     private javax.swing.JTextField txtSearchDocGia;
+    private javax.swing.JTextField txtSearchPhieuMuon;
     private javax.swing.JTextField txtTenDocGia;
     private javax.swing.JTextField txtTypeOfBook;
     // End of variables declaration//GEN-END:variables

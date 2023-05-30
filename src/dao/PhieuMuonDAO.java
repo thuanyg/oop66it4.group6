@@ -131,7 +131,7 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
         Connection c = null;
         try {
             c = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ma_PM DESC";
+            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ma_PM ASC";
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
@@ -155,7 +155,7 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
         Connection c = null;
         try {
             c = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ma_Doc_Gia DESC";
+            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ma_Doc_Gia ASC";
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
@@ -179,7 +179,7 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
         Connection c = null;
         try {
             c = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ngay_Muon DESC";
+            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ngay_Muon ASC";
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
@@ -203,7 +203,7 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
         Connection c = null;
         try {
             c = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ngay_Hen_Tra DESC";
+            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ngay_Hen_Tra ASC";
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
@@ -227,7 +227,7 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
         Connection c = null;
         try {
             c = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ngay_Tra DESC";
+            String sql = "SELECT * FROM Phieu_Muon ORDER BY Ngay_Tra ASC";
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
