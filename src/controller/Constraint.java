@@ -77,7 +77,7 @@ public class Constraint {
         } catch (Exception e) {
         }
         if (Ma_DG.isEmpty() && Ho_Ten.isEmpty() && CCCD.isEmpty() && SDT.isEmpty()) {
-            JOptionPane.showMessageDialog(home, "Hãy nhập thông tin sách để thêm!");
+            JOptionPane.showMessageDialog(home, "Hãy nhập thông tin độc giả để thêm!");
             flag = false;
         } else if (!Ma_DG.matches("\\d+")) {
             JOptionPane.showMessageDialog(home, "ID có định dạng là số!");

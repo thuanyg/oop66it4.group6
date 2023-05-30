@@ -161,15 +161,48 @@ public class Home extends javax.swing.JFrame {
         jtf.setForeground(Color.BLACK);
     }
 
+    public void UpdateBookOnCombobox() {
+//        List<Sach> listSach = SachDAO.getInstant().selectAll();
+//        String lastItem = "" + String.valueOf(listSach.get(listSach.size() - 1).getId()) + " | "
+//                + listSach.get(listSach.size() - 1).getTenSach();
+//        if (!cbx_Books.getItemAt(cbx_Books.getItemCount() - 1).toString().equals(lastItem)) {
+//            cbx_Books.addItem(lastItem);
+//        }
+        cbx_Books.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        cbx_Books.setMaximumRowCount(26);
+
+        cbx_Books.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"None"}));
+
+        cbx_Books.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        cbx_Books.setKeySelectionManager(null);
+        ShowBookOnCombobox();
+    }
+
+    public void UpdateDocGiaOnCombobox() {
+        cbx_DocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        cbx_DocGia.setMaximumRowCount(26);
+
+        cbx_DocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"None"}));
+
+        cbx_DocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        cbx_DocGia.setKeySelectionManager(null);
+        
+        ShowDocGiaOnCombobox();
+    }
+    
     public void ShowBookOnCombobox() {
         List<Sach> listSach = SachDAO.getInstant().selectAll();
         listSach.forEach((sach) -> {
             cbx_Books.addItem("" + String.valueOf(sach.getId()) + " | " + sach.getTenSach());
         });
-
     }
 
     public void ShowDocGiaOnCombobox() {
+
         List<DocGia> listDocGia = DocGiaDAO.getInstant().selectAll();
         listDocGia.forEach((d) -> {
             cbx_DocGia.addItem("" + String.valueOf(d.getMDG()) + " | " + d.getHo_Ten());
@@ -202,6 +235,7 @@ public class Home extends javax.swing.JFrame {
         barChart = new javax.swing.JFrame();
         jScrollPane7 = new javax.swing.JScrollPane();
         tbl_sachMuonTemp = new javax.swing.JTable();
+        btn_deleteControl = new javax.swing.JPanel();
         rightPanelPhieuMuon = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbl_PhieuMuon = new javax.swing.JTable();
@@ -410,6 +444,19 @@ public class Home extends javax.swing.JFrame {
             tbl_sachMuonTemp.getColumnModel().getColumn(0).setPreferredWidth(455);
         }
         tbl_sachMuonTemp.setVisible(false);
+
+        btn_deleteControl.setBackground(new java.awt.Color(242, 247, 251));
+
+        javax.swing.GroupLayout btn_deleteControlLayout = new javax.swing.GroupLayout(btn_deleteControl);
+        btn_deleteControl.setLayout(btn_deleteControlLayout);
+        btn_deleteControlLayout.setHorizontalGroup(
+            btn_deleteControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 120, Short.MAX_VALUE)
+        );
+        btn_deleteControlLayout.setVerticalGroup(
+            btn_deleteControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home - Library Management System");
@@ -822,7 +869,6 @@ public class Home extends javax.swing.JFrame {
         );
 
         rightPanelSach.setBackground(new java.awt.Color(242, 247, 251));
-        rightPanelSach.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jScrollPane1.setBackground(new java.awt.Color(203, 228, 222));
 
@@ -880,19 +926,14 @@ public class Home extends javax.swing.JFrame {
             tbl_Sach.getColumnModel().getColumn(1).setMinWidth(230);
         }
 
-        rightPanelSach.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 1190, 424));
-
         lb_IdBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdBook.setText("Mã sách");
-        rightPanelSach.add(lb_IdBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 100, 82, -1));
 
         txtBookName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtBookName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtBookName, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 148, 195, 32));
 
         lb_bookName.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_bookName.setText("Tên sách");
-        rightPanelSach.add(lb_bookName, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 151, 82, -1));
 
         txtIdBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtIdBook.addActionListener(new java.awt.event.ActionListener() {
@@ -900,56 +941,43 @@ public class Home extends javax.swing.JFrame {
                 txtIdBookActionPerformed(evt);
             }
         });
-        rightPanelSach.add(txtIdBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 98, 195, 32));
 
         lb_author.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_author.setText("Tác giả");
-        rightPanelSach.add(lb_author, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 201, 82, -1));
 
         txtAuthor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtAuthor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtAuthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 198, 195, 32));
 
         lb_publisher.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_publisher.setText("Nhà xuất bản");
-        rightPanelSach.add(lb_publisher, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 251, 106, -1));
 
         txtPublisher.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtPublisher.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtPublisher, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 248, 195, 32));
 
         lb_publishYear.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_publishYear.setText("Năm xuất bản");
-        rightPanelSach.add(lb_publishYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 100, -1, -1));
 
         txtPublishYear.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         txtPublishYear.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtPublishYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 98, 195, 32));
 
         lb_bookQuantity.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_bookQuantity.setText("Số lượng");
-        rightPanelSach.add(lb_bookQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 151, 97, 26));
 
         lb_typeOfBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_typeOfBook.setText("Thể loại");
-        rightPanelSach.add(lb_typeOfBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 201, 82, -1));
 
         txtTypeOfBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtTypeOfBook.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtTypeOfBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 198, 195, 32));
 
         lb_price.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_price.setText("Giá");
-        rightPanelSach.add(lb_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 251, 100, -1));
 
         txtPrice.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtPrice.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 248, 195, 32));
 
         spiner_bookQuantity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         spiner_bookQuantity.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         spiner_bookQuantity.setPreferredSize(new java.awt.Dimension(60, 26));
-        rightPanelSach.add(spiner_bookQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 144, -1, 35));
 
         SearchBook.setBackground(new java.awt.Color(255, 204, 153));
 
@@ -989,8 +1017,6 @@ public class Home extends javax.swing.JFrame {
             SearchBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(txtSearchBook, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-
-        rightPanelSach.add(SearchBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 49, -1, -1));
 
         pnl.setBackground(new java.awt.Color(242, 247, 251));
         pnl.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1077,30 +1103,145 @@ public class Home extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addComponent(lb_SortBy)
                 .addGap(42, 42, 42)
-                .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pnlLayout.setVerticalGroup(
             pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                .addContainerGap(314, Short.MAX_VALUE)
-                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlLayout.createSequentialGroup()
-                        .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lb_SortBy, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                        .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btn_insertBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btm_editBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btn_deleteBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_reseBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(67, 67, 67))))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(314, 314, 314)
+                .addComponent(btn_insertBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(314, 314, 314)
+                .addComponent(btm_editBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(314, 314, 314)
+                .addComponent(btn_deleteBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(314, 314, 314)
+                .addComponent(btn_reseBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(314, 314, 314)
+                .addComponent(lb_SortBy, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(320, 320, 320)
+                .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        rightPanelSach.add(pnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1190, 420));
+        javax.swing.GroupLayout rightPanelSachLayout = new javax.swing.GroupLayout(rightPanelSach);
+        rightPanelSach.setLayout(rightPanelSachLayout);
+        rightPanelSachLayout.setHorizontalGroup(
+            rightPanelSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(646, 646, 646)
+                .addComponent(lb_bookQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(646, 646, 646)
+                .addComponent(lb_typeOfBook, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(184, 184, 184)
+                .addComponent(lb_author, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(290, 290, 290)
+                .addComponent(txtIdBook, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(184, 184, 184)
+                .addComponent(lb_IdBook, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(290, 290, 290)
+                .addComponent(txtPublisher, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(290, 290, 290)
+                .addComponent(txtBookName, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(184, 184, 184)
+                .addComponent(lb_publisher, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(833, 833, 833)
+                .addComponent(spiner_bookQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(646, 646, 646)
+                .addComponent(lb_publishYear))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(646, 646, 646)
+                .addComponent(lb_price, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(833, 833, 833)
+                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(833, 833, 833)
+                .addComponent(txtTypeOfBook, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(184, 184, 184)
+                .addComponent(lb_bookName, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(833, 833, 833)
+                .addComponent(txtPublishYear, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1190, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(185, 185, 185)
+                .addComponent(SearchBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(290, 290, 290)
+                .addComponent(txtAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        rightPanelSachLayout.setVerticalGroup(
+            rightPanelSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(151, 151, 151)
+                .addComponent(lb_bookQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(lb_typeOfBook))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(201, 201, 201)
+                .addComponent(lb_author))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(98, 98, 98)
+                .addComponent(txtIdBook, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(lb_IdBook))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(248, 248, 248)
+                .addComponent(txtPublisher, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(148, 148, 148)
+                .addComponent(txtBookName, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(251, 251, 251)
+                .addComponent(lb_publisher))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(144, 144, 144)
+                .addComponent(spiner_bookQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(lb_publishYear))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(251, 251, 251)
+                .addComponent(lb_price))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(248, 248, 248)
+                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(198, 198, 198)
+                .addComponent(txtTypeOfBook, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(151, 151, 151)
+                .addComponent(lb_bookName))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(98, 98, 98)
+                .addComponent(txtPublishYear, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(390, 390, 390)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(SearchBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelSachLayout.createSequentialGroup()
+                .addGap(198, 198, 198)
+                .addComponent(txtAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         leftPanel.setBackground(new java.awt.Color(255, 255, 255));
         leftPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1838,7 +1979,8 @@ public class Home extends javax.swing.JFrame {
         lb_PhieuMuon.setForeground(Color.BLACK);
         ShowPhieuMuon sh = new ShowPhieuMuon();
         sh.ShowOnTablePM(PhieuMuonTableModel);
-//        ShowBookOnCombobox();
+        UpdateBookOnCombobox();
+        UpdateDocGiaOnCombobox();
     }//GEN-LAST:event_lb_PhieuMuonMouseClicked
 
     private void lb_ThongKeBaoCaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_ThongKeBaoCaoMouseClicked
@@ -2167,8 +2309,10 @@ public class Home extends javax.swing.JFrame {
         listSoLuongMuon.clear();
 
         // Update Table 
+        tbl_sachMuon.removeAll();
         SachMuonTableModel.setRowCount(0);
-        panel_sachMuon.setVisible(false);
+        lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
+
     }//GEN-LAST:event_btn_clearActionPerformed
 
     private void tbl_sachMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonMouseClicked
@@ -2388,7 +2532,7 @@ public class Home extends javax.swing.JFrame {
         listSachMuon.forEach((list) -> {
             SachMuonTempTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
         });
-        lablelTongSach.setText("Tổng số sách mượn đã chọn: " + TongSachMuon());
+        lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
 
 
     }//GEN-LAST:event_tbl_PhieuMuonMouseClicked
@@ -2479,6 +2623,8 @@ public class Home extends javax.swing.JFrame {
         listSachMuon.forEach((list) -> {
             SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
         });
+        lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
+
     }//GEN-LAST:event_btn_saveActionPerformed
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
@@ -3215,6 +3361,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel btn_contact;
     private javax.swing.JButton btn_delBook2;
     private javax.swing.JButton btn_deleteBook;
+    private javax.swing.JPanel btn_deleteControl;
     private javax.swing.JLabel btn_github;
     private javax.swing.JLabel btn_hieu;
     private javax.swing.JLabel btn_hung;
