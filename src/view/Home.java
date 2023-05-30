@@ -226,6 +226,7 @@ public class Home extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tbl_sachMuon = new javax.swing.JTable();
         btn_clear = new javax.swing.JButton();
+        btn_save = new javax.swing.JButton();
         lb_IdBook6 = new javax.swing.JLabel();
         dateChooseNgayTra = new com.toedter.calendar.JDateChooser();
         dateChooseNgayMuon = new com.toedter.calendar.JDateChooser();
@@ -628,7 +629,7 @@ public class Home extends javax.swing.JFrame {
         lablelTongSach.setForeground(new java.awt.Color(0, 102, 51));
         lablelTongSach.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lablelTongSach.setText("Tổng số sách mượn đã chọn: ");
-        panel_sachMuon.add(lablelTongSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 290, 50));
+        panel_sachMuon.add(lablelTongSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 270, 60));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
@@ -701,9 +702,19 @@ public class Home extends javax.swing.JFrame {
                 btn_clearActionPerformed(evt);
             }
         });
-        panel_sachMuon.add(btn_clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 330, 80, 30));
+        panel_sachMuon.add(btn_clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 350, 80, 25));
 
-        rightPanelPhieuMuon.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, 380));
+        btn_save.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_save.setText("Save");
+        btn_save.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_saveActionPerformed(evt);
+            }
+        });
+        panel_sachMuon.add(btn_save, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 322, 80, 25));
+
+        rightPanelPhieuMuon.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, -1));
         panel_sachMuon.setVisible(false);
 
         lb_IdBook6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -2124,7 +2135,7 @@ public class Home extends javax.swing.JFrame {
         listSachMuon.forEach((list) -> {
             SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
         });
-        lablelTongSach.setText("Tổng số sách mượn đã chọn: " + TongSachMuon());
+        lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
     }//GEN-LAST:event_cbx_BooksActionPerformed
 
     private void cbx_BooksItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_BooksItemStateChanged
@@ -2453,6 +2464,22 @@ public class Home extends javax.swing.JFrame {
     private void btn_deleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteBookActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_deleteBookActionPerformed
+
+    private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
+        listSoLuongMuon.clear();
+        for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
+            int num = Integer.parseInt(SachMuonTableModel.getValueAt(i, 1).toString());
+            listSoLuongMuon.add(num);
+        }
+        // Check listSoLMuon
+//        for (Integer integer : listSoLuongMuon) {
+//            System.out.println(integer);
+//        }   
+        SachMuonTableModel.setRowCount(0);
+        listSachMuon.forEach((list) -> {
+            SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+        });
+    }//GEN-LAST:event_btn_saveActionPerformed
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
@@ -3203,6 +3230,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btn_reseBook;
     private javax.swing.JButton btn_resetDocGia;
     private javax.swing.JButton btn_resetPM;
+    private javax.swing.JButton btn_save;
     private javax.swing.JLabel btn_thuan;
     private javax.swing.JLabel btn_vanh;
     private javax.swing.JButton btn_xoaDocGia;
