@@ -2280,7 +2280,7 @@ public class Home extends javax.swing.JFrame {
             check = false;
         }
         Object item = cbx_Books.getItemAt(cbx_Books.getSelectedIndex());
-        System.out.println("Bạn vừa chọn vị trí: " + cbx_Books.getSelectedIndex());
+//        System.out.println("Bạn vừa chọn vị trí: " + cbx_Books.getSelectedIndex());
         for (String string : listSachMuon) {
             if (string == (item)) {
                 check = false;
@@ -2594,10 +2594,11 @@ public class Home extends javax.swing.JFrame {
 
     private void btn_delBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delBook2MouseClicked
         DeletePhieuMuon del = new DeletePhieuMuon(this);
+        UpdateBookController upd = new UpdateBookController(this);
+        upd.UpdateSoLuongKhiTraSach();
         del.Delete();
         ShowPhieuMuon show = new ShowPhieuMuon();
         show.ShowOnTablePM(PhieuMuonTableModel);
-
     }//GEN-LAST:event_btn_delBook2MouseClicked
 
     private void btn_insertBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook2MouseClicked
@@ -2626,7 +2627,7 @@ public class Home extends javax.swing.JFrame {
             check = false;
         }
         Object item = cbx_DocGia.getItemAt(cbx_DocGia.getSelectedIndex());
-        System.out.println("Bạn vừa chọn combobox DocGia vị trí: " + cbx_DocGia.getSelectedIndex());
+//        System.out.println("Bạn vừa chọn combobox DocGia vị trí: " + cbx_DocGia.getSelectedIndex());
         if (check == true) {
             String[] DocG = item.toString().split("\\s|[A-Za-z]+");
             System.out.println(DocG[0]);

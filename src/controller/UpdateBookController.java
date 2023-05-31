@@ -68,8 +68,7 @@ public class UpdateBookController {
         }
     }
 
-    public void UpdateSoLuongUpdatePM() {
-        JTable tbl_SachMuonMoi = home.getTbl_sachMuon();
+    public void UpdateSoLuongKhiTraSach(){
         JTable tbl_SachMuonCu = home.getTbl_sachMuonTemp();
         // Số sách còn lại (s) = số sách ban đầu (s_bd) + số sách trả (s_t) - số sách mượn mới (s_m)
         // s = s_bd + s_t - s_m
@@ -88,6 +87,12 @@ public class UpdateBookController {
             s.setSoLuong(s_sauTra);
             SachDAO.getInstant().Update(s);
         }
+    }
+    
+    public void UpdateSoLuongUpdatePM() {
+        // Trả -> Mượn
+        UpdateSoLuongKhiTraSach();
         UpdateSoLuongInsertPM();
     }
+    
 }
