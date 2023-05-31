@@ -6,6 +6,7 @@ package controller;
 
 import dao.DocGiaDAO;
 import dao.SachDAO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import model.DocGia;
@@ -31,6 +32,15 @@ public class ShowDocGia extends Home {
     public void showDocGia(DefaultTableModel tableModel) {
         tableModel.setRowCount(0);
         listDocGia.forEach((t) -> {
+            tableModel.addRow(new Object[]{t.getMDG(),
+                t.getHo_Ten(), t.getGioi_Tinh(), t.getNgay_SInh(), t.getCCCD(), t.getSDT()
+            });
+        });
+    }
+    
+    public void ShowOnTblDocGiaWhileSearching(ArrayList<DocGia> list, DefaultTableModel tableModel){
+        tableModel.setRowCount(0);
+        list.forEach((t) -> {
             tableModel.addRow(new Object[]{t.getMDG(),
                 t.getHo_Ten(), t.getGioi_Tinh(), t.getNgay_SInh(), t.getCCCD(), t.getSDT()
             });

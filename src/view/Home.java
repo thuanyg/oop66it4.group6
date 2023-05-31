@@ -41,6 +41,7 @@ import controller.InsertBookController;
 import controller.InsertDocGiaController;
 import controller.InsertPhieu_Muon;
 import controller.InsertSachPhieuMuon;
+import controller.SearchDocGiaController;
 import controller.ShowPhieuMuon;
 import controller.UpdateBookController;
 import controller.UpdateDocGiaController;
@@ -1089,6 +1090,13 @@ public class Home extends javax.swing.JFrame {
                 tbl_sachMuonMouseClicked(evt);
             }
         });
+        tbl_sachMuon.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                tbl_sachMuonInputMethodTextChanged(evt);
+            }
+        });
         jScrollPane5.setViewportView(tbl_sachMuon);
         if (tbl_sachMuon.getColumnModel().getColumnCount() > 0) {
             tbl_sachMuon.getColumnModel().getColumn(0).setPreferredWidth(455);
@@ -1712,6 +1720,11 @@ public class Home extends javax.swing.JFrame {
         txtSearchDocGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchDocGiaActionPerformed(evt);
+            }
+        });
+        txtSearchDocGia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchDocGiaKeyReleased(evt);
             }
         });
 
@@ -2362,7 +2375,6 @@ public class Home extends javax.swing.JFrame {
 
         listSachMuon.clear();
         listSoLuongMuon.clear();
-
         // Update Table 
         tbl_sachMuon.removeAll();
         SachMuonTableModel.setRowCount(0);
@@ -2671,34 +2683,56 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_deleteBookActionPerformed
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-        listSoLuongMuon.clear();
-        listSoLuongMuonMoiThem.clear();
-        for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
-            int num = Integer.parseInt(SachMuonTableModel.getValueAt(i, 1).toString());
-            listSoLuongMuon.add(num);
+        boolean flag = true;
+        for (int i = 0; i < SachMuonTableModel.getRowCount() && SachMuonTableModel.getRowCount() != 0; i++) {
+            int num = Integer.parseInt(tbl_sachMuon.getValueAt(i, 1).toString());
+            String id_Ten = tbl_sachMuon.getValueAt(i, 0).toString();
+            String[] idArray = id_Ten.split("\\s|[A-Za-z]+");
+            int id = Integer.parseInt(idArray[0]);
+            Sach s = SachDAO.getInstant().selectById(id);
+            int sl_cu = 0;
+            if (SachMuonTempTableModel.getRowCount() <= i) {
+                sl_cu = 0;
+            } else {
+                sl_cu = Integer.parseInt(SachMuonTempTableModel.getValueAt(i, 1).toString());
+            }
+            int sl = s.getSoLuong() + sl_cu;
+            if (num > sl) {
+                JOptionPane.showMessageDialog(this, "Sách " + id_Ten + " hiện chỉ còn "
+                        + sl + " cuốn! Hãy nhập lại số lượng.");
+                flag = false;
+            }
         }
-        // Cập nhật số lượng mới sửa của các sách
-        for (int i = SachMuonTableModel.getRowCount() - SachMuonMoiThemTableModel.getRowCount(); i < SachMuonTableModel.getRowCount(); i++) {
-            int num = Integer.parseInt(SachMuonTableModel.getValueAt(i, 1).toString());
-            listSoLuongMuonMoiThem.add(num);
-        }
-        // Update bảng tạm sách mới thêm
-        SachMuonMoiThemTableModel.setRowCount(0);
-        listSachMuonMoiThem.forEach((list) -> {
-            SachMuonMoiThemTableModel.addRow(new Object[]{list, listSoLuongMuonMoiThem.get(listSachMuonMoiThem.indexOf(list))});
-        });
-        // Update bảng sách cũ bảng SachMuon sang bảng Temp
+
+        if (flag) {
+            listSoLuongMuon.clear();
+            listSoLuongMuonMoiThem.clear();
+            for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
+                int num = Integer.parseInt(SachMuonTableModel.getValueAt(i, 1).toString());
+                listSoLuongMuon.add(num);
+            }
+            // Cập nhật số lượng mới sửa của các sách
+            for (int i = SachMuonTableModel.getRowCount() - SachMuonMoiThemTableModel.getRowCount(); i < SachMuonTableModel.getRowCount(); i++) {
+                int num = Integer.parseInt(SachMuonTableModel.getValueAt(i, 1).toString());
+                listSoLuongMuonMoiThem.add(num);
+            }
+            // Update bảng tạm sách mới thêm
+            SachMuonMoiThemTableModel.setRowCount(0);
+            listSachMuonMoiThem.forEach((list) -> {
+                SachMuonMoiThemTableModel.addRow(new Object[]{list, listSoLuongMuonMoiThem.get(listSachMuonMoiThem.indexOf(list))});
+            });
+            // Update bảng sách cũ bảng SachMuon sang bảng Temp
 //        SachMuonTempTableModel.setRowCount(0);
 //        listSachMuon.forEach((list) -> {
 //            SachMuonTempTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
 //        });
-        // Update bảng Sách Mượn 
-        SachMuonTableModel.setRowCount(0);
-        listSachMuon.forEach((list) -> {
-            SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
-        });
-        lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
-
+            // Update bảng Sách Mượn 
+            SachMuonTableModel.setRowCount(0);
+            listSachMuon.forEach((list) -> {
+                SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+            });
+            lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
+        }
     }//GEN-LAST:event_btn_saveActionPerformed
 
     private void cbxSortBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxSortBookMouseClicked
@@ -2749,6 +2783,17 @@ public class Home extends javax.swing.JFrame {
     private void tbl_sachMuonMoiThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonMoiThemMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tbl_sachMuonMoiThemMouseClicked
+
+    private void tbl_sachMuonInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tbl_sachMuonInputMethodTextChanged
+//        if(tbl_sachMuon.getValueAt(tbl_sachMuon.getSelectedRow(), 1).toString()){
+//            
+//        }
+    }//GEN-LAST:event_tbl_sachMuonInputMethodTextChanged
+
+    private void txtSearchDocGiaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchDocGiaKeyReleased
+        SearchDocGiaController s = new SearchDocGiaController(this);
+        s.Search();
+    }//GEN-LAST:event_txtSearchDocGiaKeyReleased
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;

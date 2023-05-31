@@ -37,7 +37,7 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
             Connection connection = JDBCUtil.getConnection();
             JDBCUtil.printInfo(connection);
             String sql = "INSERT INTO Doc_Gia "
-                    + "VALUES ( " + t.getMDG() + ",N'" + t.getHo_Ten() + "','" + t.getCCCD() 
+                    + "VALUES ( " + t.getMDG() + ",N'" + t.getHo_Ten() + "','" + t.getCCCD()
                     + "','" + t.getSDT() + "','" + t.getNgay_SInh() + "'," + t.getGioi_Tinh() + ")";
             String sql2 = "INSERT INTO Doc_Gia VALUES (?,?,?,?,?,?)";
             System.out.println(sql2);
@@ -133,10 +133,38 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
         return ketQua;
     }
 
-
     @Override
     public ArrayList<DocGia> Search(String s) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<DocGia> ketQua = new ArrayList<>();
+        try {
+
+            Connection connection = JDBCUtil.getConnection();
+            //tim kiem thua ma hoac ho ten hoac sdt hoac cccd
+            String sql = "SELECT * FROM Doc_Gia WHERE Ma_Doc_Gia LIKE Concat('%',?,'%') Or CCCD LIKE Concat('%',?,'%')Or Ho_Ten LIKE Concat('%',?,'%') Or SDT LIKE Concat('%',?,'%')   ";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, s);
+            pst.setString(2, s);
+            pst.setString(3, s);
+            pst.setString(4, s);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("Ma_Doc_Gia");
+                String hoTen = rs.getString("Ho_Ten");
+                String CCCD = rs.getString("CCCD");
+                String SDT = rs.getString("SDT");
+
+                String Ngay_Sinh = rs.getString("Ngay_Sinh");
+                int gt = rs.getInt("Gt");
+                DocGia t = new DocGia(id, gt, hoTen, CCCD, SDT, Ngay_Sinh);
+                ketQua.add(t);
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override
@@ -144,5 +172,4 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
- 
 }
