@@ -42,6 +42,7 @@ import controller.InsertDocGiaController;
 import controller.InsertPhieu_Muon;
 import controller.InsertSachPhieuMuon;
 import controller.SearchDocGiaController;
+import controller.SearchPhieuMuonController;
 import controller.ShowPhieuMuon;
 import controller.UpdateBookController;
 import controller.UpdateDocGiaController;
@@ -2791,7 +2792,8 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchPhieuMuonActionPerformed
 
     private void txtSearchPhieuMuonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonKeyReleased
-        // TODO add your handling code here:
+        SearchPhieuMuonController s = new SearchPhieuMuonController(this);
+        s.Search();
     }//GEN-LAST:event_txtSearchPhieuMuonKeyReleased
 
     private void tbl_sachMuonMoiThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonMoiThemMouseClicked
@@ -3384,6 +3386,41 @@ public class Home extends javax.swing.JFrame {
     public JLabel getLb_IdBook1() {
         return lb_IdBook1;
     }
+    public JTextField getTxtSearchPhieuMuon(){
+        return txtSearchPhieuMuon;
+    }
+    public DefaultTableModel getSachMuonMoiThemTableModel() {
+        return SachMuonMoiThemTableModel;
+    }
+
+    public List<String> getListSachMuonMoiThem() {
+        return listSachMuonMoiThem;
+    }
+
+    public List<Integer> getListSoLuongMuonMoiThem() {
+        return listSoLuongMuonMoiThem;
+    }
+
+    public JButton getBtn_deleteBook() {
+        return btn_deleteBook;
+    }
+
+    public JPanel getBtn_deleteControl() {
+        return btn_deleteControl;
+    }
+
+    public JScrollPane getjScrollPane6() {
+        return jScrollPane6;
+    }
+
+    public JLabel getLb_SortBy2() {
+        return lb_SortBy2;
+    }
+
+    public JTable getTbl_sachMuonMoiThem() {
+        return tbl_sachMuonMoiThem;
+    }
+
 
     public JLabel getLb_IdBook2() {
         return lb_IdBook2;

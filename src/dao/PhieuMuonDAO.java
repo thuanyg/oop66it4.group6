@@ -118,7 +118,29 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
 
     @Override
     public ArrayList<PhieuMuon> Search(String s) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<PhieuMuon> list = new ArrayList<>();
+        Connection c = null;
+        try {
+            c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM Phieu_Muon WHERE Ma_Doc_Gia LIKE Concat('%',?,'%') Or Ma_PM LIKE Concat('%',?,'%')";
+            PreparedStatement pst = c.prepareStatement(sql);
+            pst.setString(1, s);
+            pst.setString(2, s);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("Ma_PM");
+                String NgayMuon = rs.getString("Ngay_Muon");
+                String NgayHenTra = rs.getString("Ngay_Hen_Tra");
+                String NgayTra = rs.getString("Ngay_Tra");
+                int Ma_DG = rs.getInt("Ma_Doc_Gia");
+                PhieuMuon pm = new PhieuMuon(id, Ma_DG, NgayMuon, NgayHenTra, NgayTra);
+                list.add(pm);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuMuonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
     }
 
     public ArrayList<PhieuMuon> SortMaPhieu() {

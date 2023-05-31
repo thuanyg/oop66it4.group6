@@ -9,6 +9,7 @@ import java.util.ArrayList;
 /**
  *
  * @author HOANG TIEN THUAN
+ * @param <T>
  */
 public interface DAOInterface<T> {
 
@@ -23,6 +24,5 @@ public interface DAOInterface<T> {
     public T selectById(int id);
     
     public ArrayList<T> Search(String s);
-
     
 }
