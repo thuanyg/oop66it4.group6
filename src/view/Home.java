@@ -295,6 +295,7 @@ public class Home extends javax.swing.JFrame {
         btn_resetPM = new javax.swing.JButton();
         panel_sachMuon = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
+        lb_tick = new javax.swing.JLabel();
         lablelTongSach = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -1036,6 +1037,12 @@ public class Home extends javax.swing.JFrame {
         panel_sachMuon.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         panel_sachMuon.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 43, 380, -1));
 
+        lb_tick.setForeground(new java.awt.Color(0, 153, 0));
+        lb_tick.setText("Saved");
+        lb_tick.setToolTipText("");
+        panel_sachMuon.add(lb_tick, new org.netbeans.lib.awtextra.AbsoluteConstraints(257, 330, 40, -1));
+        lb_tick.setVisible(false);
+
         lablelTongSach.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lablelTongSach.setForeground(new java.awt.Color(0, 102, 51));
         lablelTongSach.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -1673,6 +1680,11 @@ public class Home extends javax.swing.JFrame {
         rightPanelDocGia.add(lb_cccd, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 104, -1, -1));
 
         txtCCCD.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        txtCCCD.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCCCDKeyReleased(evt);
+            }
+        });
         rightPanelDocGia.add(txtCCCD, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 100, 195, 32));
 
         txtSDT.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
@@ -2394,6 +2406,8 @@ public class Home extends javax.swing.JFrame {
         tbl_sachMuon.removeAll();
         SachMuonTableModel.setRowCount(0);
         lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
+//        JOptionPane.showMessageDialog(this, "Removed All");
+
 
     }//GEN-LAST:event_btn_clearActionPerformed
 
@@ -2698,6 +2712,16 @@ public class Home extends javax.swing.JFrame {
         boolean flag = true;
         for (int i = 0; i < SachMuonTableModel.getRowCount() && SachMuonTableModel.getRowCount() != 0; i++) {
             int num = Integer.parseInt(tbl_sachMuon.getValueAt(i, 1).toString());
+            if (num == 0) {
+                JOptionPane.showMessageDialog(this, "Hãy nhập số lượng sách > 0");
+                // Update lại bảng
+                SachMuonTableModel.setRowCount(0);
+                listSachMuon.forEach((list) -> {
+                    SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+                });
+                flag = false;
+                break;
+            }
             String id_Ten = tbl_sachMuon.getValueAt(i, 0).toString();
             String[] idArray = id_Ten.split("\\s|[A-Za-z]+");
             int id = Integer.parseInt(idArray[0]);
@@ -2708,13 +2732,18 @@ public class Home extends javax.swing.JFrame {
             } else {
                 try {
                     sl_cu = Integer.parseInt(SachMuonTempTableModel.getValueAt(i, 1).toString());
-                } catch (Exception e){          
+                } catch (Exception e) {
                 }
             }
             int sl = s.getSoLuong() + sl_cu;
             if (num > sl) {
                 JOptionPane.showMessageDialog(this, "Sách " + id_Ten + " hiện chỉ còn "
                         + sl + " cuốn! Hãy nhập lại số lượng.");
+                // Update lại bảng
+                SachMuonTableModel.setRowCount(0);
+                listSachMuon.forEach((list) -> {
+                    SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+                });
                 flag = false;
             }
         }
@@ -2727,9 +2756,12 @@ public class Home extends javax.swing.JFrame {
                 listSoLuongMuon.add(num);
             }
             // Cập nhật số lượng mới sửa của các sách
-            for (int i = SachMuonTableModel.getRowCount() - SachMuonMoiThemTableModel.getRowCount(); i < SachMuonTableModel.getRowCount(); i++) {
-                int num = Integer.parseInt(SachMuonTableModel.getValueAt(i, 1).toString());
-                listSoLuongMuonMoiThem.add(num);
+            for (int i = SachMuonTableModel.getRowCount() - SachMuonMoiThemTableModel.getRowCount(); i < SachMuonTableModel.getRowCount() && i >= 0; i++) {
+                try {
+                    int num = Integer.parseInt(tbl_sachMuon.getValueAt(i, 1).toString());
+                    listSoLuongMuonMoiThem.add(num);
+                } catch (NumberFormatException numberFormatException) {
+                }
             }
             // Update bảng tạm sách mới thêm
             SachMuonMoiThemTableModel.setRowCount(0);
@@ -2746,8 +2778,10 @@ public class Home extends javax.swing.JFrame {
             listSachMuon.forEach((list) -> {
                 SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
             });
-            lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
+            JOptionPane.showMessageDialog(this, "Saved");
         }
+        lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
+
     }//GEN-LAST:event_btn_saveActionPerformed
 
     private void cbxSortBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxSortBookMouseClicked
@@ -2810,6 +2844,13 @@ public class Home extends javax.swing.JFrame {
         SearchDocGiaController s = new SearchDocGiaController(this);
         s.Search();
     }//GEN-LAST:event_txtSearchDocGiaKeyReleased
+
+    private void txtCCCDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCCCDKeyReleased
+        if (txtCCCD.getText().trim().length() > 12) {
+            JOptionPane.showMessageDialog(this, "CCCD/CMT không quá 12 số!");
+            txtCCCD.setText(txtCCCD.getText().substring(0, 12));
+        }
+    }//GEN-LAST:event_txtCCCDKeyReleased
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
@@ -3386,9 +3427,11 @@ public class Home extends javax.swing.JFrame {
     public JLabel getLb_IdBook1() {
         return lb_IdBook1;
     }
-    public JTextField getTxtSearchPhieuMuon(){
+
+    public JTextField getTxtSearchPhieuMuon() {
         return txtSearchPhieuMuon;
     }
+
     public DefaultTableModel getSachMuonMoiThemTableModel() {
         return SachMuonMoiThemTableModel;
     }
@@ -3420,7 +3463,6 @@ public class Home extends javax.swing.JFrame {
     public JTable getTbl_sachMuonMoiThem() {
         return tbl_sachMuonMoiThem;
     }
-
 
     public JLabel getLb_IdBook2() {
         return lb_IdBook2;
@@ -3669,6 +3711,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lb_publishYear;
     private javax.swing.JLabel lb_publisher;
     private javax.swing.JLabel lb_search;
+    private javax.swing.JLabel lb_tick;
     private javax.swing.JLabel lb_tongNguoiMuon;
     private javax.swing.JLabel lb_tongSachCon;
     private javax.swing.JLabel lb_tongSachDuocMuon;
