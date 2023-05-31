@@ -50,6 +50,7 @@ import controller.SortPhieuMuonController;
 import controller.UpdatePhieuMuonController;
 import dao.DocGiaDAO;
 import database.JDBCUtil;
+import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
@@ -1039,7 +1040,7 @@ public class Home extends javax.swing.JFrame {
         jLabel2.setText("Thông tin sách mượn");
         panel_sachMuon.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 14, 390, -1));
 
-        tbl_sachMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbl_sachMuon.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         tbl_sachMuon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -2286,7 +2287,8 @@ public class Home extends javax.swing.JFrame {
                 check = false;
             }
         }
-        for (int i = 0; i < tbl_sachMuon.getRowCount() && tbl_sachMuon.getRowCount() != 0; i++) {
+
+        for (int i = 0; i < tbl_sachMuon.getRowCount() && listSachMuon.size() != 0; i++) {
             if (tbl_sachMuon.getValueAt(i, 0).equals(item.toString())) {
                 check = false;
                 JOptionPane.showMessageDialog(this, "Sách này đã được thêm trước đó!");
