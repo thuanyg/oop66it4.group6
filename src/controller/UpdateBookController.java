@@ -53,7 +53,8 @@ public class UpdateBookController {
 
     public void UpdateSoLuongInsertPM() {
         JTable tbl = home.getTbl_sachMuon();
-        for (int i = 0; i < tbl.getRowCount() && tbl.getRowCount() != 0; i++) {
+        System.out.println("So hang table SachMuon = " + tbl.getRowCount());
+        for (int i = 0; i < home.getListSachMuon().size() && home.getListSachMuon().size() != 0; i++) {
             int soSachMuon = Integer.parseInt(tbl.getValueAt(i, 1).toString());
             String id_Ten = tbl.getValueAt(i, 0).toString();
             String[] idArray = id_Ten.split("\\s|[A-Za-z]+");

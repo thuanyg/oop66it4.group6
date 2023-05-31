@@ -1296,11 +1296,10 @@ public class Home extends javax.swing.JFrame {
         });
         leftPanel.add(logOutIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 770, -1, 30));
 
-        copyright.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         copyright.setForeground(new java.awt.Color(204, 204, 204));
         copyright.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        copyright.setText("@HUCE 2023");
-        leftPanel.add(copyright, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 790, 300, 20));
+        copyright.setText("Version 1.0");
+        leftPanel.add(copyright, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 790, 70, 30));
 
         lb_footer.setForeground(new java.awt.Color(255, 255, 255));
         lb_footer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -2604,14 +2603,16 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_delBook2MouseClicked
 
     private void btn_insertBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook2MouseClicked
-        InsertPhieu_Muon ins = new InsertPhieu_Muon(this);
-        UpdateBookController upd = new UpdateBookController(this);
-        try {
-            ins.InsertPhieu_Muon();
-            upd.UpdateSoLuongInsertPM();
-        } catch (ParseException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        Constraint c = new Constraint(this);
+        if (c.PhieuMuonValidate()) {
+            InsertPhieu_Muon ins = new InsertPhieu_Muon(this);
+            try {
+                ins.InsertPhieu_Muon();
+            } catch (ParseException ex) {
+                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
     }//GEN-LAST:event_btn_insertBook2MouseClicked
 
     private void cbx_DocGiaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_DocGiaItemStateChanged

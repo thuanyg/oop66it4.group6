@@ -129,14 +129,22 @@ public class Constraint {
         }
         return flag_id && flag_cccd;
     }
-    
+
     // Check input PhieuMuon
-    public boolean PhieuMuonValidate(){
+    public boolean PhieuMuonValidate() {
         boolean flag = true;
         String MaPM = home.getTxtMaPhieuMuon().getText().trim();
-        
-        
-        
+        String MaDG = home.getTxtIdBook2().getText().trim();
+        if (MaPM.isEmpty()) {
+            JOptionPane.showMessageDialog(home, "Chưa nhập mã Phiếu Mượn!");
+            flag = false;
+        } else if(MaDG.isEmpty() || home.getCbx_DocGia().getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(home, "Chưa chọn Độc Giả!");
+            flag = false;
+        } else if(home.getCbx_Books().getSelectedIndex() == 0 || home.getListSachMuon().isEmpty()){
+            JOptionPane.showMessageDialog(home, "Chưa chọn Sách!");
+            flag = false;
+        }
         return flag;
     }
 }
