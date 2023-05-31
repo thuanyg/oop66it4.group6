@@ -124,7 +124,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public void AddTableStyle(JTable table) {
-        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
         table.getTableHeader().setOpaque(false);
         table.getTableHeader().setBackground(Color.decode("#159957"));
         table.getTableHeader().setForeground(new Color(255, 255, 255));
@@ -592,7 +592,7 @@ public class Home extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_Sach);
         if (tbl_Sach.getColumnModel().getColumnCount() > 0) {
-            tbl_Sach.getColumnModel().getColumn(0).setMinWidth(15);
+            tbl_Sach.getColumnModel().getColumn(0).setPreferredWidth(10);
             tbl_Sach.getColumnModel().getColumn(1).setMinWidth(230);
         }
 
@@ -868,6 +868,12 @@ public class Home extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(tbl_PhieuMuon);
+        if (tbl_PhieuMuon.getColumnModel().getColumnCount() > 0) {
+            tbl_PhieuMuon.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tbl_PhieuMuon.getColumnModel().getColumn(0).setMaxWidth(100);
+            tbl_PhieuMuon.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tbl_PhieuMuon.getColumnModel().getColumn(1).setMaxWidth(100);
+        }
 
         rightPanelPhieuMuon.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 389, 1190, 424));
 
@@ -1041,6 +1047,7 @@ public class Home extends javax.swing.JFrame {
         jLabel2.setText("Thông tin sách mượn");
         panel_sachMuon.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 14, 390, -1));
 
+        tbl_sachMuon.setBackground(new java.awt.Color(203, 228, 222));
         tbl_sachMuon.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         tbl_sachMuon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1079,12 +1086,13 @@ public class Home extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbl_sachMuon.setGridColor(new java.awt.Color(204, 204, 204));
+        tbl_sachMuon.setGridColor(new java.awt.Color(102, 102, 0));
         tbl_sachMuon.setPreferredSize(new java.awt.Dimension(500, 300));
+        tbl_sachMuon.setRowHeight(23);
+        tbl_sachMuon.setRowMargin(2);
         tbl_sachMuon.setSelectionBackground(new java.awt.Color(0, 204, 102));
+        tbl_sachMuon.setSelectionForeground(new java.awt.Color(255, 255, 255));
         tbl_sachMuon.setShowGrid(false);
-        tbl_sachMuon.setShowHorizontalLines(true);
-        tbl_sachMuon.setShowVerticalLines(true);
         tbl_sachMuon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_sachMuonMouseClicked(evt);
@@ -1100,8 +1108,9 @@ public class Home extends javax.swing.JFrame {
         jScrollPane5.setViewportView(tbl_sachMuon);
         if (tbl_sachMuon.getColumnModel().getColumnCount() > 0) {
             tbl_sachMuon.getColumnModel().getColumn(0).setPreferredWidth(455);
+            tbl_sachMuon.getColumnModel().getColumn(1).setPreferredWidth(100);
         }
-        tbl_sachMuon.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        tbl_sachMuon.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
 
         panel_sachMuon.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 370, 260));
 
@@ -1611,7 +1620,12 @@ public class Home extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tbl_DocGia);
         if (tbl_DocGia.getColumnModel().getColumnCount() > 0) {
-            tbl_DocGia.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tbl_DocGia.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tbl_DocGia.getColumnModel().getColumn(0).setMaxWidth(100);
+            tbl_DocGia.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tbl_DocGia.getColumnModel().getColumn(2).setMaxWidth(100);
+            tbl_DocGia.getColumnModel().getColumn(3).setPreferredWidth(200);
+            tbl_DocGia.getColumnModel().getColumn(3).setMaxWidth(200);
         }
 
         rightPanelDocGia.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 387, 1190, 424));
@@ -2504,11 +2518,8 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_DocGiaMousePressed
 
     private void btm_editDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editDocGiaMouseClicked
-        Constraint c = new Constraint(this);
-        if (c.DocGiaValidate() == true) {
-            UpdateDocGiaController upd = new UpdateDocGiaController(this);
-            upd.Update();
-        }
+        UpdateDocGiaController upd = new UpdateDocGiaController(this);
+        upd.Update();
         ShowDocGia.getInstance().showDocGia(DocGTableModel);
     }//GEN-LAST:event_btm_editDocGiaMouseClicked
 
@@ -2694,7 +2705,10 @@ public class Home extends javax.swing.JFrame {
             if (SachMuonTempTableModel.getRowCount() <= i) {
                 sl_cu = 0;
             } else {
-                sl_cu = Integer.parseInt(SachMuonTempTableModel.getValueAt(i, 1).toString());
+                try {
+                    sl_cu = Integer.parseInt(SachMuonTempTableModel.getValueAt(i, 1).toString());
+                } catch (Exception e){          
+                }
             }
             int sl = s.getSoLuong() + sl_cu;
             if (num > sl) {
