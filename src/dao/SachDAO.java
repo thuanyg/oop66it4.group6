@@ -137,23 +137,16 @@ public class SachDAO implements DAOInterface<Sach> {
     }
 
     @Override
-    public Sach selectById(Sach t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public ArrayList<Sach> Search(String s) {
-        ArrayList<Sach> arr = new ArrayList<>();
+        ArrayList<Sach> ketQua = new ArrayList<>();
         try {
             Connection connection = JDBCUtil.getConnection();
-//            JDBCUtil.printInfo(connection);
-            Statement st = connection.createStatement();
-            String sql = "SELECT * FROM Sach WHERE Ten_Sach like N'%" + s 
-                    + "%' OR Ma_Sach like N'%" + s + "%' OR The_Loai like N'%" + s + "%' OR Ten_TG like N'%" + s 
-                    + "%' OR NamXB like N'%" + s + "%' OR NhaXB like N'%" + s + "%' OR SL like N'%" + s 
-                    + "%' OR Gia_Sach like N'%" + s + "%'";
-            System.out.println(sql);
-            ResultSet rs = st.executeQuery(sql);
+            // Tìm kiếm theo mã hoặc tên
+            String sql = "SELECT * FROM Sach WHERE Ma_Sach LIKE Concat('%',?,'%') Or Ten_Sach LIKE Concat('%',?,'%')";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, s);
+            pst.setString(2, s);
+            ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("Ma_Sach");
                 String tenSach = rs.getString("Ten_Sach");
@@ -164,22 +157,23 @@ public class SachDAO implements DAOInterface<Sach> {
                 int soL = rs.getInt("SL");
                 float gia = rs.getFloat("Gia_Sach");
                 Sach sach = new Sach(id, tenSach, theLoai, tacGia, namXB, nhaXB, soL, gia);
-                arr.add(sach);
+                ketQua.add(sach);
             }
+
             JDBCUtil.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return arr;
+        return ketQua;
     }
 
-    public void SearchWithoutDB(Home home,String c) {
+    public void SearchWithoutDB(Home home, String c) {
         TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(home.getSachTableModel());
         home.getTbl_Sach().setRowSorter(trs);
         trs.setRowFilter(RowFilter.regexFilter(c));
     }
-    
-    public ArrayList<Sach> SortByName(){
+
+    public ArrayList<Sach> SortByName() {
         ArrayList<Sach> results = new ArrayList<>();
         try {
             Connection connection = JDBCUtil.getConnection();
@@ -205,7 +199,8 @@ public class SachDAO implements DAOInterface<Sach> {
         }
         return results;
     }
-    public ArrayList<Sach> SortByMaSach(){
+
+    public ArrayList<Sach> SortByMaSach() {
         ArrayList<Sach> SMaSach = new ArrayList<>();
         try {
             Connection connection = JDBCUtil.getConnection();
@@ -231,7 +226,8 @@ public class SachDAO implements DAOInterface<Sach> {
         }
         return SMaSach;
     }
-    public ArrayList<Sach> SortBySoLuong(){
+
+    public ArrayList<Sach> SortBySoLuong() {
         ArrayList<Sach> Ssoluong = new ArrayList<>();
         try {
             Connection connection = JDBCUtil.getConnection();
@@ -257,7 +253,8 @@ public class SachDAO implements DAOInterface<Sach> {
         }
         return Ssoluong;
     }
-    public ArrayList<Sach> SortByGia(){
+
+    public ArrayList<Sach> SortByGia() {
         ArrayList<Sach> SGia = new ArrayList<>();
         try {
             Connection connection = JDBCUtil.getConnection();
@@ -283,7 +280,8 @@ public class SachDAO implements DAOInterface<Sach> {
         }
         return SGia;
     }
-    public ArrayList<Sach> SortByTheLoai(){
+
+    public ArrayList<Sach> SortByTheLoai() {
         ArrayList<Sach> STheLoai = new ArrayList<>();
         try {
             Connection connection = JDBCUtil.getConnection();
@@ -309,7 +307,8 @@ public class SachDAO implements DAOInterface<Sach> {
         }
         return STheLoai;
     }
-    public ArrayList<Sach> SortByTacGia(){
+
+    public ArrayList<Sach> SortByTacGia() {
         ArrayList<Sach> STacGia = new ArrayList<>();
         try {
             Connection connection = JDBCUtil.getConnection();
@@ -335,7 +334,8 @@ public class SachDAO implements DAOInterface<Sach> {
         }
         return STacGia;
     }
-    public ArrayList<Sach> SortByNhaXb(){
+
+    public ArrayList<Sach> SortByNhaXb() {
         ArrayList<Sach> SNhaXB = new ArrayList<>();
         try {
             Connection connection = JDBCUtil.getConnection();
@@ -360,5 +360,34 @@ public class SachDAO implements DAOInterface<Sach> {
             e.printStackTrace();
         }
         return SNhaXB;
+    }
+
+    @Override
+    public Sach selectById(int id) {
+        Sach ss = null;
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM Sach WHERE Ma_Sach = ?";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int idS = rs.getInt("Ma_Sach");
+                String tenSach = rs.getString("Ten_Sach");
+                String theLoai = rs.getString("The_Loai");
+                String tacGia = rs.getString("Ten_TG");
+                int namXB = rs.getInt("NamXB");
+                String nhaXB = rs.getString("NhaXB");
+                int soL = rs.getInt("SL");
+                float gia = rs.getFloat("Gia_Sach");
+                Sach s = new Sach(idS, tenSach, theLoai, tacGia, namXB, nhaXB, soL, gia);
+                ss = s;
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ss;
     }
 }

@@ -40,6 +40,7 @@ import controller.DeletePhieuMuon;
 import controller.InsertBookController;
 import controller.InsertDocGiaController;
 import controller.InsertPhieu_Muon;
+import controller.InsertSachPhieuMuon;
 import controller.ShowPhieuMuon;
 import controller.UpdateBookController;
 import controller.UpdateDocGiaController;
@@ -71,9 +72,12 @@ import model.DocGia;
  */
 public class Home extends javax.swing.JFrame {
 
-    DefaultTableModel SachTableModel, SachMuonTableModel, SachMuonTempTableModel, DocGTableModel, PhieuMuonTableModel;
+    DefaultTableModel SachTableModel, SachMuonTableModel, SachMuonTempTableModel,
+            SachMuonMoiThemTableModel, DocGTableModel, PhieuMuonTableModel;
     List<String> listSachMuon = new ArrayList<>();
+    List<String> listSachMuonMoiThem = new ArrayList<>();
     List<Integer> listSoLuongMuon = new ArrayList<>();
+    List<Integer> listSoLuongMuonMoiThem = new ArrayList<>();
     private int indexSelectRow;
 
     public Home() {
@@ -92,6 +96,7 @@ public class Home extends javax.swing.JFrame {
         DocGTableModel = (DefaultTableModel) tbl_DocGia.getModel();
         PhieuMuonTableModel = (DefaultTableModel) tbl_PhieuMuon.getModel();
         SachMuonTempTableModel = (DefaultTableModel) tbl_sachMuonTemp.getModel();
+        SachMuonMoiThemTableModel = (DefaultTableModel) tbl_sachMuonMoiThem.getModel();
         ShowBookOnCombobox();
         ShowDocGiaOnCombobox();
         // Add placeholder
@@ -235,9 +240,11 @@ public class Home extends javax.swing.JFrame {
 
         buttonGroupGender = new javax.swing.ButtonGroup();
         barChart = new javax.swing.JFrame();
+        btn_deleteControl = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tbl_sachMuonMoiThem = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
         tbl_sachMuonTemp = new javax.swing.JTable();
-        btn_deleteControl = new javax.swing.JPanel();
         rightPanelSach = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Sach = new javax.swing.JTable();
@@ -395,6 +402,73 @@ public class Home extends javax.swing.JFrame {
             .addGap(0, 376, Short.MAX_VALUE)
         );
 
+        btn_deleteControl.setBackground(new java.awt.Color(242, 247, 251));
+
+        javax.swing.GroupLayout btn_deleteControlLayout = new javax.swing.GroupLayout(btn_deleteControl);
+        btn_deleteControl.setLayout(btn_deleteControlLayout);
+        btn_deleteControlLayout.setHorizontalGroup(
+            btn_deleteControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 120, Short.MAX_VALUE)
+        );
+        btn_deleteControlLayout.setVerticalGroup(
+            btn_deleteControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        tbl_sachMuonMoiThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbl_sachMuonMoiThem.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Mã - Tên Sách", "SL"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_sachMuonMoiThem.setGridColor(new java.awt.Color(204, 204, 204));
+        tbl_sachMuonMoiThem.setPreferredSize(new java.awt.Dimension(500, 300));
+        tbl_sachMuonMoiThem.setSelectionBackground(new java.awt.Color(0, 204, 102));
+        tbl_sachMuonMoiThem.setShowGrid(false);
+        tbl_sachMuonMoiThem.setShowHorizontalLines(true);
+        tbl_sachMuonMoiThem.setShowVerticalLines(true);
+        tbl_sachMuonMoiThem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_sachMuonMoiThemMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tbl_sachMuonMoiThem);
+        if (tbl_sachMuonMoiThem.getColumnModel().getColumnCount() > 0) {
+            tbl_sachMuonMoiThem.getColumnModel().getColumn(0).setPreferredWidth(455);
+        }
+
         tbl_sachMuonTemp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tbl_sachMuonTemp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -449,19 +523,6 @@ public class Home extends javax.swing.JFrame {
             tbl_sachMuonTemp.getColumnModel().getColumn(0).setPreferredWidth(455);
         }
         tbl_sachMuonTemp.setVisible(false);
-
-        btn_deleteControl.setBackground(new java.awt.Color(242, 247, 251));
-
-        javax.swing.GroupLayout btn_deleteControlLayout = new javax.swing.GroupLayout(btn_deleteControl);
-        btn_deleteControl.setLayout(btn_deleteControlLayout);
-        btn_deleteControlLayout.setHorizontalGroup(
-            btn_deleteControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
-        );
-        btn_deleteControlLayout.setVerticalGroup(
-            btn_deleteControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home - Library Management System");
@@ -2225,6 +2286,13 @@ public class Home extends javax.swing.JFrame {
                 check = false;
             }
         }
+        for (int i = 0; i < tbl_sachMuon.getRowCount() && tbl_sachMuon.getRowCount() != 0; i++) {
+            if (tbl_sachMuon.getValueAt(i, 0).equals(item.toString())) {
+                check = false;
+                JOptionPane.showMessageDialog(this, "Sách này đã được thêm trước đó!");
+                break;
+            }
+        }
         String c = null;
         if (check == true) {
             c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "0");
@@ -2239,7 +2307,7 @@ public class Home extends javax.swing.JFrame {
         for (int i = 0; i < listSach.size() && !listSach.isEmpty(); i++) {
             if (Integer.parseInt(idSach_cbx[0]) == listSach.get(i).getId()) {
                 if (Integer.parseInt(c) > listSach.get(i).getSoLuong()) {
-                    JOptionPane.showMessageDialog(rightPanelPhieuMuon, "Vượt quá số sách hiện có! (Hiện có " 
+                    JOptionPane.showMessageDialog(rightPanelPhieuMuon, "Vượt quá số sách hiện có! (Hiện có "
                             + listSach.get(i).getSoLuong() + " cuốn " + item.toString() + ")");
                     check = false;
                     break;
@@ -2249,12 +2317,19 @@ public class Home extends javax.swing.JFrame {
 
         if (check == true) {
             listSachMuon.add((String) item);
+            listSachMuonMoiThem.add((String) item);
             listSoLuongMuon.add(Integer.parseInt(c));
+            listSoLuongMuonMoiThem.add(Integer.parseInt(c));
             panel_sachMuon.setVisible(true);
         }
         SachMuonTableModel.setRowCount(0);
         listSachMuon.forEach((list) -> {
             SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+        });
+        /// Copy dữ liệu mới thêm vào bảng tạm để Cập nhật số lượng sách
+        SachMuonMoiThemTableModel.setRowCount(0);
+        listSachMuonMoiThem.forEach((list) -> {
+            SachMuonMoiThemTableModel.addRow(new Object[]{list, listSoLuongMuonMoiThem.get(listSachMuonMoiThem.indexOf(list))});
         });
         lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
     }//GEN-LAST:event_cbx_BooksActionPerformed
@@ -2527,10 +2602,10 @@ public class Home extends javax.swing.JFrame {
 
     private void btn_insertBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook2MouseClicked
         InsertPhieu_Muon ins = new InsertPhieu_Muon(this);
-
+        UpdateBookController upd = new UpdateBookController(this);
         try {
             ins.InsertPhieu_Muon();
-
+            upd.UpdateSoLuongInsertPM();
         } catch (ParseException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -2569,7 +2644,9 @@ public class Home extends javax.swing.JFrame {
 
     private void btm_editPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editPMMouseClicked
         UpdatePhieuMuonController upd = new UpdatePhieuMuonController(this);
+        UpdateBookController upd2 = new UpdateBookController(this);
         upd.Update();
+        upd2.UpdateSoLuongUpdatePM();
     }//GEN-LAST:event_btm_editPMMouseClicked
 
     private void tbl_sachMuonTempMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonTempMouseClicked
@@ -2591,14 +2668,27 @@ public class Home extends javax.swing.JFrame {
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         listSoLuongMuon.clear();
+        listSoLuongMuonMoiThem.clear();
         for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
             int num = Integer.parseInt(SachMuonTableModel.getValueAt(i, 1).toString());
             listSoLuongMuon.add(num);
         }
-        // Check listSoLMuon
-//        for (Integer integer : listSoLuongMuon) {
-//            System.out.println(integer);
-//        }   
+        // Cập nhật số lượng mới sửa của các sách
+        for (int i = SachMuonTableModel.getRowCount() - SachMuonMoiThemTableModel.getRowCount(); i < SachMuonTableModel.getRowCount(); i++) {
+            int num = Integer.parseInt(SachMuonTableModel.getValueAt(i, 1).toString());
+            listSoLuongMuonMoiThem.add(num);
+        }
+        // Update bảng tạm sách mới thêm
+        SachMuonMoiThemTableModel.setRowCount(0);
+        listSachMuonMoiThem.forEach((list) -> {
+            SachMuonMoiThemTableModel.addRow(new Object[]{list, listSoLuongMuonMoiThem.get(listSachMuonMoiThem.indexOf(list))});
+        });
+        // Update bảng sách cũ bảng SachMuon sang bảng Temp
+//        SachMuonTempTableModel.setRowCount(0);
+//        listSachMuon.forEach((list) -> {
+//            SachMuonTempTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+//        });
+        // Update bảng Sách Mượn 
         SachMuonTableModel.setRowCount(0);
         listSachMuon.forEach((list) -> {
             SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
@@ -2651,6 +2741,10 @@ public class Home extends javax.swing.JFrame {
     private void txtSearchPhieuMuonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchPhieuMuonKeyReleased
+
+    private void tbl_sachMuonMoiThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonMoiThemMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbl_sachMuonMoiThemMouseClicked
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
@@ -3368,7 +3462,6 @@ public class Home extends javax.swing.JFrame {
         return cbxSortPhieuMuon;
     }
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DashbroadOnTop;
@@ -3437,6 +3530,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -3501,6 +3595,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTable tbl_PhieuMuon;
     private javax.swing.JTable tbl_Sach;
     private javax.swing.JTable tbl_sachMuon;
+    private javax.swing.JTable tbl_sachMuonMoiThem;
     private javax.swing.JTable tbl_sachMuonTemp;
     private javax.swing.JTextField txtAuthor;
     private javax.swing.JTextField txtBookName;

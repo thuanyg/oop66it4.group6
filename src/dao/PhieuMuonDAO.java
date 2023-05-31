@@ -117,11 +117,6 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
     }
 
     @Override
-    public PhieuMuon selectById(PhieuMuon t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public ArrayList<PhieuMuon> Search(String s) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -244,6 +239,11 @@ public class PhieuMuonDAO implements DAOInterface<PhieuMuon> {
             Logger.getLogger(PhieuMuonDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
+    }
+
+    @Override
+    public PhieuMuon selectById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
