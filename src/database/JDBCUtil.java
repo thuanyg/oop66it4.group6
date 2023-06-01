@@ -16,8 +16,8 @@ import java.sql.SQLException;
 public class JDBCUtil {
     ///NAM BLUE CODE
     private static final String url = "jdbc:sqlserver://localhost:1432;databaseName=DB_Library;encrypt=false;integratedSecurity=true";
-    private static final String user = "admin";
-    private static final String password = "12345";
+    private static final String user = "hieubeo0017";
+    private static final String password = "123456";
 
     public static Connection getConnection() {
         Connection c = null;

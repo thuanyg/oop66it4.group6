@@ -9,7 +9,6 @@ import controller.Dashboard;
 import controller.ShowBooks;
 import global.Username;
 import dao.SachDAO;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,26 +32,43 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.Sach;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
-import static analysService.BarChart.createChart;
 import com.toedter.calendar.JDateChooser;
 import controller.Constraint;
 import controller.DeleteBookController;
+import controller.DeleteDocGiaController;
+import controller.DeletePhieuMuon;
 import controller.InsertBookController;
-import controller.InsertDocGia;
+import controller.InsertDocGiaController;
+import controller.InsertPhieu_Muon;
+import controller.InsertSachPhieuMuon;
+import controller.KeyReleasedCheck;
+import controller.SearchDocGiaController;
+import controller.SearchPhieuMuonController;
+import controller.ShowPhieuMuon;
 import controller.UpdateBookController;
-import controller.showDocGia;
-import java.awt.Point;
+import controller.UpdateDocGiaController;
+import controller.ShowDocGia;
+import controller.SortBookController;
+import controller.SortPhieuMuonController;
+import controller.UpdatePhieuMuonController;
+import dao.DocGiaDAO;
+import database.JDBCUtil;
+import java.awt.HeadlessException;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
+import model.DocGia;
 
 /**
  *
@@ -61,9 +76,12 @@ import javax.swing.JRadioButton;
  */
 public class Home extends javax.swing.JFrame {
 
-    DefaultTableModel SachTableModel, SachMuonTableModel, DocGTableModel;
+    DefaultTableModel SachTableModel, SachMuonTableModel, SachMuonTempTableModel,
+            SachMuonMoiThemTableModel, DocGTableModel, PhieuMuonTableModel;
     List<String> listSachMuon = new ArrayList<>();
+    List<String> listSachMuonMoiThem = new ArrayList<>();
     List<Integer> listSoLuongMuon = new ArrayList<>();
+    List<Integer> listSoLuongMuonMoiThem = new ArrayList<>();
     private int indexSelectRow;
 
     public Home() {
@@ -77,12 +95,14 @@ public class Home extends javax.swing.JFrame {
         } catch (Exception e) {
         }
         initComponents();
-
         SachTableModel = (DefaultTableModel) tbl_Sach.getModel();
         SachMuonTableModel = (DefaultTableModel) tbl_sachMuon.getModel();
         DocGTableModel = (DefaultTableModel) tbl_DocGia.getModel();
-//        ShowBook();
+        PhieuMuonTableModel = (DefaultTableModel) tbl_PhieuMuon.getModel();
+        SachMuonTempTableModel = (DefaultTableModel) tbl_sachMuonTemp.getModel();
+        SachMuonMoiThemTableModel = (DefaultTableModel) tbl_sachMuonMoiThem.getModel();
         ShowBookOnCombobox();
+        ShowDocGiaOnCombobox();
         // Add placeholder
         AddPlaceHolderStyle(txtSearchBook);
         AddPlaceHolderStyle(txtSearchDocGia);
@@ -97,116 +117,6 @@ public class Home extends javax.swing.JFrame {
 
     }
 
-//    public void showPieChart() {
-//
-//        //create dataset
-//        DefaultPieDataset barDataset = new DefaultPieDataset();
-//        barDataset.setValue("IPhone 5s", new Double(20));
-//        barDataset.setValue("SamSung Grand", new Double(20));
-//        barDataset.setValue("MotoG", new Double(40));
-//        barDataset.setValue("Nokia Lumia", new Double(10));
-//
-//        //create chart
-//        JFreeChart piechart = ChartFactory.createPieChart("mobile sales", barDataset, false, true, false);//explain
-//
-//        PiePlot piePlot = (PiePlot) piechart.getPlot();
-//
-//        //changing pie chart blocks colors
-//        piePlot.setSectionPaint("IPhone 5s", new Color(255, 255, 102));
-//        piePlot.setSectionPaint("SamSung Grand", new Color(102, 255, 102));
-//        piePlot.setSectionPaint("MotoG", new Color(255, 102, 153));
-//        piePlot.setSectionPaint("Nokia Lumia", new Color(0, 204, 204));
-//
-//        piePlot.setBackgroundPaint(Color.white);
-//
-//        //create chartPanel to display chart(graph)
-//        ChartPanel barChartPanel = new ChartPanel(piechart);
-//        panelBarChart.removeAll();
-//        panelBarChart.add(barChartPanel, BorderLayout.CENTER);
-//        panelBarChart.validate();
-//    }
-
-    /*=============================================================================*/
-//    public void showLineChart() {
-//        //create dataset for the graph
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//        dataset.setValue(200, "Amoun", "january");
-//        dataset.setValue(150, "Amoun", "february");
-//        dataset.setValue(18, "Amount", "march");
-//        dataset.setValue(100, "Amount", "april");
-//        dataset.setValue(80, "Amount", "may");
-//        dataset.setValue(250, "Amount", "june");
-//
-//        //create chart
-//        JFreeChart linechart = ChartFactory.createLineChart("contribution", "monthly", "amount",
-//                dataset, PlotOrientation.VERTICAL, false, true, false);
-//
-//        //create plot object
-//        CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
-//        // lineCategoryPlot.setRangeGridlinePaint(Color.BLUE);
-//        lineCategoryPlot.setBackgroundPaint(Color.white);
-//
-//        //create render object to change the moficy the line properties like color
-//        LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer) lineCategoryPlot.getRenderer();
-//        Color lineChartColor = new Color(204, 0, 51);
-//        lineRenderer.setSeriesPaint(0, lineChartColor);
-//
-//        //create chartPanel to display chart(graph)
-//        ChartPanel lineChartPanel = new ChartPanel(linechart);
-//        
-//        panelBarChart.add(lineChartPanel, BorderLayout.CENTER);
-//        panelBarChart.validate();
-//    }
-
-    /*========================================================================================*/
-//    public void showHistogram() {
-//
-//        double[] values = {95, 49, 14, 59, 50, 66, 47, 40, 1, 67,
-//            12, 58, 28, 63, 14, 9, 31, 17, 94, 71,
-//            49, 64, 73, 97, 15, 63, 10, 12, 31, 62,
-//            93, 49, 74, 90, 59, 14, 15, 88, 26, 57,
-//            77, 44, 58, 91, 10, 67, 57, 19, 88, 84
-//        };
-//
-//        HistogramDataset dataset = new HistogramDataset();
-//        dataset.addSeries("key", values, 20);
-//
-//        JFreeChart chart = ChartFactory.createHistogram("JFreeChart Histogram", "Data", "Frequency", dataset, PlotOrientation.VERTICAL, false, true, false);
-//        XYPlot plot = chart.getXYPlot();
-//        plot.setBackgroundPaint(Color.WHITE);
-//
-//        ChartPanel barpChartPanel2 = new ChartPanel(chart);
-//        jPanel3.removeAll();
-//        jPanel3.add(barpChartPanel2, BorderLayout.CENTER);
-//        jPanel3.validate();
-//    }
-
-    /*========================================================================================*/
-//    public void showBarChart() {
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//        dataset.setValue(200, "Amount", "january");
-//        dataset.setValue(150, "Amount", "february");
-//        dataset.setValue(18, "Amount", "march");
-//        dataset.setValue(100, "Amount", "april");
-//        dataset.setValue(80, "Amount", "may");
-//        dataset.setValue(250, "Amount", "june");
-//
-//        JFreeChart chart = ChartFactory.createBarChart("contribution", "monthly", "amount",
-//                dataset, PlotOrientation.VERTICAL, false, true, false);
-//
-//        CategoryPlot categoryPlot = chart.getCategoryPlot();
-//        //categoryPlot.setRangeGridlinePaint(Color.BLUE);
-//        categoryPlot.setBackgroundPaint(Color.WHITE);
-//        BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
-//        Color clr3 = new Color(204, 0, 51);
-//        renderer.setSeriesPaint(0, clr3);
-//
-//        ChartPanel barpChartPanel = new ChartPanel(chart);
-//        panelBarChart.removeAll();
-//        panelBarChart.add(barpChartPanel, BorderLayout.CENTER);
-//        panelBarChart.validate();
-//
-//    }
     public void SetStatusButton(JButton btn) {
         if (tbl_Sach.getSelectedRow() != -1) {
             btn.setEnabled(true);
@@ -216,7 +126,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public void AddTableStyle(JTable table) {
-        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
         table.getTableHeader().setOpaque(false);
         table.getTableHeader().setBackground(Color.decode("#159957"));
         table.getTableHeader().setForeground(new Color(255, 255, 255));
@@ -262,20 +172,51 @@ public class Home extends javax.swing.JFrame {
         jtf.setForeground(Color.BLACK);
     }
 
-//    public void ShowBook() {
+    public void UpdateBookOnCombobox() {
 //        List<Sach> listSach = SachDAO.getInstant().selectAll();
-//        SachTableModel.setRowCount(0);
-//        listSach.forEach((sach) -> {
-//            SachTableModel.addRow(new Object[]{sach.getId(),
-//                sach.getTenSach(), sach.getTheLoai(), sach.getTacGia(), sach.getNamXB(),
-//                sach.getNhaXB(), sach.getSoLuong(), sach.getGiaSach()});
-//        });
-//        
-//    }
+//        String lastItem = "" + String.valueOf(listSach.get(listSach.size() - 1).getId()) + " | "
+//                + listSach.get(listSach.size() - 1).getTenSach();
+//        if (!cbx_Books.getItemAt(cbx_Books.getItemCount() - 1).toString().equals(lastItem)) {
+//            cbx_Books.addItem(lastItem);
+//        }
+        cbx_Books.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        cbx_Books.setMaximumRowCount(26);
+
+        cbx_Books.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"None"}));
+
+        cbx_Books.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        cbx_Books.setKeySelectionManager(null);
+        ShowBookOnCombobox();
+    }
+
+    public void UpdateDocGiaOnCombobox() {
+        cbx_DocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        cbx_DocGia.setMaximumRowCount(26);
+
+        cbx_DocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"None"}));
+
+        cbx_DocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        cbx_DocGia.setKeySelectionManager(null);
+
+        ShowDocGiaOnCombobox();
+    }
+
     public void ShowBookOnCombobox() {
         List<Sach> listSach = SachDAO.getInstant().selectAll();
         listSach.forEach((sach) -> {
             cbx_Books.addItem("" + String.valueOf(sach.getId()) + " | " + sach.getTenSach());
+        });
+    }
+
+    public void ShowDocGiaOnCombobox() {
+
+        List<DocGia> listDocGia = DocGiaDAO.getInstant().selectAll();
+        listDocGia.forEach((d) -> {
+            cbx_DocGia.addItem("" + String.valueOf(d.getMDG()) + " | " + d.getHo_Ten());
         });
     }
 
@@ -303,17 +244,11 @@ public class Home extends javax.swing.JFrame {
 
         buttonGroupGender = new javax.swing.ButtonGroup();
         barChart = new javax.swing.JFrame();
-        rightPanelThongke = new javax.swing.JPanel();
-        DashbroadOnTop = new javax.swing.JPanel();
-        btn_moreInfoBook = new javax.swing.JLabel();
-        btn_moreInfoPM = new javax.swing.JLabel();
-        btn_moreInfoDocGia = new javax.swing.JLabel();
-        lb_tongSachCon = new javax.swing.JLabel();
-        lb_tongNguoiMuon = new javax.swing.JLabel();
-        lb_tongSachDuocMuon = new javax.swing.JLabel();
-        img_dashbroard = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jPanelForBarChart = new javax.swing.JPanel();
+        btn_deleteControl = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tbl_sachMuonMoiThem = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tbl_sachMuonTemp = new javax.swing.JTable();
         rightPanelSach = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Sach = new javax.swing.JTable();
@@ -338,10 +273,54 @@ public class Home extends javax.swing.JFrame {
         pnl = new javax.swing.JPanel();
         btn_insertBook = new javax.swing.JButton();
         btm_editBook = new javax.swing.JButton();
-        btn_delBook = new javax.swing.JButton();
         btn_reseBook = new javax.swing.JButton();
         lb_SortBy = new javax.swing.JLabel();
         cbxSortBook = new javax.swing.JComboBox<>();
+        btn_deleteBook = new javax.swing.JButton();
+        rightPanelPhieuMuon = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbl_PhieuMuon = new javax.swing.JTable();
+        cbx_DocGia = new javax.swing.JComboBox<>();
+        cbx_Books = new javax.swing.JComboBox<>();
+        lb_chooseBook = new javax.swing.JLabel();
+        lb_search = new javax.swing.JLabel();
+        lb_IdBook1 = new javax.swing.JLabel();
+        lb_IdBook4 = new javax.swing.JLabel();
+        txtMaPhieuMuon = new javax.swing.JTextField();
+        lb_IdBook2 = new javax.swing.JLabel();
+        txtIdBook2 = new javax.swing.JTextField();
+        btn_insertBook2 = new javax.swing.JButton();
+        btm_editPM = new javax.swing.JButton();
+        btn_delBook2 = new javax.swing.JButton();
+        lb_IdBook5 = new javax.swing.JLabel();
+        btn_resetPM = new javax.swing.JButton();
+        panel_sachMuon = new javax.swing.JPanel();
+        jSeparator3 = new javax.swing.JSeparator();
+        lb_tick = new javax.swing.JLabel();
+        lablelTongSach = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tbl_sachMuon = new javax.swing.JTable();
+        btn_clear = new javax.swing.JButton();
+        btn_save = new javax.swing.JButton();
+        lb_IdBook6 = new javax.swing.JLabel();
+        dateChooseNgayTra = new com.toedter.calendar.JDateChooser();
+        dateChooseNgayMuon = new com.toedter.calendar.JDateChooser();
+        dateChooseNgayHenTra = new com.toedter.calendar.JDateChooser();
+        lb_SortBy2 = new javax.swing.JLabel();
+        cbxSortPhieuMuon = new javax.swing.JComboBox<>();
+        txtSearchPhieuMuon = new javax.swing.JTextField();
+        rightPanelThongke = new javax.swing.JPanel();
+        DashbroadOnTop = new javax.swing.JPanel();
+        btn_moreInfoBook = new javax.swing.JLabel();
+        btn_moreInfoPM = new javax.swing.JLabel();
+        btn_moreInfoDocGia = new javax.swing.JLabel();
+        lb_tongSachCon = new javax.swing.JLabel();
+        lb_tongNguoiMuon = new javax.swing.JLabel();
+        lb_tongSachDuocMuon = new javax.swing.JLabel();
+        img_dashbroard = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanelForBarChart = new javax.swing.JPanel();
         leftPanel = new javax.swing.JPanel();
         HeadingHome = new javax.swing.JLabel();
         logOutIcon = new javax.swing.JLabel();
@@ -377,8 +356,8 @@ public class Home extends javax.swing.JFrame {
         txtCCCD = new javax.swing.JTextField();
         txtSDT = new javax.swing.JTextField();
         lb_bookQuantity1 = new javax.swing.JLabel();
-        btn_delBook1 = new javax.swing.JButton();
-        btn_insertBook1 = new javax.swing.JButton();
+        btn_xoaDocGia = new javax.swing.JButton();
+        btn_insertDocGia = new javax.swing.JButton();
         lb_SortBy1 = new javax.swing.JLabel();
         cbxSortDocGia = new javax.swing.JComboBox<>();
         SearchDocGia = new javax.swing.JPanel();
@@ -387,31 +366,6 @@ public class Home extends javax.swing.JFrame {
         rdNu = new javax.swing.JRadioButton();
         rdNam = new javax.swing.JRadioButton();
         dateChoose = new com.toedter.calendar.JDateChooser();
-        rightPanelPhieuMuon = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tbl_PhieuMuon = new javax.swing.JTable();
-        cbx_Books = new javax.swing.JComboBox<>();
-        lb_chooseBook = new javax.swing.JLabel();
-        lb_search = new javax.swing.JLabel();
-        lb_IdBook1 = new javax.swing.JLabel();
-        txtNgayMuon = new javax.swing.JTextField();
-        lb_IdBook4 = new javax.swing.JLabel();
-        txtMaPhieuMuon = new javax.swing.JTextField();
-        lb_IdBook2 = new javax.swing.JLabel();
-        txtIdBook2 = new javax.swing.JTextField();
-        btn_insertBook2 = new javax.swing.JButton();
-        btm_editBook1 = new javax.swing.JButton();
-        btn_delBook2 = new javax.swing.JButton();
-        lb_IdBook5 = new javax.swing.JLabel();
-        txtNgayMuon1 = new javax.swing.JTextField();
-        btn_resetPM = new javax.swing.JButton();
-        panel_sachMuon = new javax.swing.JPanel();
-        jSeparator3 = new javax.swing.JSeparator();
-        lablelTongSach = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        tbl_sachMuon = new javax.swing.JTable();
-        btn_save = new javax.swing.JButton();
         rightPanelInfo = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         lb_HelloUser1 = new javax.swing.JLabel();
@@ -453,8 +407,131 @@ public class Home extends javax.swing.JFrame {
             .addGap(0, 376, Short.MAX_VALUE)
         );
 
+        btn_deleteControl.setBackground(new java.awt.Color(242, 247, 251));
+
+        javax.swing.GroupLayout btn_deleteControlLayout = new javax.swing.GroupLayout(btn_deleteControl);
+        btn_deleteControl.setLayout(btn_deleteControlLayout);
+        btn_deleteControlLayout.setHorizontalGroup(
+            btn_deleteControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 120, Short.MAX_VALUE)
+        );
+        btn_deleteControlLayout.setVerticalGroup(
+            btn_deleteControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        tbl_sachMuonMoiThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbl_sachMuonMoiThem.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Mã - Tên Sách", "SL"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_sachMuonMoiThem.setGridColor(new java.awt.Color(204, 204, 204));
+        tbl_sachMuonMoiThem.setPreferredSize(new java.awt.Dimension(500, 300));
+        tbl_sachMuonMoiThem.setSelectionBackground(new java.awt.Color(0, 204, 102));
+        tbl_sachMuonMoiThem.setShowGrid(false);
+        tbl_sachMuonMoiThem.setShowHorizontalLines(true);
+        tbl_sachMuonMoiThem.setShowVerticalLines(true);
+        tbl_sachMuonMoiThem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_sachMuonMoiThemMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tbl_sachMuonMoiThem);
+        if (tbl_sachMuonMoiThem.getColumnModel().getColumnCount() > 0) {
+            tbl_sachMuonMoiThem.getColumnModel().getColumn(0).setPreferredWidth(455);
+        }
+
+        tbl_sachMuonTemp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbl_sachMuonTemp.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Mã - Tên Sách", "SL"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_sachMuonTemp.setGridColor(new java.awt.Color(204, 204, 204));
+        tbl_sachMuonTemp.setPreferredSize(new java.awt.Dimension(500, 300));
+        tbl_sachMuonTemp.setSelectionBackground(new java.awt.Color(0, 204, 102));
+        tbl_sachMuonTemp.setShowGrid(false);
+        tbl_sachMuonTemp.setShowHorizontalLines(true);
+        tbl_sachMuonTemp.setShowVerticalLines(true);
+        tbl_sachMuonTemp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_sachMuonTempMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tbl_sachMuonTemp);
+        if (tbl_sachMuonTemp.getColumnModel().getColumnCount() > 0) {
+            tbl_sachMuonTemp.getColumnModel().getColumn(0).setPreferredWidth(455);
+        }
+        tbl_sachMuonTemp.setVisible(false);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home - Library Management System");
+        setBackground(new java.awt.Color(203, 228, 222));
         setResizable(false);
         addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener() {
             public void ancestorMoved(java.awt.event.HierarchyEvent evt) {
@@ -463,6 +540,705 @@ public class Home extends javax.swing.JFrame {
             public void ancestorResized(java.awt.event.HierarchyEvent evt) {
             }
         });
+
+        rightPanelSach.setBackground(new java.awt.Color(242, 247, 251));
+        rightPanelSach.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane1.setBackground(new java.awt.Color(203, 228, 222));
+
+        tbl_Sach.setBackground(new java.awt.Color(203, 228, 222));
+        tbl_Sach.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbl_Sach.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã sách", "Tên sách", "Thể loại", "Tác giả", "Năm xuất bản", "Nhà xuất bản", "Số lượng", "Giá"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_Sach.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tbl_Sach.setFocusable(false);
+        tbl_Sach.setGridColor(new java.awt.Color(204, 204, 204));
+        tbl_Sach.setRowHeight(23);
+        tbl_Sach.setSelectionBackground(new java.awt.Color(0, 204, 102));
+        tbl_Sach.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_Sach.setShowGrid(false);
+        tbl_Sach.setShowHorizontalLines(true);
+        tbl_Sach.setSurrendersFocusOnKeystroke(true);
+        tbl_Sach.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_SachMouseClicked(evt);
+            }
+        });
+        tbl_Sach.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tbl_SachKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbl_SachKeyReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_Sach);
+        if (tbl_Sach.getColumnModel().getColumnCount() > 0) {
+            tbl_Sach.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tbl_Sach.getColumnModel().getColumn(1).setMinWidth(230);
+        }
+
+        rightPanelSach.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 1190, 424));
+
+        lb_IdBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_IdBook.setText("Mã sách");
+        rightPanelSach.add(lb_IdBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 100, 82, -1));
+
+        txtBookName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtBookName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtBookName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBookNameKeyReleased(evt);
+            }
+        });
+        rightPanelSach.add(txtBookName, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 148, 195, 32));
+
+        lb_bookName.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_bookName.setText("Tên sách");
+        rightPanelSach.add(lb_bookName, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 151, 82, -1));
+
+        txtIdBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtIdBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdBookActionPerformed(evt);
+            }
+        });
+        txtIdBook.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtIdBookKeyReleased(evt);
+            }
+        });
+        rightPanelSach.add(txtIdBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 98, 195, 32));
+
+        lb_author.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_author.setText("Tác giả");
+        rightPanelSach.add(lb_author, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 201, 82, -1));
+
+        txtAuthor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtAuthor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtAuthor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAuthorKeyReleased(evt);
+            }
+        });
+        rightPanelSach.add(txtAuthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 198, 195, 32));
+
+        lb_publisher.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_publisher.setText("Nhà xuất bản");
+        rightPanelSach.add(lb_publisher, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 251, 106, -1));
+
+        txtPublisher.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtPublisher.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtPublisher.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPublisherKeyReleased(evt);
+            }
+        });
+        rightPanelSach.add(txtPublisher, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 248, 195, 32));
+
+        lb_publishYear.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_publishYear.setText("Năm xuất bản");
+        rightPanelSach.add(lb_publishYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 100, -1, -1));
+
+        txtPublishYear.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        txtPublishYear.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtPublishYear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPublishYearKeyReleased(evt);
+            }
+        });
+        rightPanelSach.add(txtPublishYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 98, 195, 32));
+
+        lb_bookQuantity.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_bookQuantity.setText("Số lượng");
+        rightPanelSach.add(lb_bookQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 151, 97, 26));
+
+        lb_typeOfBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_typeOfBook.setText("Thể loại");
+        rightPanelSach.add(lb_typeOfBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 201, 82, -1));
+
+        txtTypeOfBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTypeOfBook.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtTypeOfBook.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTypeOfBookKeyReleased(evt);
+            }
+        });
+        rightPanelSach.add(txtTypeOfBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 198, 195, 32));
+
+        lb_price.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_price.setText("Giá");
+        rightPanelSach.add(lb_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 251, 100, -1));
+
+        txtPrice.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtPrice.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPriceKeyReleased(evt);
+            }
+        });
+        rightPanelSach.add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 248, 195, 32));
+
+        spiner_bookQuantity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        spiner_bookQuantity.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
+        spiner_bookQuantity.setPreferredSize(new java.awt.Dimension(60, 26));
+        rightPanelSach.add(spiner_bookQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 144, -1, 35));
+
+        SearchBook.setBackground(new java.awt.Color(255, 204, 153));
+
+        txtSearchBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtSearchBook.setText("Tìm kiếm sách");
+        txtSearchBook.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchBookCaretUpdate(evt);
+            }
+        });
+        txtSearchBook.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSearchBookFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtSearchBookFocusLost(evt);
+            }
+        });
+        txtSearchBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchBookActionPerformed(evt);
+            }
+        });
+        txtSearchBook.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchBookKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout SearchBookLayout = new javax.swing.GroupLayout(SearchBook);
+        SearchBook.setLayout(SearchBookLayout);
+        SearchBookLayout.setHorizontalGroup(
+            SearchBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtSearchBook, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        SearchBookLayout.setVerticalGroup(
+            SearchBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtSearchBook, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        rightPanelSach.add(SearchBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 49, -1, -1));
+
+        pnl.setBackground(new java.awt.Color(242, 247, 251));
+        pnl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlMouseClicked(evt);
+            }
+        });
+
+        btn_insertBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_insertBook.setText("Insert");
+        btn_insertBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_insertBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_insertBookMouseClicked(evt);
+            }
+        });
+        btn_insertBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_insertBookActionPerformed(evt);
+            }
+        });
+
+        btm_editBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btm_editBook.setText("Update");
+        btm_editBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btm_editBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btm_editBookMouseClicked(evt);
+            }
+        });
+        btm_editBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btm_editBookActionPerformed(evt);
+            }
+        });
+
+        btn_reseBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_reseBook.setText("Reset");
+        btn_reseBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_reseBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_reseBookMouseClicked(evt);
+            }
+        });
+        btn_reseBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_reseBookActionPerformed(evt);
+            }
+        });
+
+        lb_SortBy.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_SortBy.setText("Sắp xếp theo: ");
+
+        cbxSortBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbxSortBook.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã sách", "Tên sách", "Tác giả", "Nhà xuất bản", "Số lượng", "Thể loại", "Giá" }));
+        cbxSortBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxSortBookMouseClicked(evt);
+            }
+        });
+        cbxSortBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSortBookActionPerformed(evt);
+            }
+        });
+
+        btn_deleteBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_deleteBook.setText("Delete");
+        btn_deleteBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_deleteBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_deleteBookMouseClicked(evt);
+            }
+        });
+        btn_deleteBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_deleteBookActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlLayout = new javax.swing.GroupLayout(pnl);
+        pnl.setLayout(pnlLayout);
+        pnlLayout.setHorizontalGroup(
+            pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addComponent(btn_insertBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(btm_editBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(btn_deleteBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(btn_reseBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(lb_SortBy)
+                .addGap(42, 42, 42)
+                .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        pnlLayout.setVerticalGroup(
+            pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(314, 314, 314)
+                .addComponent(btn_insertBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(314, 314, 314)
+                .addComponent(btm_editBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(314, 314, 314)
+                .addComponent(btn_deleteBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(314, 314, 314)
+                .addComponent(btn_reseBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(314, 314, 314)
+                .addComponent(lb_SortBy, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlLayout.createSequentialGroup()
+                .addGap(320, 320, 320)
+                .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        rightPanelSach.add(pnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        rightPanelPhieuMuon.setBackground(new java.awt.Color(242, 247, 251));
+        rightPanelPhieuMuon.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane3.setBackground(new java.awt.Color(203, 228, 222));
+
+        tbl_PhieuMuon.setBackground(new java.awt.Color(203, 228, 222));
+        tbl_PhieuMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbl_PhieuMuon.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã PM", "Mã độc giả", "Ngày mượn", "Ngày hẹn trả", "Ngày Trả"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_PhieuMuon.setRowHeight(23);
+        tbl_PhieuMuon.setSelectionBackground(new java.awt.Color(0, 204, 102));
+        tbl_PhieuMuon.setSurrendersFocusOnKeystroke(true);
+        tbl_PhieuMuon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_PhieuMuonMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tbl_PhieuMuon);
+        if (tbl_PhieuMuon.getColumnModel().getColumnCount() > 0) {
+            tbl_PhieuMuon.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tbl_PhieuMuon.getColumnModel().getColumn(0).setMaxWidth(100);
+            tbl_PhieuMuon.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tbl_PhieuMuon.getColumnModel().getColumn(1).setMaxWidth(100);
+        }
+
+        rightPanelPhieuMuon.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 389, 1190, 424));
+
+        cbx_DocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbx_DocGia.setMaximumRowCount(26);
+        cbx_DocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        cbx_DocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbx_DocGia.setKeySelectionManager(null);
+        cbx_DocGia.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbx_DocGiaItemStateChanged(evt);
+            }
+        });
+        cbx_DocGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbx_DocGiaMouseClicked(evt);
+            }
+        });
+        cbx_DocGia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbx_DocGiaActionPerformed(evt);
+            }
+        });
+        cbx_DocGia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbx_DocGiaKeyPressed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(cbx_DocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 145, 195, 32));
+
+        cbx_Books.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbx_Books.setMaximumRowCount(26);
+        cbx_Books.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        cbx_Books.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbx_Books.setKeySelectionManager(null);
+        cbx_Books.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbx_BooksItemStateChanged(evt);
+            }
+        });
+        cbx_Books.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbx_BooksMouseClicked(evt);
+            }
+        });
+        cbx_Books.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbx_BooksActionPerformed(evt);
+            }
+        });
+        cbx_Books.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbx_BooksKeyPressed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(cbx_Books, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 220, 195, 32));
+
+        lb_chooseBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_chooseBook.setText("Chọn sách");
+        rightPanelPhieuMuon.add(lb_chooseBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 80, 30));
+        rightPanelPhieuMuon.add(lb_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, 20, 20));
+
+        lb_IdBook1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_IdBook1.setText("Mã PM");
+        rightPanelPhieuMuon.add(lb_IdBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 70, -1));
+
+        lb_IdBook4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_IdBook4.setText("Ngày Mượn");
+        rightPanelPhieuMuon.add(lb_IdBook4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, 90, 40));
+
+        txtMaPhieuMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMaPhieuMuon.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtMaPhieuMuonCaretUpdate(evt);
+            }
+        });
+        txtMaPhieuMuon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaPhieuMuonActionPerformed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(txtMaPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 76, 195, 32));
+
+        lb_IdBook2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_IdBook2.setText("Độc Giả");
+        rightPanelPhieuMuon.add(lb_IdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 80, -1));
+
+        txtIdBook2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtIdBook2.setEnabled(false);
+        txtIdBook2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdBook2ActionPerformed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(txtIdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 100, -1));
+        txtIdBook2.setVisible(false);
+
+        btn_insertBook2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_insertBook2.setText("Insert");
+        btn_insertBook2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_insertBook2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_insertBook2MouseClicked(evt);
+            }
+        });
+        btn_insertBook2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_insertBook2ActionPerformed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(btn_insertBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 108, 39));
+
+        btm_editPM.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btm_editPM.setText("Update");
+        btm_editPM.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btm_editPM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btm_editPMMouseClicked(evt);
+            }
+        });
+        btm_editPM.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btm_editPMKeyPressed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(btm_editPM, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 108, 39));
+
+        btn_delBook2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_delBook2.setText("Delete");
+        btn_delBook2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_delBook2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_delBook2MouseClicked(evt);
+            }
+        });
+        btn_delBook2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_delBook2ActionPerformed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(btn_delBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, 108, 39));
+
+        lb_IdBook5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_IdBook5.setText("Ngày hẹn trả");
+        rightPanelPhieuMuon.add(lb_IdBook5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, -1, 40));
+
+        btn_resetPM.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_resetPM.setText("Reset");
+        btn_resetPM.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_resetPM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_resetPMActionPerformed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(btn_resetPM, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 300, 108, 39));
+
+        panel_sachMuon.setBackground(new java.awt.Color(242, 247, 251));
+        panel_sachMuon.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panel_sachMuon.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panel_sachMuon.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 43, 380, -1));
+
+        lb_tick.setForeground(new java.awt.Color(0, 153, 0));
+        lb_tick.setText("Saved");
+        lb_tick.setToolTipText("");
+        panel_sachMuon.add(lb_tick, new org.netbeans.lib.awtextra.AbsoluteConstraints(257, 330, 40, -1));
+        lb_tick.setVisible(false);
+
+        lablelTongSach.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lablelTongSach.setForeground(new java.awt.Color(0, 102, 51));
+        lablelTongSach.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lablelTongSach.setText("Tổng số sách mượn đã chọn: ");
+        panel_sachMuon.add(lablelTongSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 270, 60));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Thông tin sách mượn");
+        panel_sachMuon.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 14, 390, -1));
+
+        tbl_sachMuon.setBackground(new java.awt.Color(203, 228, 222));
+        tbl_sachMuon.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        tbl_sachMuon.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Mã - Tên Sách", "SL"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_sachMuon.setGridColor(new java.awt.Color(102, 102, 0));
+        tbl_sachMuon.setPreferredSize(new java.awt.Dimension(500, 300));
+        tbl_sachMuon.setRowHeight(23);
+        tbl_sachMuon.setRowMargin(2);
+        tbl_sachMuon.setSelectionBackground(new java.awt.Color(0, 204, 102));
+        tbl_sachMuon.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tbl_sachMuon.setShowGrid(false);
+        tbl_sachMuon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_sachMuonMouseClicked(evt);
+            }
+        });
+        tbl_sachMuon.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                tbl_sachMuonInputMethodTextChanged(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tbl_sachMuon);
+        if (tbl_sachMuon.getColumnModel().getColumnCount() > 0) {
+            tbl_sachMuon.getColumnModel().getColumn(0).setPreferredWidth(455);
+            tbl_sachMuon.getColumnModel().getColumn(1).setPreferredWidth(100);
+        }
+        tbl_sachMuon.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
+
+        panel_sachMuon.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 370, 260));
+
+        btn_clear.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_clear.setText("Clear");
+        btn_clear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_clearActionPerformed(evt);
+            }
+        });
+        panel_sachMuon.add(btn_clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 350, 80, 25));
+
+        btn_save.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_save.setText("Save");
+        btn_save.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_saveActionPerformed(evt);
+            }
+        });
+        panel_sachMuon.add(btn_save, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 322, 80, 25));
+
+        rightPanelPhieuMuon.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, -1));
+        panel_sachMuon.setVisible(false);
+
+        lb_IdBook6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_IdBook6.setText("Ngày trả");
+        rightPanelPhieuMuon.add(lb_IdBook6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 70, 30));
+
+        dateChooseNgayTra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelPhieuMuon.add(dateChooseNgayTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, 195, 32));
+
+        dateChooseNgayMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelPhieuMuon.add(dateChooseNgayMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 76, 195, 32));
+
+        dateChooseNgayHenTra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rightPanelPhieuMuon.add(dateChooseNgayHenTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 145, 195, 32));
+
+        lb_SortBy2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lb_SortBy2.setText("Sắp xếp theo: ");
+        rightPanelPhieuMuon.add(lb_SortBy2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, -1, -1));
+
+        cbxSortPhieuMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbxSortPhieuMuon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã phiếu mượn", "Mã độc giả", "Ngày mượn", "Ngày hẹn trả", "Ngày trả" }));
+        cbxSortPhieuMuon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxSortPhieuMuonMouseClicked(evt);
+            }
+        });
+        cbxSortPhieuMuon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSortPhieuMuonActionPerformed(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(cbxSortPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, -1, -1));
+
+        txtSearchPhieuMuon.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        txtSearchPhieuMuon.setForeground(new java.awt.Color(153, 153, 153));
+        txtSearchPhieuMuon.setText("Tìm kiếm phiếu mượn");
+        txtSearchPhieuMuon.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchPhieuMuonCaretUpdate(evt);
+            }
+        });
+        txtSearchPhieuMuon.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSearchPhieuMuonFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtSearchPhieuMuonFocusLost(evt);
+            }
+        });
+        txtSearchPhieuMuon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchPhieuMuonActionPerformed(evt);
+            }
+        });
+        txtSearchPhieuMuon.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchPhieuMuonKeyReleased(evt);
+            }
+        });
+        rightPanelPhieuMuon.add(txtSearchPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 16, 280, 40));
 
         rightPanelThongke.setBackground(new java.awt.Color(242, 247, 251));
         rightPanelThongke.addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener() {
@@ -555,282 +1331,6 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap(64, Short.MAX_VALUE))
         );
 
-        rightPanelSach.setBackground(new java.awt.Color(242, 247, 251));
-        rightPanelSach.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        tbl_Sach.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tbl_Sach.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã sách", "Tên sách", "Thể loại", "Tác giả", "Năm xuất bản", "Nhà xuất bản", "Số lượng", "Giá"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_Sach.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tbl_Sach.setFocusable(false);
-        tbl_Sach.setGridColor(new java.awt.Color(204, 204, 204));
-        tbl_Sach.setRowHeight(23);
-        tbl_Sach.setSelectionBackground(new java.awt.Color(0, 204, 102));
-        tbl_Sach.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        tbl_Sach.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_Sach.setShowGrid(false);
-        tbl_Sach.setShowHorizontalLines(true);
-        tbl_Sach.setSurrendersFocusOnKeystroke(true);
-        tbl_Sach.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_SachMouseClicked(evt);
-            }
-        });
-        tbl_Sach.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tbl_SachKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tbl_SachKeyReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tbl_Sach);
-        if (tbl_Sach.getColumnModel().getColumnCount() > 0) {
-            tbl_Sach.getColumnModel().getColumn(0).setMinWidth(15);
-            tbl_Sach.getColumnModel().getColumn(1).setMinWidth(230);
-        }
-
-        rightPanelSach.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 1190, 430));
-
-        lb_IdBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_IdBook.setText("Mã sách");
-        rightPanelSach.add(lb_IdBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 101, 82, -1));
-
-        txtBookName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtBookName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtBookName, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 148, 195, 32));
-
-        lb_bookName.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_bookName.setText("Tên sách");
-        rightPanelSach.add(lb_bookName, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 151, 82, -1));
-
-        txtIdBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtIdBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdBookActionPerformed(evt);
-            }
-        });
-        rightPanelSach.add(txtIdBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 98, 195, 32));
-
-        lb_author.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_author.setText("Tác giả");
-        rightPanelSach.add(lb_author, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 201, 82, -1));
-
-        txtAuthor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtAuthor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtAuthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 198, 195, 32));
-
-        lb_publisher.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_publisher.setText("Nhà xuất bản");
-        rightPanelSach.add(lb_publisher, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 251, 106, -1));
-
-        txtPublisher.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtPublisher.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtPublisher, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 248, 195, 32));
-
-        lb_publishYear.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_publishYear.setText("Năm xuất bản");
-        rightPanelSach.add(lb_publishYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 102, -1, -1));
-
-        txtPublishYear.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        txtPublishYear.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtPublishYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 98, 195, 32));
-
-        lb_bookQuantity.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_bookQuantity.setText("Số lượng");
-        rightPanelSach.add(lb_bookQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 148, 97, 26));
-
-        lb_typeOfBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_typeOfBook.setText("Thể loại");
-        rightPanelSach.add(lb_typeOfBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 201, 82, -1));
-
-        txtTypeOfBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtTypeOfBook.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtTypeOfBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 198, 195, 32));
-
-        lb_price.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_price.setText("Giá");
-        rightPanelSach.add(lb_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 251, 100, -1));
-
-        txtPrice.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtPrice.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rightPanelSach.add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 248, 195, 32));
-
-        spiner_bookQuantity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        spiner_bookQuantity.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        spiner_bookQuantity.setPreferredSize(new java.awt.Dimension(60, 26));
-        rightPanelSach.add(spiner_bookQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 148, 70, 30));
-
-        SearchBook.setBackground(new java.awt.Color(255, 204, 153));
-
-        txtSearchBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtSearchBook.setText("Tìm kiếm sách");
-        txtSearchBook.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtSearchBookCaretUpdate(evt);
-            }
-        });
-        txtSearchBook.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtSearchBookFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtSearchBookFocusLost(evt);
-            }
-        });
-        txtSearchBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchBookActionPerformed(evt);
-            }
-        });
-        txtSearchBook.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchBookKeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout SearchBookLayout = new javax.swing.GroupLayout(SearchBook);
-        SearchBook.setLayout(SearchBookLayout);
-        SearchBookLayout.setHorizontalGroup(
-            SearchBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtSearchBook, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        SearchBookLayout.setVerticalGroup(
-            SearchBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtSearchBook, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
-        rightPanelSach.add(SearchBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 49, -1, -1));
-
-        pnl.setBackground(new java.awt.Color(242, 247, 251));
-        pnl.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnlMouseClicked(evt);
-            }
-        });
-
-        btn_insertBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_insertBook.setText("Insert");
-        btn_insertBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_insertBook.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_insertBookMouseClicked(evt);
-            }
-        });
-        btn_insertBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_insertBookActionPerformed(evt);
-            }
-        });
-
-        btm_editBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btm_editBook.setText("Update");
-        btm_editBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btm_editBook.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btm_editBookMouseClicked(evt);
-            }
-        });
-        btm_editBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btm_editBookActionPerformed(evt);
-            }
-        });
-
-        btn_delBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_delBook.setText("Delete");
-        btn_delBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_delBook.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_delBookMouseClicked(evt);
-            }
-        });
-        btn_delBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_delBookActionPerformed(evt);
-            }
-        });
-
-        btn_reseBook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_reseBook.setText("Reset");
-        btn_reseBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_reseBook.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_reseBookMouseClicked(evt);
-            }
-        });
-        btn_reseBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_reseBookActionPerformed(evt);
-            }
-        });
-
-        lb_SortBy.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_SortBy.setText("Sắp xếp theo: ");
-
-        cbxSortBook.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbxSortBook.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã sách", "Tên sách", "Tác giả", "Nhà xuất bản", "Số lượng", "Thể loại", "Giá" }));
-
-        javax.swing.GroupLayout pnlLayout = new javax.swing.GroupLayout(pnl);
-        pnl.setLayout(pnlLayout);
-        pnlLayout.setHorizontalGroup(
-            pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlLayout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(btn_insertBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(btm_editBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
-                .addComponent(btn_delBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
-                .addComponent(btn_reseBook, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(lb_SortBy)
-                .addGap(42, 42, 42)
-                .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
-        );
-        pnlLayout.setVerticalGroup(
-            pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLayout.createSequentialGroup()
-                .addContainerGap(313, Short.MAX_VALUE)
-                .addGroup(pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_insertBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btm_editBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_delBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_reseBook, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(lb_SortBy))
-                    .addGroup(pnlLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(cbxSortBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(68, 68, 68))
-        );
-
-        rightPanelSach.add(pnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1190, 420));
-
         leftPanel.setBackground(new java.awt.Color(255, 255, 255));
         leftPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -857,11 +1357,10 @@ public class Home extends javax.swing.JFrame {
         });
         leftPanel.add(logOutIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 770, -1, 30));
 
-        copyright.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         copyright.setForeground(new java.awt.Color(204, 204, 204));
         copyright.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        copyright.setText("@HUCE 2023");
-        leftPanel.add(copyright, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 790, 300, 20));
+        copyright.setText("Version 1.0");
+        leftPanel.add(copyright, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 790, 70, 30));
 
         lb_footer.setForeground(new java.awt.Color(255, 255, 255));
         lb_footer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1123,6 +1622,9 @@ public class Home extends javax.swing.JFrame {
         rightPanelDocGia.setBackground(new java.awt.Color(242, 247, 251));
         rightPanelDocGia.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jScrollPane2.setBackground(new java.awt.Color(242, 247, 251));
+
+        tbl_DocGia.setBackground(new java.awt.Color(203, 228, 222));
         tbl_DocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tbl_DocGia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1150,32 +1652,53 @@ public class Home extends javax.swing.JFrame {
         tbl_DocGia.setGridColor(new java.awt.Color(204, 204, 204));
         tbl_DocGia.setRowHeight(23);
         tbl_DocGia.setSelectionBackground(new java.awt.Color(0, 204, 102));
-        tbl_DocGia.setSelectionForeground(new java.awt.Color(255, 255, 255));
         tbl_DocGia.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_DocGia.setShowHorizontalLines(true);
         tbl_DocGia.setSurrendersFocusOnKeystroke(true);
+        tbl_DocGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_DocGiaMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tbl_DocGiaMousePressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbl_DocGia);
         if (tbl_DocGia.getColumnModel().getColumnCount() > 0) {
-            tbl_DocGia.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tbl_DocGia.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tbl_DocGia.getColumnModel().getColumn(0).setMaxWidth(100);
+            tbl_DocGia.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tbl_DocGia.getColumnModel().getColumn(2).setMaxWidth(100);
+            tbl_DocGia.getColumnModel().getColumn(3).setPreferredWidth(200);
+            tbl_DocGia.getColumnModel().getColumn(3).setMaxWidth(200);
         }
 
-        rightPanelDocGia.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 1190, 430));
+        rightPanelDocGia.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 387, 1190, 424));
 
         btm_editDocGia.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btm_editDocGia.setText("Update");
         btm_editDocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btm_editDocGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btm_editDocGiaMouseClicked(evt);
+            }
+        });
         btm_editDocGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btm_editDocGiaActionPerformed(evt);
             }
         });
-        rightPanelDocGia.add(btm_editDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 310, 108, 39));
+        rightPanelDocGia.add(btm_editDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 330, 108, 39));
 
         lb_IdDocGia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_IdDocGia.setText("Mã độc giả");
         rightPanelDocGia.add(lb_IdDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 104, 82, -1));
 
         txtTenDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTenDocGia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTenDocGiaKeyReleased(evt);
+            }
+        });
         rightPanelDocGia.add(txtTenDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 150, 195, 32));
 
         lb_TenDocGia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -1183,6 +1706,11 @@ public class Home extends javax.swing.JFrame {
         rightPanelDocGia.add(lb_TenDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 154, 82, -1));
 
         txtIdDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtIdDocGia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtIdDocGiaKeyReleased(evt);
+            }
+        });
         rightPanelDocGia.add(txtIdDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 100, 195, 32));
 
         lb_gender.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -1198,42 +1726,57 @@ public class Home extends javax.swing.JFrame {
         rightPanelDocGia.add(lb_cccd, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 104, -1, -1));
 
         txtCCCD.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        txtCCCD.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCCCDKeyReleased(evt);
+            }
+        });
         rightPanelDocGia.add(txtCCCD, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 100, 195, 32));
 
         txtSDT.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        txtSDT.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSDTKeyReleased(evt);
+            }
+        });
         rightPanelDocGia.add(txtSDT, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 150, 195, 32));
 
         lb_bookQuantity1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_bookQuantity1.setText("Số điện thoại");
         rightPanelDocGia.add(lb_bookQuantity1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 154, 97, 26));
 
-        btn_delBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_delBook1.setText("Delete");
-        btn_delBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        rightPanelDocGia.add(btn_delBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 310, 108, 39));
-
-        btn_insertBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_insertBook1.setText("Insert");
-        btn_insertBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_insertBook1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_xoaDocGia.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_xoaDocGia.setText("Delete");
+        btn_xoaDocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_xoaDocGia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_insertBook1MouseClicked(evt);
+                btn_xoaDocGiaMouseClicked(evt);
             }
         });
-        btn_insertBook1.addActionListener(new java.awt.event.ActionListener() {
+        rightPanelDocGia.add(btn_xoaDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 108, 39));
+
+        btn_insertDocGia.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_insertDocGia.setText("Insert");
+        btn_insertDocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_insertDocGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_insertDocGiaMouseClicked(evt);
+            }
+        });
+        btn_insertDocGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_insertBook1ActionPerformed(evt);
+                btn_insertDocGiaActionPerformed(evt);
             }
         });
-        rightPanelDocGia.add(btn_insertBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, 108, 39));
+        rightPanelDocGia.add(btn_insertDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 108, 39));
 
         lb_SortBy1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lb_SortBy1.setText("Sắp xếp theo: ");
-        rightPanelDocGia.add(lb_SortBy1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 320, -1, -1));
+        rightPanelDocGia.add(lb_SortBy1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 340, -1, -1));
 
         cbxSortDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxSortDocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã", "Tên", "Giới tính" }));
-        rightPanelDocGia.add(cbxSortDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 316, 117, 30));
+        rightPanelDocGia.add(cbxSortDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 340, 117, -1));
 
         SearchDocGia.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1255,6 +1798,11 @@ public class Home extends javax.swing.JFrame {
         txtSearchDocGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchDocGiaActionPerformed(evt);
+            }
+        });
+        txtSearchDocGia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchDocGiaKeyReleased(evt);
             }
         });
 
@@ -1284,7 +1832,7 @@ public class Home extends javax.swing.JFrame {
                 btn_resetDocGiaActionPerformed(evt);
             }
         });
-        rightPanelDocGia.add(btn_resetDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 310, 108, 39));
+        rightPanelDocGia.add(btn_resetDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 330, 108, 39));
 
         rdNu.setBackground(new java.awt.Color(242, 247, 251));
         buttonGroupGender.add(rdNu);
@@ -1300,256 +1848,9 @@ public class Home extends javax.swing.JFrame {
         rightPanelDocGia.add(rdNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(272, 200, 70, 40));
 
         dateChoose.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        dateChoose.setMaxSelectableDate(new java.util.Date(253370743293000L));
+        dateChoose.setMinSelectableDate(new java.util.Date(-62109611907000L));
         rightPanelDocGia.add(dateChoose, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, 195, 32));
-
-        rightPanelPhieuMuon.setBackground(new java.awt.Color(242, 247, 251));
-        rightPanelPhieuMuon.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        tbl_PhieuMuon.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã PM", "Mã độc giả", "Ngày mượn", "Ngày hẹn trả", "Sách mượn"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_PhieuMuon.setSelectionBackground(new java.awt.Color(0, 204, 102));
-        tbl_PhieuMuon.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        jScrollPane3.setViewportView(tbl_PhieuMuon);
-
-        rightPanelPhieuMuon.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 419, 1190, 390));
-
-        cbx_Books.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbx_Books.setMaximumRowCount(26);
-        cbx_Books.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
-        cbx_Books.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cbx_Books.setKeySelectionManager(null);
-        cbx_Books.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbx_BooksItemStateChanged(evt);
-            }
-        });
-        cbx_Books.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbx_BooksMouseClicked(evt);
-            }
-        });
-        cbx_Books.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbx_BooksActionPerformed(evt);
-            }
-        });
-        cbx_Books.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbx_BooksKeyPressed(evt);
-            }
-        });
-        rightPanelPhieuMuon.add(cbx_Books, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 220, 360, 30));
-
-        lb_chooseBook.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_chooseBook.setText("Chọn sách");
-        rightPanelPhieuMuon.add(lb_chooseBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 80, 30));
-        rightPanelPhieuMuon.add(lb_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, 20, 20));
-
-        lb_IdBook1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_IdBook1.setText("Mã PM");
-        rightPanelPhieuMuon.add(lb_IdBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 70, -1));
-
-        txtNgayMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtNgayMuon.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtNgayMuonCaretUpdate(evt);
-            }
-        });
-        txtNgayMuon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNgayMuonActionPerformed(evt);
-            }
-        });
-        rightPanelPhieuMuon.add(txtNgayMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, 195, 32));
-
-        lb_IdBook4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_IdBook4.setText("Ngày Mượn");
-        rightPanelPhieuMuon.add(lb_IdBook4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, 90, 30));
-
-        txtMaPhieuMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtMaPhieuMuon.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtMaPhieuMuonCaretUpdate(evt);
-            }
-        });
-        txtMaPhieuMuon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMaPhieuMuonActionPerformed(evt);
-            }
-        });
-        rightPanelPhieuMuon.add(txtMaPhieuMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 76, 195, 32));
-
-        lb_IdBook2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_IdBook2.setText("Mã ĐG");
-        rightPanelPhieuMuon.add(lb_IdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 80, -1));
-
-        txtIdBook2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtIdBook2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdBook2ActionPerformed(evt);
-            }
-        });
-        rightPanelPhieuMuon.add(txtIdBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 146, 195, 32));
-
-        btn_insertBook2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_insertBook2.setText("Insert");
-        btn_insertBook2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_insertBook2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_insertBook2ActionPerformed(evt);
-            }
-        });
-        rightPanelPhieuMuon.add(btn_insertBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 108, 39));
-
-        btm_editBook1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btm_editBook1.setText("Update");
-        btm_editBook1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        rightPanelPhieuMuon.add(btm_editBook1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 108, 39));
-
-        btn_delBook2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_delBook2.setText("Delete");
-        btn_delBook2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_delBook2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_delBook2ActionPerformed(evt);
-            }
-        });
-        rightPanelPhieuMuon.add(btn_delBook2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, 108, 39));
-
-        lb_IdBook5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lb_IdBook5.setText("Ngày hẹn trả");
-        rightPanelPhieuMuon.add(lb_IdBook5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, 30));
-
-        txtNgayMuon1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtNgayMuon1.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtNgayMuon1CaretUpdate(evt);
-            }
-        });
-        txtNgayMuon1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNgayMuon1ActionPerformed(evt);
-            }
-        });
-        rightPanelPhieuMuon.add(txtNgayMuon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 150, 195, 32));
-
-        btn_resetPM.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_resetPM.setText("Reset");
-        btn_resetPM.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_resetPM.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_resetPMActionPerformed(evt);
-            }
-        });
-        rightPanelPhieuMuon.add(btn_resetPM, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 300, 108, 39));
-
-        panel_sachMuon.setBackground(new java.awt.Color(242, 247, 251));
-        panel_sachMuon.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        panel_sachMuon.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panel_sachMuon.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 43, 380, -1));
-
-        lablelTongSach.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lablelTongSach.setForeground(new java.awt.Color(0, 102, 51));
-        lablelTongSach.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lablelTongSach.setText("Tổng số sách mượn: ");
-        panel_sachMuon.add(lablelTongSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(-60, 380, 360, 30));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Thông tin sách mượn");
-        panel_sachMuon.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 14, 390, -1));
-
-        tbl_sachMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tbl_sachMuon.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Mã - Tên Sách", "SL"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_sachMuon.setGridColor(new java.awt.Color(51, 51, 51));
-        tbl_sachMuon.setPreferredSize(new java.awt.Dimension(500, 300));
-        tbl_sachMuon.setSelectionBackground(new java.awt.Color(0, 204, 102));
-        tbl_sachMuon.setShowGrid(false);
-        tbl_sachMuon.setShowHorizontalLines(true);
-        tbl_sachMuon.setShowVerticalLines(true);
-        tbl_sachMuon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_sachMuonMouseClicked(evt);
-            }
-        });
-        jScrollPane5.setViewportView(tbl_sachMuon);
-        if (tbl_sachMuon.getColumnModel().getColumnCount() > 0) {
-            tbl_sachMuon.getColumnModel().getColumn(0).setPreferredWidth(455);
-        }
-        tbl_sachMuon.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
-
-        panel_sachMuon.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 370, 310));
-
-        btn_save.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_save.setText("Save");
-        btn_save.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_save.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_saveActionPerformed(evt);
-            }
-        });
-        panel_sachMuon.add(btn_save, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 380, 80, 30));
-
-        rightPanelPhieuMuon.add(panel_sachMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(799, 2, 388, 416));
-        panel_sachMuon.setVisible(false);
 
         rightPanelInfo.setBackground(new java.awt.Color(255, 255, 255));
         rightPanelInfo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1720,14 +2021,17 @@ public class Home extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(about_us, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(rightPanelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(rightPanelThongke, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(rightPanelSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(rightPanelDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(rightPanelPhieuMuon, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(about_us, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightPanelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightPanelThongke, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightPanelSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightPanelDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightPanelPhieuMuon, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -1746,7 +2050,7 @@ public class Home extends javax.swing.JFrame {
         lb_QuanLySach.setForeground(Color.BLACK);
         ShowBooks show = new ShowBooks();
         show.ShowOnTblSach(SachTableModel);
-        SetStatusButton(btn_delBook);
+        SetStatusButton(btn_deleteBook);
         SetStatusButton(btm_editBook);
     }//GEN-LAST:event_lb_QuanLySachMouseClicked
 
@@ -1757,7 +2061,7 @@ public class Home extends javax.swing.JFrame {
         resetFontColor();
         lb_QuanLyDocGia.setForeground(Color.BLACK);
         if (tbl_DocGia.getRowCount() == 0) {
-            showDocGia.getInstance().showDocGia(DocGTableModel);
+            ShowDocGia.getInstance().showDocGia(DocGTableModel);
         }
     }//GEN-LAST:event_lb_QuanLyDocGiaMouseClicked
 
@@ -1782,11 +2086,16 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_insertBook2ActionPerformed
 
     private void lb_PhieuMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_PhieuMuonMouseClicked
+
         this.setTitle("Loan Slip - Library Management System");
         setVisibleFalse();
         rightPanelPhieuMuon.setVisible(true);
         resetFontColor();
         lb_PhieuMuon.setForeground(Color.BLACK);
+        ShowPhieuMuon sh = new ShowPhieuMuon();
+        sh.ShowOnTablePM(PhieuMuonTableModel);
+        UpdateBookOnCombobox();
+        UpdateDocGiaOnCombobox();
     }//GEN-LAST:event_lb_PhieuMuonMouseClicked
 
     private void lb_ThongKeBaoCaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_ThongKeBaoCaoMouseClicked
@@ -1815,9 +2124,9 @@ public class Home extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtSearchDocGiaCaretUpdate
 
-    private void btn_insertBook1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_insertBook1ActionPerformed
+    private void btn_insertDocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_insertDocGiaActionPerformed
         // TODO add your handling code here:ss
-    }//GEN-LAST:event_btn_insertBook1ActionPerformed
+    }//GEN-LAST:event_btn_insertDocGiaActionPerformed
 
     private void txtSearchDocGiaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchDocGiaFocusGained
         if (txtSearchDocGia.getText().equals("Tìm kiếm độc giả")) {
@@ -1912,22 +2221,6 @@ public class Home extends javax.swing.JFrame {
         pnl_Thongkebaocao.setBackground(new Color(255, 102, 102));
     }//GEN-LAST:event_lb_ThongKeBaoCaoMouseExited
 
-    private void txtNgayMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNgayMuonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgayMuonActionPerformed
-
-    private void txtNgayMuonCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtNgayMuonCaretUpdate
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgayMuonCaretUpdate
-
-    private void txtNgayMuon1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtNgayMuon1CaretUpdate
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgayMuon1CaretUpdate
-
-    private void txtNgayMuon1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNgayMuon1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNgayMuon1ActionPerformed
-
     private void lb_infoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_infoMouseClicked
         this.setTitle("About");
         setVisibleFalse();
@@ -1943,10 +2236,6 @@ public class Home extends javax.swing.JFrame {
     private void lb_infoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_infoMouseExited
         pnl_ThongTin.setBackground(new Color(0, 153, 153));
     }//GEN-LAST:event_lb_infoMouseExited
-
-    private void btn_delBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_delBookActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_delBookActionPerformed
 
     private void btm_editBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btm_editBookActionPerformed
         // TODO add your handling code here:
@@ -1965,11 +2254,19 @@ public class Home extends javax.swing.JFrame {
         txtSearchBook.setText("Tìm kiếm sách");
         ShowBooks.getInstance().ShowOnTblSach(SachTableModel);
         SetStatusButton(btm_editBook);
-        SetStatusButton(btn_delBook);
+        SetStatusButton(btn_deleteBook);
     }//GEN-LAST:event_btn_reseBookActionPerformed
 
     private void btn_resetDocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetDocGiaActionPerformed
-        // TODO add your handling code here:
+        Component[] children = rightPanelDocGia.getComponents();
+        for (int i = 0, j = 1; i < children.length; i++) {
+            if (children[i] instanceof JTextField) {
+                ((JTextField) children[i]).setText("");
+            }
+        }
+        buttonGroupGender.clearSelection();
+        dateChoose.setDate(null);
+        txtIdDocGia.setEditable(true);
     }//GEN-LAST:event_btn_resetDocGiaActionPerformed
 
     private void btm_editDocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btm_editDocGiaActionPerformed
@@ -1977,14 +2274,19 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btm_editDocGiaActionPerformed
 
     private void btn_resetPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetPMActionPerformed
-        Component[] children = rightPanelPhieuMuon.getComponents();
-        for (int i = 0, j = 1; i < children.length; i++) {
-            if (children[i] instanceof JTextField) {
-                ((JTextField) children[i]).setText("");
-            }
+        txtMaPhieuMuon.setText("");
+        txtMaPhieuMuon.setEditable(true);
+        txtIdBook2.setText("");
+
+        try {
+            cbx_DocGia.setSelectedIndex(0);
+            cbx_Books.setSelectedIndex(0);
+        } catch (Exception e) {
         }
-        listSachMuon.clear();
-        listSoLuongMuon.clear();
+        dateChooseNgayMuon.setDate(null);
+        dateChooseNgayHenTra.setDate(null);
+        dateChooseNgayTra.setDate(null);
+        btn_clear.doClick();
         panel_sachMuon.setVisible(false);
     }//GEN-LAST:event_btn_resetPMActionPerformed
 
@@ -2059,46 +2361,69 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_githubMouseClicked
 
     private void btn_resetDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_resetDocGiaMouseClicked
-        Component[] children = rightPanelDocGia.getComponents();
-        for (int i = 0, j = 1; i < children.length; i++) {
-            if (children[i] instanceof JTextField) {
-                ((JTextField) children[i]).setText("");
-            }
-        }
-        buttonGroupGender.clearSelection();
+
     }//GEN-LAST:event_btn_resetDocGiaMouseClicked
 
     private void cbx_BooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_BooksActionPerformed
+
         boolean check = true;
         if (cbx_Books.getSelectedIndex() == 0) {
             check = false;
         }
         Object item = cbx_Books.getItemAt(cbx_Books.getSelectedIndex());
-        System.out.println("Bạn vừa chọn vị trí: " + cbx_Books.getSelectedIndex());
+//        System.out.println("Bạn vừa chọn vị trí: " + cbx_Books.getSelectedIndex());
         for (String string : listSachMuon) {
             if (string == (item)) {
                 check = false;
             }
         }
+
+        for (int i = 0; i < tbl_sachMuon.getRowCount() && listSachMuon.size() != 0; i++) {
+            if (tbl_sachMuon.getValueAt(i, 0).equals(item.toString())) {
+                check = false;
+                JOptionPane.showMessageDialog(this, "Sách này đã được thêm trước đó!");
+                break;
+            }
+        }
         String c = null;
         if (check == true) {
             c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "0");
-
         }
         while (!c.matches("\\d+")) {
             JOptionPane.showMessageDialog(rightPanelPhieuMuon, "Chỉ nhập số!!!");
             c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "0");
         }
+
+        List<Sach> listSach = SachDAO.getInstant().selectAll();
+        String[] idSach_cbx = item.toString().split("\\s|[A-Za-z]+");
+        for (int i = 0; i < listSach.size() && !listSach.isEmpty(); i++) {
+            if (Integer.parseInt(idSach_cbx[0]) == listSach.get(i).getId()) {
+                if (Integer.parseInt(c) > listSach.get(i).getSoLuong()) {
+                    JOptionPane.showMessageDialog(rightPanelPhieuMuon, "Vượt quá số sách hiện có! (Hiện có "
+                            + listSach.get(i).getSoLuong() + " cuốn " + item.toString() + ")");
+                    check = false;
+                    break;
+                }
+            }
+        }
+
         if (check == true) {
             listSachMuon.add((String) item);
+            listSachMuonMoiThem.add((String) item);
             listSoLuongMuon.add(Integer.parseInt(c));
+            listSoLuongMuonMoiThem.add(Integer.parseInt(c));
             panel_sachMuon.setVisible(true);
         }
         SachMuonTableModel.setRowCount(0);
         listSachMuon.forEach((list) -> {
             SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
         });
-        lablelTongSach.setText("Tổng số sách: " + TongSachMuon());
+        /// Copy dữ liệu mới thêm vào bảng tạm để Cập nhật số lượng sách
+        SachMuonMoiThemTableModel.setRowCount(0);
+        listSachMuonMoiThem.forEach((list) -> {
+            SachMuonMoiThemTableModel.addRow(new Object[]{list, listSoLuongMuonMoiThem.get(listSachMuonMoiThem.indexOf(list))});
+        });
+        lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
     }//GEN-LAST:event_cbx_BooksActionPerformed
 
     private void cbx_BooksItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_BooksItemStateChanged
@@ -2115,22 +2440,27 @@ public class Home extends javax.swing.JFrame {
         }        // TODO add your handling code here:
     }//GEN-LAST:event_cbx_BooksKeyPressed
 
-    private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-        listSoLuongMuon.clear();
-        for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
-            int num = (int) SachMuonTableModel.getValueAt(i, 1);
-            listSoLuongMuon.add(num);
-        }
-        // Check listSoLMuon
-        for (Integer integer : listSoLuongMuon) {
-            System.out.println(integer);
-        }
-        // Update Table 
-        for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
-            SachMuonTableModel.setValueAt(listSoLuongMuon.get(i), i, 1);
-        }
+    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
+//        listSoLuongMuon.clear();
+//        for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
+//            int num = (int) SachMuonTableModel.getValueAt(i, 1);
+//            listSoLuongMuon.add(num);
+//        }
+//        // Check listSoLMuon
+//        for (Integer integer : listSoLuongMuon) {
+//            System.out.println(integer);
+//        }
 
-    }//GEN-LAST:event_btn_saveActionPerformed
+        listSachMuon.clear();
+        listSoLuongMuon.clear();
+        // Update Table 
+        tbl_sachMuon.removeAll();
+        SachMuonTableModel.setRowCount(0);
+        lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
+//        JOptionPane.showMessageDialog(this, "Removed All");
+
+
+    }//GEN-LAST:event_btn_clearActionPerformed
 
     private void tbl_sachMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonMouseClicked
 
@@ -2173,13 +2503,14 @@ public class Home extends javax.swing.JFrame {
         spiner_bookQuantity.setValue(soluong);
         txtPrice.setText(gia);
         SetStatusButton(btm_editBook);
-        SetStatusButton(btn_delBook);
+        SetStatusButton(btn_deleteBook);
     }//GEN-LAST:event_tbl_SachMouseClicked
 
     private void txtSearchBookKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBookKeyReleased
         if (txtSearchBook.getText() != null) {
             ArrayList<Sach> listBookSearched = SachDAO.getInstant().Search(txtSearchBook.getText());
             ShowBooks.getInstance().ShowOnTblSachWhileSearching(listBookSearched, SachTableModel);
+//              SachDAO.getInstant().SearchWithoutDB(this, txtSearchBook.getText());
         }
     }//GEN-LAST:event_txtSearchBookKeyReleased
 
@@ -2213,19 +2544,8 @@ public class Home extends javax.swing.JFrame {
         show.ShowOnTblSach(SachTableModel);
     }//GEN-LAST:event_btn_insertBookMouseClicked
 
-    private void btn_delBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delBookMouseClicked
-        DeleteBookController del = new DeleteBookController(this);
-        del.Delete();
-        ShowBooks show = new ShowBooks();
-        show.ShowOnTblSach(SachTableModel);
-        SetStatusButton(btn_delBook);
-        SetStatusButton(btm_editBook);
-        btn_delBook.doClick();
-    }//GEN-LAST:event_btn_delBookMouseClicked
-
     private void pnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlMouseClicked
         tbl_Sach.clearSelection();
-        txtIdBook.setEditable(true);
     }//GEN-LAST:event_pnlMouseClicked
 
     private void btm_editBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editBookMouseClicked
@@ -2233,7 +2553,7 @@ public class Home extends javax.swing.JFrame {
         update.Update();
         ShowBooks show = new ShowBooks();
         show.ShowOnTblSach(SachTableModel);
-        SetStatusButton(btn_delBook);
+        SetStatusButton(btn_deleteBook);
         SetStatusButton(btm_editBook);
         btn_reseBook.doClick();
     }//GEN-LAST:event_btm_editBookMouseClicked
@@ -2246,12 +2566,476 @@ public class Home extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tbl_SachKeyReleased
 
-    private void btn_insertBook1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook1MouseClicked
-        // TODO add your handling code here:
+    private void btn_insertDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertDocGiaMouseClicked
+        Constraint c = new Constraint(this);
+        if (c.DocGiaValidate() && c.DocGiaCheckForDuplicates()) {
+            InsertDocGiaController ins = new InsertDocGiaController(this);
+            try {
+                ins.InsertDocGia();
+            } catch (ParseException ex) {
+                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        ShowDocGia.getInstance().showDocGia(DocGTableModel);
+    }//GEN-LAST:event_btn_insertDocGiaMouseClicked
 
-        InsertDocGia t = new InsertDocGia(this);
-        t.InsertDocGia();
-    }//GEN-LAST:event_btn_insertBook1MouseClicked
+    private void tbl_DocGiaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DocGiaMousePressed
+
+    }//GEN-LAST:event_tbl_DocGiaMousePressed
+
+    private void btm_editDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editDocGiaMouseClicked
+        UpdateDocGiaController upd = new UpdateDocGiaController(this);
+        upd.Update();
+        ShowDocGia.getInstance().showDocGia(DocGTableModel);
+    }//GEN-LAST:event_btm_editDocGiaMouseClicked
+
+    private void btn_xoaDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_xoaDocGiaMouseClicked
+        DeleteDocGiaController del = new DeleteDocGiaController(this);
+        if (del.Delete() != 0) {
+            ShowDocGia.getInstance().showDocGia(DocGTableModel);
+            btn_resetDocGia.doClick();
+        }
+    }//GEN-LAST:event_btn_xoaDocGiaMouseClicked
+
+    private void tbl_PhieuMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_PhieuMuonMouseClicked
+
+        String id = null;
+        String Ma_DG = null;
+        String Ngay_Muon = null;
+        String Ngay_Hen_Tra = null;
+        try {
+            id = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 0).toString();
+            Ma_DG = PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 1).toString();
+            if (PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 2) == null) {
+                dateChooseNgayMuon.setDate(null);
+            } else {
+                Date NgayMuon = new SimpleDateFormat("yyyy-MM-dd").parse(PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 2).toString());
+                dateChooseNgayMuon.setDate(NgayMuon);
+            }
+
+            if (PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 3) == null) {
+                dateChooseNgayHenTra.setDate(null);
+            } else {
+                Date NgayHenTra = new SimpleDateFormat("yyyy-MM-dd").parse(PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 3).toString());
+                dateChooseNgayHenTra.setDate(NgayHenTra);
+            }
+
+            if (PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 4) == null) {
+                dateChooseNgayTra.setDate(null);
+            } else {
+                Date NgayTra = new SimpleDateFormat("yyyy-MM-dd").parse(PhieuMuonTableModel.getValueAt(tbl_PhieuMuon.getSelectedRow(), 4).toString());
+                dateChooseNgayTra.setDate(NgayTra);
+            }
+        } catch (Exception e) {
+        }
+
+        txtMaPhieuMuon.setText(id);
+        txtMaPhieuMuon.setEditable(false);
+        txtIdBook2.setText(Ma_DG);
+        for (int i = 0; i < cbx_DocGia.getItemCount() && cbx_DocGia.getItemCount() != 0; i++) {
+            String item = cbx_DocGia.getItemAt(i + 1).toString();
+            String[] DocG = item.split("\\s|[A-Za-z]+");
+            if (DocG[0].equals(Ma_DG)) {
+                cbx_DocGia.setSelectedItem(item);
+                break;
+            }
+        }
+
+        panel_sachMuon.setVisible(true);
+        listSachMuon.clear();
+        listSoLuongMuon.clear();
+        // add item from tables to Table Sach_PM while click
+        int idSach = 0, soLuong = 0;
+        String tenSach = null;
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            Statement st = connection.createStatement();
+            String sql = "Select Sach.Ma_Sach, Sach.Ten_Sach, Sach_PhieuMuon.SoLuong From (Sach\n"
+                    + "  Join Sach_PhieuMuon ON Sach.Ma_Sach = Sach_PhieuMuon.Ma_Sach\n"
+                    + "  Join Phieu_Muon ON Sach_PhieuMuon.Ma_PM = Phieu_Muon.Ma_PM)\n"
+                    + "  WHERE Phieu_Muon.Ma_Doc_Gia = " + Ma_DG + " and Phieu_Muon.Ma_PM = " + id;
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                idSach = rs.getInt("Ma_Sach");
+                tenSach = rs.getString("Ten_Sach");
+                soLuong = rs.getInt("SoLuong");
+                String str = String.valueOf(idSach) + " | " + String.valueOf(tenSach);
+                listSachMuon.add(str);
+                listSoLuongMuon.add(soLuong);
+            }
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        SachMuonTableModel.setRowCount(0);
+        listSachMuon.forEach((list) -> {
+            SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+        });
+        /// Copy dữ liệu vào bảng tạm để xóa
+        SachMuonTempTableModel.setRowCount(0);
+        listSachMuon.forEach((list) -> {
+            SachMuonTempTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+        });
+        lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
+
+
+    }//GEN-LAST:event_tbl_PhieuMuonMouseClicked
+
+    private void btn_delBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delBook2MouseClicked
+        DeletePhieuMuon del = new DeletePhieuMuon(this);
+        UpdateBookController upd = new UpdateBookController(this);
+        upd.UpdateSoLuongKhiTraSach();
+        del.Delete();
+        ShowPhieuMuon show = new ShowPhieuMuon();
+        show.ShowOnTablePM(PhieuMuonTableModel);
+    }//GEN-LAST:event_btn_delBook2MouseClicked
+
+    private void btn_insertBook2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBook2MouseClicked
+        Constraint c = new Constraint(this);
+        if (c.PhieuMuonValidate()) {
+            InsertPhieu_Muon ins = new InsertPhieu_Muon(this);
+            try {
+                ins.InsertPhieu_Muon();
+            } catch (ParseException ex) {
+                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }//GEN-LAST:event_btn_insertBook2MouseClicked
+
+    private void cbx_DocGiaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_DocGiaItemStateChanged
+
+    }//GEN-LAST:event_cbx_DocGiaItemStateChanged
+
+    private void cbx_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_DocGiaMouseClicked
+
+    }//GEN-LAST:event_cbx_DocGiaMouseClicked
+
+    private void cbx_DocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_DocGiaActionPerformed
+
+        boolean check = true;
+        if (cbx_DocGia.getSelectedIndex() == 0) {
+            check = false;
+        }
+        Object item = cbx_DocGia.getItemAt(cbx_DocGia.getSelectedIndex());
+//        System.out.println("Bạn vừa chọn combobox DocGia vị trí: " + cbx_DocGia.getSelectedIndex());
+        if (check == true) {
+            String[] DocG = item.toString().split("\\s|[A-Za-z]+");
+            System.out.println(DocG[0]);
+            txtIdBook2.setText(DocG[0]);
+        }
+    }//GEN-LAST:event_cbx_DocGiaActionPerformed
+
+    private void cbx_DocGiaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_DocGiaKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbx_DocGiaKeyPressed
+
+    private void btm_editPMKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btm_editPMKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btm_editPMKeyPressed
+
+    private void btm_editPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editPMMouseClicked
+        UpdatePhieuMuonController upd = new UpdatePhieuMuonController(this);
+        UpdateBookController upd2 = new UpdateBookController(this);
+        upd.Update();
+        upd2.UpdateSoLuongUpdatePM();
+    }//GEN-LAST:event_btm_editPMMouseClicked
+
+    private void tbl_sachMuonTempMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonTempMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbl_sachMuonTempMouseClicked
+
+    private void btn_deleteBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_deleteBookMouseClicked
+        DeleteBookController del = new DeleteBookController(this);
+        del.Delete();
+        ShowBooks show = new ShowBooks();
+        show.ShowOnTblSach(SachTableModel);
+        SetStatusButton(btn_deleteBook);
+        SetStatusButton(btm_editBook);
+    }//GEN-LAST:event_btn_deleteBookMouseClicked
+
+    private void btn_deleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteBookActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_deleteBookActionPerformed
+
+    private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
+        boolean flag = true;
+        for (int i = 0; i < SachMuonTableModel.getRowCount() && SachMuonTableModel.getRowCount() != 0; i++) {
+            int num = Integer.parseInt(tbl_sachMuon.getValueAt(i, 1).toString());
+            if (num == 0) {
+                JOptionPane.showMessageDialog(this, "Hãy nhập số lượng sách > 0");
+                // Update lại bảng
+                SachMuonTableModel.setRowCount(0);
+                listSachMuon.forEach((list) -> {
+                    SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+                });
+                flag = false;
+                break;
+            }
+            String id_Ten = tbl_sachMuon.getValueAt(i, 0).toString();
+            String[] idArray = id_Ten.split("\\s|[A-Za-z]+");
+            int id = Integer.parseInt(idArray[0]);
+            Sach s = SachDAO.getInstant().selectById(id);
+            int sl_cu = 0;
+            if (SachMuonTempTableModel.getRowCount() <= i) {
+                sl_cu = 0;
+            } else {
+                try {
+                    sl_cu = Integer.parseInt(SachMuonTempTableModel.getValueAt(i, 1).toString());
+                } catch (Exception e) {
+                }
+            }
+            int sl = s.getSoLuong() + sl_cu;
+            if (num > sl) {
+                JOptionPane.showMessageDialog(this, "Sách " + id_Ten + " hiện chỉ còn "
+                        + sl + " cuốn! Hãy nhập lại số lượng.");
+                // Update lại bảng
+                SachMuonTableModel.setRowCount(0);
+                listSachMuon.forEach((list) -> {
+                    SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+                });
+                flag = false;
+            }
+        }
+
+        if (flag) {
+            listSoLuongMuon.clear();
+            listSoLuongMuonMoiThem.clear();
+            for (int i = 0; i < SachMuonTableModel.getRowCount(); i++) {
+                int num = Integer.parseInt(SachMuonTableModel.getValueAt(i, 1).toString());
+                listSoLuongMuon.add(num);
+            }
+            // Cập nhật số lượng mới sửa của các sách
+            for (int i = SachMuonTableModel.getRowCount() - SachMuonMoiThemTableModel.getRowCount(); i < SachMuonTableModel.getRowCount() && i >= 0; i++) {
+                try {
+                    int num = Integer.parseInt(tbl_sachMuon.getValueAt(i, 1).toString());
+                    listSoLuongMuonMoiThem.add(num);
+                } catch (NumberFormatException numberFormatException) {
+                }
+            }
+            // Update bảng tạm sách mới thêm
+            SachMuonMoiThemTableModel.setRowCount(0);
+            listSachMuonMoiThem.forEach((list) -> {
+                SachMuonMoiThemTableModel.addRow(new Object[]{list, listSoLuongMuonMoiThem.get(listSachMuonMoiThem.indexOf(list))});
+            });
+            // Update bảng sách cũ bảng SachMuon sang bảng Temp
+//        SachMuonTempTableModel.setRowCount(0);
+//        listSachMuon.forEach((list) -> {
+//            SachMuonTempTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+//        });
+            // Update bảng Sách Mượn 
+            SachMuonTableModel.setRowCount(0);
+            listSachMuon.forEach((list) -> {
+                SachMuonTableModel.addRow(new Object[]{list, listSoLuongMuon.get(listSachMuon.indexOf(list))});
+            });
+            JOptionPane.showMessageDialog(this, "Saved");
+        }
+        lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
+
+    }//GEN-LAST:event_btn_saveActionPerformed
+
+    private void cbxSortBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxSortBookMouseClicked
+
+    }//GEN-LAST:event_cbxSortBookMouseClicked
+
+    private void cbxSortBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSortBookActionPerformed
+        SortBookController sort = new SortBookController(this);
+        sort.Sort();
+    }//GEN-LAST:event_cbxSortBookActionPerformed
+
+    private void cbxSortPhieuMuonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxSortPhieuMuonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxSortPhieuMuonMouseClicked
+
+    private void cbxSortPhieuMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSortPhieuMuonActionPerformed
+        SortPhieuMuonController sp = new SortPhieuMuonController(this);
+        sp.Sort();
+    }//GEN-LAST:event_cbxSortPhieuMuonActionPerformed
+
+    private void txtSearchPhieuMuonCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonCaretUpdate
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchPhieuMuonCaretUpdate
+
+    private void txtSearchPhieuMuonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonFocusGained
+        if (txtSearchPhieuMuon.getText().equals("Tìm kiếm phiếu mượn")) {
+            txtSearchPhieuMuon.setText(null);
+            txtSearchPhieuMuon.requestFocus();
+            RemovePlaceHolderStyle(txtSearchPhieuMuon);
+        }
+    }//GEN-LAST:event_txtSearchPhieuMuonFocusGained
+
+    private void txtSearchPhieuMuonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonFocusLost
+        if (txtSearchPhieuMuon.getText().length() == 0) {
+            AddPlaceHolderStyle(txtSearchPhieuMuon);
+            txtSearchPhieuMuon.setText("Tìm kiếm phiếu mượn");
+        }
+    }//GEN-LAST:event_txtSearchPhieuMuonFocusLost
+
+    private void txtSearchPhieuMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchPhieuMuonActionPerformed
+
+    private void txtSearchPhieuMuonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchPhieuMuonKeyReleased
+        SearchPhieuMuonController s = new SearchPhieuMuonController(this);
+        s.Search();
+    }//GEN-LAST:event_txtSearchPhieuMuonKeyReleased
+
+    private void tbl_sachMuonMoiThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonMoiThemMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbl_sachMuonMoiThemMouseClicked
+
+    private void tbl_sachMuonInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tbl_sachMuonInputMethodTextChanged
+//        if(tbl_sachMuon.getValueAt(tbl_sachMuon.getSelectedRow(), 1).toString()){
+//            
+//        }
+    }//GEN-LAST:event_tbl_sachMuonInputMethodTextChanged
+
+    private void txtSearchDocGiaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchDocGiaKeyReleased
+        SearchDocGiaController s = new SearchDocGiaController(this);
+        s.Search();
+    }//GEN-LAST:event_txtSearchDocGiaKeyReleased
+
+    private void txtCCCDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCCCDKeyReleased
+        if (txtCCCD.getText().trim().length() > 12) {
+            JOptionPane.showMessageDialog(this, "CCCD/CMT không quá 12 số!");
+            txtCCCD.setText(txtCCCD.getText().substring(0, 12));
+        }
+        if (!txtCCCD.getText().trim().matches("\\d+") && txtCCCD.getText().trim() != null) {
+            txtCCCD.setForeground(Color.red);
+        } else {
+            txtCCCD.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtCCCDKeyReleased
+
+    private void txtIdBookKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdBookKeyReleased
+        if (!txtIdBook.getText().trim().matches("\\d+") && txtIdBook.getText().trim() != null) {
+            txtIdBook.setForeground(Color.red);
+        } else {
+            txtIdBook.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtIdBookKeyReleased
+
+    private void txtBookNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBookNameKeyReleased
+        if (!txtBookName.getText().trim().matches("[0-9A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+") 
+                && txtBookName.getText().trim() != null) {
+            txtBookName.setForeground(Color.red);
+        } else {
+            txtBookName.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtBookNameKeyReleased
+
+    private void txtAuthorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAuthorKeyReleased
+        if (!txtAuthor.getText().trim().matches("[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+") 
+                && txtAuthor.getText().trim() != null) {
+            txtAuthor.setForeground(Color.red);
+        } else {
+            txtAuthor.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtAuthorKeyReleased
+
+    private void txtPublisherKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPublisherKeyReleased
+        if (!txtPublisher.getText().trim().matches("[0-9A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+") 
+                && txtPublisher.getText().trim() != null) {
+            txtPublisher.setForeground(Color.red);
+        } else {
+            txtPublisher.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtPublisherKeyReleased
+
+    private void txtPublishYearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPublishYearKeyReleased
+        if (!txtPublishYear.getText().trim().matches("\\d{4}") 
+                && txtPublishYear.getText().trim() != null) {
+            txtPublishYear.setForeground(Color.red);
+        } else {
+            txtPublishYear.setForeground(Color.black);
+        }
+        try {
+            if (Integer.parseInt(txtPublishYear.getText().trim()) < 1000) {
+                txtPublishYear.setForeground(Color.red);
+            }
+        } catch (NumberFormatException numberFormatException) {
+        }
+    }//GEN-LAST:event_txtPublishYearKeyReleased
+
+    private void txtTypeOfBookKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTypeOfBookKeyReleased
+        if (!txtTypeOfBook.getText().trim().matches("[0-9A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+") 
+                && txtTypeOfBook.getText().trim() != null) {
+            txtTypeOfBook.setForeground(Color.red);
+        } else {
+            txtTypeOfBook.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtTypeOfBookKeyReleased
+
+    private void txtPriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceKeyReleased
+        if (!txtPrice.getText().trim().matches("\\d+") 
+                && txtPrice.getText().trim() != null) {
+            txtPrice.setForeground(Color.red);
+        } else {
+            txtPrice.setForeground(Color.black);
+        }
+//        if(Integer.parseInt(txtPublishYear.getText().trim()) > Float.MAX_VALUE){
+//            txtPublishYear.setForeground(Color.red);
+//        }
+    }//GEN-LAST:event_txtPriceKeyReleased
+
+    private void txtIdDocGiaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdDocGiaKeyReleased
+        if (!txtIdDocGia.getText().trim().matches("\\d+") && txtIdDocGia.getText().trim() != null) {
+            txtIdDocGia.setForeground(Color.red);
+        } else {
+            txtIdDocGia.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtIdDocGiaKeyReleased
+
+    private void txtTenDocGiaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenDocGiaKeyReleased
+        if (!txtTenDocGia.getText().trim().matches("[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+") 
+                && txtTenDocGia.getText().trim() != null) {
+            txtTenDocGia.setForeground(Color.red);
+        } else {
+            txtTenDocGia.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtTenDocGiaKeyReleased
+
+    private void txtSDTKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSDTKeyReleased
+        if (!txtSDT.getText().trim().matches("\\d{0,10}") && txtSDT.getText().trim() != null) {
+            txtSDT.setForeground(Color.red);
+        } else {
+            txtSDT.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtSDTKeyReleased
+
+    private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
+        String madg = null;
+        String hoten = null;
+        String cccd = null;
+        String gioitinh = null;
+        String sdt = null;
+        madg = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 0).toString();
+        hoten = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 1).toString();
+        cccd = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 4).toString();
+        sdt = DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 5).toString();
+        if (tbl_DocGia.getValueAt(tbl_DocGia.getSelectedRow(), 2).toString().equals("1")) {
+            rdNam.setSelected(true);
+        } else {
+            rdNu.setSelected(true);
+        }
+        try {
+            if (DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3) == null) {
+                dateChoose.setDate(null);
+            } else {
+                Date NgaySinh = new SimpleDateFormat("yyyy-MM-dd").parse(DocGTableModel.getValueAt(tbl_DocGia.getSelectedRow(), 3).toString());
+                dateChoose.setDate(NgaySinh);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        txtIdDocGia.setText(madg);
+        txtIdDocGia.setEditable(false);
+        txtTenDocGia.setText(hoten);
+        txtCCCD.setText(cccd);
+
+        txtSDT.setText(sdt);
+    }
 
     /**
      * @param args the command line arguments
@@ -2312,12 +3096,8 @@ public class Home extends javax.swing.JFrame {
         return btm_editDocGia;
     }
 
-    public JButton getBtn_delBook() {
-        return btn_delBook;
-    }
-
     public JButton getBtn_delBook1() {
-        return btn_delBook1;
+        return btn_xoaDocGia;
     }
 
     public JButton getBtn_insertBook() {
@@ -2325,7 +3105,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JButton getBtn_insertBook1() {
-        return btn_insertBook1;
+        return btn_insertDocGia;
     }
 
     public JComboBox<String> getCbxSortBook() {
@@ -2512,6 +3292,18 @@ public class Home extends javax.swing.JFrame {
         return dateChoose;
     }
 
+    public JDateChooser getDateChooseNgayHenTra() {
+        return dateChooseNgayHenTra;
+    }
+
+    public JDateChooser getDateChooseNgayMuon() {
+        return dateChooseNgayMuon;
+    }
+
+    public JDateChooser getDateChooseNgayTra() {
+        return dateChooseNgayTra;
+    }
+
     public JLabel getLb_HelloUser() {
         return lb_HelloUser;
     }
@@ -2593,7 +3385,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JButton getBtn_save() {
-        return btn_save;
+        return btn_clear;
     }
 
     public ButtonGroup getButtonGroupGender() {
@@ -2625,7 +3417,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JButton getBtm_editBook1() {
-        return btm_editBook1;
+        return btm_editPM;
     }
 
     public JLabel getBtn_contact() {
@@ -2678,6 +3470,18 @@ public class Home extends javax.swing.JFrame {
 
     public JButton getBtn_reseBook() {
         return btn_reseBook;
+    }
+
+    public JButton getBtm_editPM() {
+        return btm_editPM;
+    }
+
+    public JButton getBtn_clear() {
+        return btn_clear;
+    }
+
+    public JComboBox<String> getCbx_DocGia() {
+        return cbx_DocGia;
     }
 
     public JButton getBtn_resetDocGia() {
@@ -2776,6 +3580,42 @@ public class Home extends javax.swing.JFrame {
         return lb_IdBook1;
     }
 
+    public JTextField getTxtSearchPhieuMuon() {
+        return txtSearchPhieuMuon;
+    }
+
+    public DefaultTableModel getSachMuonMoiThemTableModel() {
+        return SachMuonMoiThemTableModel;
+    }
+
+    public List<String> getListSachMuonMoiThem() {
+        return listSachMuonMoiThem;
+    }
+
+    public List<Integer> getListSoLuongMuonMoiThem() {
+        return listSoLuongMuonMoiThem;
+    }
+
+    public JButton getBtn_deleteBook() {
+        return btn_deleteBook;
+    }
+
+    public JPanel getBtn_deleteControl() {
+        return btn_deleteControl;
+    }
+
+    public JScrollPane getjScrollPane6() {
+        return jScrollPane6;
+    }
+
+    public JLabel getLb_SortBy2() {
+        return lb_SortBy2;
+    }
+
+    public JTable getTbl_sachMuonMoiThem() {
+        return tbl_sachMuonMoiThem;
+    }
+
     public JLabel getLb_IdBook2() {
         return lb_IdBook2;
     }
@@ -2864,12 +3704,24 @@ public class Home extends javax.swing.JFrame {
         return txtMaPhieuMuon;
     }
 
-    public JTextField getTxtNgayMuon() {
-        return txtNgayMuon;
+    public DefaultTableModel getPhieuMuonTableModel() {
+        return PhieuMuonTableModel;
     }
 
-    public JTextField getTxtNgayMuon1() {
-        return txtNgayMuon1;
+    public JButton getBtn_insertDocGia() {
+        return btn_insertDocGia;
+    }
+
+    public JButton getBtn_xoaDocGia() {
+        return btn_xoaDocGia;
+    }
+
+    public JLabel getLb_IdBook6() {
+        return lb_IdBook6;
+    }
+
+    public JPanel getTxt() {
+        return rightPanelPhieuMuon;
     }
 
     public JTextField getTxtSearchBook() {
@@ -2886,6 +3738,22 @@ public class Home extends javax.swing.JFrame {
 
     public DefaultTableModel getSachMuonTableModel() {
         return SachMuonTableModel;
+    }
+
+    public DefaultTableModel getSachMuonTempTableModel() {
+        return SachMuonTempTableModel;
+    }
+
+    public JScrollPane getjScrollPane7() {
+        return jScrollPane7;
+    }
+
+    public JTable getTbl_sachMuonTemp() {
+        return tbl_sachMuonTemp;
+    }
+
+    public JComboBox<String> getCbxSortPhieuMuon() {
+        return cbxSortPhieuMuon;
     }
 
 
@@ -2905,18 +3773,19 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JFrame barChart;
     private javax.swing.JLabel bground;
     private javax.swing.JButton btm_editBook;
-    private javax.swing.JButton btm_editBook1;
     private javax.swing.JButton btm_editDocGia;
+    private javax.swing.JButton btm_editPM;
+    private javax.swing.JButton btn_clear;
     private javax.swing.JLabel btn_contact;
-    private javax.swing.JButton btn_delBook;
-    private javax.swing.JButton btn_delBook1;
     private javax.swing.JButton btn_delBook2;
+    private javax.swing.JButton btn_deleteBook;
+    private javax.swing.JPanel btn_deleteControl;
     private javax.swing.JLabel btn_github;
     private javax.swing.JLabel btn_hieu;
     private javax.swing.JLabel btn_hung;
     private javax.swing.JButton btn_insertBook;
-    private javax.swing.JButton btn_insertBook1;
     private javax.swing.JButton btn_insertBook2;
+    private javax.swing.JButton btn_insertDocGia;
     private javax.swing.JLabel btn_manh;
     private javax.swing.JLabel btn_moreInfoBook;
     private javax.swing.JLabel btn_moreInfoDocGia;
@@ -2929,12 +3798,18 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btn_save;
     private javax.swing.JLabel btn_thuan;
     private javax.swing.JLabel btn_vanh;
+    private javax.swing.JButton btn_xoaDocGia;
     private javax.swing.ButtonGroup buttonGroupGender;
     private javax.swing.JComboBox<String> cbxSortBook;
     private javax.swing.JComboBox<String> cbxSortDocGia;
+    private javax.swing.JComboBox<String> cbxSortPhieuMuon;
     private javax.swing.JComboBox<String> cbx_Books;
+    private javax.swing.JComboBox<String> cbx_DocGia;
     private javax.swing.JLabel copyright;
     private com.toedter.calendar.JDateChooser dateChoose;
+    private com.toedter.calendar.JDateChooser dateChooseNgayHenTra;
+    private com.toedter.calendar.JDateChooser dateChooseNgayMuon;
+    private com.toedter.calendar.JDateChooser dateChooseNgayTra;
     private javax.swing.JLabel img_dashbroard;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -2949,6 +3824,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -2962,12 +3839,14 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lb_IdBook2;
     private javax.swing.JLabel lb_IdBook4;
     private javax.swing.JLabel lb_IdBook5;
+    private javax.swing.JLabel lb_IdBook6;
     private javax.swing.JLabel lb_IdDocGia;
     private javax.swing.JLabel lb_PhieuMuon;
     private javax.swing.JLabel lb_QuanLyDocGia;
     private javax.swing.JLabel lb_QuanLySach;
     private javax.swing.JLabel lb_SortBy;
     private javax.swing.JLabel lb_SortBy1;
+    private javax.swing.JLabel lb_SortBy2;
     private javax.swing.JLabel lb_TenDocGia;
     private javax.swing.JLabel lb_ThongKeBaoCao;
     private javax.swing.JLabel lb_author;
@@ -2984,6 +3863,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lb_publishYear;
     private javax.swing.JLabel lb_publisher;
     private javax.swing.JLabel lb_search;
+    private javax.swing.JLabel lb_tick;
     private javax.swing.JLabel lb_tongNguoiMuon;
     private javax.swing.JLabel lb_tongSachCon;
     private javax.swing.JLabel lb_tongSachDuocMuon;
@@ -3010,6 +3890,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTable tbl_PhieuMuon;
     private javax.swing.JTable tbl_Sach;
     private javax.swing.JTable tbl_sachMuon;
+    private javax.swing.JTable tbl_sachMuonMoiThem;
+    private javax.swing.JTable tbl_sachMuonTemp;
     private javax.swing.JTextField txtAuthor;
     private javax.swing.JTextField txtBookName;
     private javax.swing.JTextField txtCCCD;
@@ -3017,14 +3899,13 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField txtIdBook2;
     private javax.swing.JTextField txtIdDocGia;
     private javax.swing.JTextField txtMaPhieuMuon;
-    private javax.swing.JTextField txtNgayMuon;
-    private javax.swing.JTextField txtNgayMuon1;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtPublishYear;
     private javax.swing.JTextField txtPublisher;
     private javax.swing.JTextField txtSDT;
     private javax.swing.JTextField txtSearchBook;
     private javax.swing.JTextField txtSearchDocGia;
+    private javax.swing.JTextField txtSearchPhieuMuon;
     private javax.swing.JTextField txtTenDocGia;
     private javax.swing.JTextField txtTypeOfBook;
     // End of variables declaration//GEN-END:variables
