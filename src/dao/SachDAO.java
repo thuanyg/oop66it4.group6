@@ -142,10 +142,15 @@ public class SachDAO implements DAOInterface<Sach> {
         try {
             Connection connection = JDBCUtil.getConnection();
             // Tìm kiếm theo mã hoặc tên
-            String sql = "SELECT * FROM Sach WHERE Ma_Sach LIKE Concat('%',?,'%') Or Ten_Sach LIKE Concat('%',?,'%')";
+            String sql = "SELECT * FROM Sach WHERE Ma_Sach LIKE Concat('%',?,'%') Or Ten_Sach LIKE Concat('%',?,'%') Or The_Loai LIKE Concat('%',?,'%') Or Ten_TG LIKE Concat('%',?,'%') Or NamXB LIKE Concat('%',?,'%') Or NhaXB LIKE Concat('%',?,'%') Or Gia_Sach LIKE Concat('%',?,'%')";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, s);
             pst.setString(2, s);
+            pst.setString(3, s);
+            pst.setString(4, s);
+            pst.setString(5, s);
+            pst.setString(6, s);
+            pst.setString(7, s);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("Ma_Sach");
