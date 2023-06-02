@@ -5,7 +5,13 @@
 package view;
 
 import analysService.BarChart;
-import controller.Dashboard;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import analysService.Dashboard;
 import controller.ShowBooks;
 import global.Username;
 import dao.SachDAO;
@@ -33,6 +39,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.Sach;
 import com.toedter.calendar.JDateChooser;
+import analysService.AnalysisController;
+import analysService.GraphsCode;
 import controller.Constraint;
 import controller.DeleteBookController;
 import controller.DeleteDocGiaController;
@@ -56,6 +64,7 @@ import database.JDBCUtil;
 import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,6 +75,7 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import model.DocGia;
@@ -249,6 +259,7 @@ public class Home extends javax.swing.JFrame {
         tbl_sachMuonMoiThem = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
         tbl_sachMuonTemp = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         rightPanelSach = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Sach = new javax.swing.JTable();
@@ -316,6 +327,7 @@ public class Home extends javax.swing.JFrame {
         btn_moreInfoPM = new javax.swing.JLabel();
         btn_moreInfoDocGia = new javax.swing.JLabel();
         lb_tongSachCon = new javax.swing.JLabel();
+        lb_product = new javax.swing.JLabel();
         lb_tongNguoiMuon = new javax.swing.JLabel();
         lb_tongSachDuocMuon = new javax.swing.JLabel();
         img_dashbroard = new javax.swing.JLabel();
@@ -528,6 +540,14 @@ public class Home extends javax.swing.JFrame {
             tbl_sachMuonTemp.getColumnModel().getColumn(0).setPreferredWidth(455);
         }
         tbl_sachMuonTemp.setVisible(false);
+
+        jButton1.setText("Export");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home - Library Management System");
@@ -1269,12 +1289,22 @@ public class Home extends javax.swing.JFrame {
         DashbroadOnTop.add(btn_moreInfoPM, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 200, 110, 20));
 
         btn_moreInfoDocGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_moreInfoDocGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_moreInfoDocGiaMouseClicked(evt);
+            }
+        });
         DashbroadOnTop.add(btn_moreInfoDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, 110, 20));
 
         lb_tongSachCon.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lb_tongSachCon.setForeground(new java.awt.Color(255, 255, 255));
         lb_tongSachCon.setText("100");
         DashbroadOnTop.add(lb_tongSachCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 200, 120));
+
+        lb_product.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lb_product.setForeground(new java.awt.Color(255, 255, 255));
+        lb_product.setText("Nothing");
+        DashbroadOnTop.add(lb_product, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 120, 200, 120));
 
         lb_tongNguoiMuon.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lb_tongNguoiMuon.setForeground(new java.awt.Color(255, 255, 255));
@@ -2104,8 +2134,15 @@ public class Home extends javax.swing.JFrame {
         rightPanelThongke.setVisible(true);
         resetFontColor();
         lb_ThongKeBaoCao.setForeground(Color.BLACK);
-        Dashboard ds = new Dashboard();
-        lb_tongSachCon.setText("" + ds.TongSachCon());
+//        Dashboard ds = new Dashboard();
+//        lb_tongSachCon.setText("" + ds.TongSachCon());
+//        lb_tong.setText("" + ds.TongSachCon());
+        AnalysisController anl = new AnalysisController(this);
+        anl.setTotalBooks();
+        anl.setTongNguoiMuon();
+        anl.setTongSachMuon();
+        GraphsCode graph = new GraphsCode(this);
+        graph.showBarChart();
     }//GEN-LAST:event_lb_ThongKeBaoCaoMouseClicked
 
     private void txtSearchBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchBookActionPerformed
@@ -2520,10 +2557,11 @@ public class Home extends javax.swing.JFrame {
         rightPanelSach.setVisible(true);
         ShowBooks show = new ShowBooks();
         show.ShowOnTblSach(SachTableModel);
+           
     }//GEN-LAST:event_btn_moreInfoBookMouseClicked
 
     private void btn_moreInfoPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoPMMouseClicked
-        BarChart.Show(jPanelForBarChart);
+        
     }//GEN-LAST:event_btn_moreInfoPMMouseClicked
 
     private void formAncestorMoved(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_formAncestorMoved
@@ -3017,6 +3055,68 @@ public class Home extends javax.swing.JFrame {
             txtSDT.setForeground(Color.black);
         }
     }//GEN-LAST:event_txtSDTKeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String path = "";
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int x = j.showSaveDialog(this);
+        if (x == JFileChooser.APPROVE_OPTION) {
+            path = j.getSelectedFile().getPath();
+        }
+        Document doc = new Document();
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\List_Sach.pdf"));
+            doc.open();
+            Paragraph para = new Paragraph("THONG KE NHUNG SACH HIEN CO TRONG THU VIEN");
+            doc.add(para);
+            para = new Paragraph("----------------------------------------------------------------");
+            doc.add(para);
+            PdfPTable tbl = new PdfPTable(8);
+            PdfPCell c1 = new PdfPCell(new Phrase("ID"));
+            tbl.addCell(c1);
+            PdfPCell c2 = new PdfPCell(new Phrase("Ten Sach"));
+            tbl.addCell(c2);
+
+            PdfPCell c3 = new PdfPCell(new Phrase("The Loai"));
+            tbl.addCell(c3);
+
+            PdfPCell c4 = new PdfPCell(new Phrase("Tac Gia"));
+            tbl.addCell(c4);
+
+            PdfPCell c5 = new PdfPCell(new Phrase("Nam Xuat Ban"));
+            tbl.addCell(c5);
+
+            PdfPCell c6 = new PdfPCell(new Phrase("Nha Xuat Ban"));
+            tbl.addCell(c6);
+
+            PdfPCell c7 = new PdfPCell(new Phrase("So Luong"));
+            tbl.addCell(c7);
+
+            PdfPCell c8 = new PdfPCell(new Phrase("Gia"));
+            tbl.addCell(c8);
+            tbl.setHeaderRows(1);
+            ArrayList<Sach> listSach = SachDAO.getInstant().selectAll();
+            listSach.forEach((s) -> {
+                tbl.addCell(String.valueOf(s.getId()));
+                tbl.addCell(s.getTenSach());
+                tbl.addCell(s.getTheLoai());
+                tbl.addCell(s.getTacGia());
+                tbl.addCell(String.valueOf(s.getNamXB()));
+                tbl.addCell(s.getNhaXB());
+                tbl.addCell(String.valueOf(s.getSoLuong()));
+                tbl.addCell(String.valueOf(s.getGiaSach()));
+            });
+            doc.add(tbl);
+            JOptionPane.showMessageDialog(this, "PDF Generated!");
+            doc.close();
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_moreInfoDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoDocGiaMouseClicked
+        BarChart.Show(jPanelForBarChart);
+    }//GEN-LAST:event_btn_moreInfoDocGiaMouseClicked
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
@@ -3825,6 +3925,7 @@ public class Home extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dateChooseNgayMuon;
     private com.toedter.calendar.JDateChooser dateChooseNgayTra;
     private javax.swing.JLabel img_dashbroard;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -3874,6 +3975,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lb_info;
     private javax.swing.JLabel lb_ngaySinh;
     private javax.swing.JLabel lb_price;
+    private javax.swing.JLabel lb_product;
     private javax.swing.JLabel lb_publishYear;
     private javax.swing.JLabel lb_publisher;
     private javax.swing.JLabel lb_search;

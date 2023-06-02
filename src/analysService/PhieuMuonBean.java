@@ -15,6 +15,11 @@ public class PhieuMuonBean {
     public PhieuMuonBean() {
     }
 
+    public PhieuMuonBean(String date, int soluong) {
+        this.date = date;
+        this.soluong = soluong;
+    }
+
     public String getDate() {
         return date;
     }
