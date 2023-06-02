@@ -36,6 +36,13 @@ public class InsertDocGiaController {
         try {
             Ma_DG = Integer.parseInt(home.getTxtIdDocGia().getText().trim());
             Ho_Ten = home.getTxtTenDocGia().getText().trim();
+            String[] arr = Ho_Ten.split(" ");
+            Ho_Ten = "";
+            for (int i = 0; i < arr.length; i++) {
+                String first = arr[i].substring(0, 1).toUpperCase();
+                arr[i] = first + arr[i].substring(1);
+                Ho_Ten += arr[i] + " ";
+            }
             CCCD = home.getTxtCCCD().getText().trim();
             SDT = home.getTxtSDT().getText().trim();
             if (home.getDateChoose().getDate() == null) {

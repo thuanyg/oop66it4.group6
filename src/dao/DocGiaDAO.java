@@ -133,6 +133,36 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
         return ketQua;
     }
 
+    public ArrayList<DocGia> selectAllWithoutID(int ID) {
+        ArrayList<DocGia> ketQua = new ArrayList<>();
+        try {
+            //B1: Tạo kết nối
+            Connection connection = JDBCUtil.getConnection();
+//            JDBCUtil.printInfo(connection);
+            //B2: Tạo đối tượng Statement
+            Statement st = connection.createStatement();
+            //B3: Thực thi câu lệnh SQL
+            String sql = "SELECT * FROM Doc_Gia Where Ma_Doc_Gia != " + ID;
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_Doc_Gia");
+                String hoTen = rs.getString("Ho_Ten");
+                String CCCD = rs.getString("CCCD");
+                String SDT = rs.getString("SDT");
+
+                String Ngay_Sinh = rs.getString("Ngay_Sinh");
+                int gt = rs.getInt("Gt");
+                DocGia t = new DocGia(id, gt, hoTen, CCCD, SDT, Ngay_Sinh);
+                ketQua.add(t);
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+    
     @Override
     public ArrayList<DocGia> Search(String s) {
         ArrayList<DocGia> ketQua = new ArrayList<>();

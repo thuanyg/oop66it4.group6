@@ -2549,13 +2549,20 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlMouseClicked
 
     private void btm_editBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editBookMouseClicked
-        UpdateBookController update = new UpdateBookController(this);
-        update.Update();
-        ShowBooks show = new ShowBooks();
-        show.ShowOnTblSach(SachTableModel);
-        SetStatusButton(btn_deleteBook);
-        SetStatusButton(btm_editBook);
-        btn_reseBook.doClick();
+        Constraint c = new Constraint(this);
+        if (c.SachValidate()) {
+            if (!txtPrice.getText().trim().matches("\\d+") && txtPrice.getText().trim() != null) {
+                JOptionPane.showMessageDialog(this, "Giá sách không hợp lệ!");
+            } else {
+                UpdateBookController update = new UpdateBookController(this);
+                update.Update();
+                ShowBooks show = new ShowBooks();
+                show.ShowOnTblSach(SachTableModel);
+                SetStatusButton(btn_deleteBook);
+                SetStatusButton(btm_editBook);
+                btn_reseBook.doClick();
+            }
+        }
     }//GEN-LAST:event_btm_editBookMouseClicked
 
     private void tbl_SachKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl_SachKeyPressed
@@ -2584,9 +2591,13 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_DocGiaMousePressed
 
     private void btm_editDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editDocGiaMouseClicked
-        UpdateDocGiaController upd = new UpdateDocGiaController(this);
-        upd.Update();
-        ShowDocGia.getInstance().showDocGia(DocGTableModel);
+
+        Constraint c = new Constraint(this);
+        if (c.DocGiaValidate() && c.DocGiaCheckForDuplicatesUpdate()) {
+            UpdateDocGiaController upd = new UpdateDocGiaController(this);
+            upd.Update();
+            ShowDocGia.getInstance().showDocGia(DocGTableModel);
+        }
     }//GEN-LAST:event_btm_editDocGiaMouseClicked
 
     private void btn_xoaDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_xoaDocGiaMouseClicked
@@ -2736,10 +2747,13 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btm_editPMKeyPressed
 
     private void btm_editPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editPMMouseClicked
-        UpdatePhieuMuonController upd = new UpdatePhieuMuonController(this);
-        UpdateBookController upd2 = new UpdateBookController(this);
-        upd.Update();
-        upd2.UpdateSoLuongUpdatePM();
+        Constraint c = new Constraint(this);
+        if (c.PhieuMuonValidate()) {
+            UpdatePhieuMuonController upd = new UpdatePhieuMuonController(this);
+            UpdateBookController upd2 = new UpdateBookController(this);
+            upd.Update();
+            upd2.UpdateSoLuongUpdatePM();
+        }
     }//GEN-LAST:event_btm_editPMMouseClicked
 
     private void tbl_sachMuonTempMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_sachMuonTempMouseClicked
@@ -2763,7 +2777,7 @@ public class Home extends javax.swing.JFrame {
         boolean flag = true;
         for (int i = 0; i < SachMuonTableModel.getRowCount() && SachMuonTableModel.getRowCount() != 0; i++) {
             int num = Integer.parseInt(tbl_sachMuon.getValueAt(i, 1).toString());
-            if (num == 0) {
+            if (num <= 0) {
                 JOptionPane.showMessageDialog(this, "Hãy nhập số lượng sách > 0");
                 // Update lại bảng
                 SachMuonTableModel.setRowCount(0);
@@ -2917,7 +2931,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdBookKeyReleased
 
     private void txtBookNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBookNameKeyReleased
-        if (!txtBookName.getText().trim().matches("[0-9A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+") 
+        if (!txtBookName.getText().trim().matches("[0-9A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+")
                 && txtBookName.getText().trim() != null) {
             txtBookName.setForeground(Color.red);
         } else {
@@ -2926,7 +2940,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBookNameKeyReleased
 
     private void txtAuthorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAuthorKeyReleased
-        if (!txtAuthor.getText().trim().matches("[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+") 
+        if (!txtAuthor.getText().trim().matches("[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+")
                 && txtAuthor.getText().trim() != null) {
             txtAuthor.setForeground(Color.red);
         } else {
@@ -2935,7 +2949,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_txtAuthorKeyReleased
 
     private void txtPublisherKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPublisherKeyReleased
-        if (!txtPublisher.getText().trim().matches("[0-9A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+") 
+        if (!txtPublisher.getText().trim().matches("[0-9A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+")
                 && txtPublisher.getText().trim() != null) {
             txtPublisher.setForeground(Color.red);
         } else {
@@ -2944,7 +2958,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPublisherKeyReleased
 
     private void txtPublishYearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPublishYearKeyReleased
-        if (!txtPublishYear.getText().trim().matches("\\d{4}") 
+        if (!txtPublishYear.getText().trim().matches("\\d{4}")
                 && txtPublishYear.getText().trim() != null) {
             txtPublishYear.setForeground(Color.red);
         } else {
@@ -2959,7 +2973,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPublishYearKeyReleased
 
     private void txtTypeOfBookKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTypeOfBookKeyReleased
-        if (!txtTypeOfBook.getText().trim().matches("[0-9A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+") 
+        if (!txtTypeOfBook.getText().trim().matches("[0-9A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+")
                 && txtTypeOfBook.getText().trim() != null) {
             txtTypeOfBook.setForeground(Color.red);
         } else {
@@ -2968,7 +2982,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTypeOfBookKeyReleased
 
     private void txtPriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceKeyReleased
-        if (!txtPrice.getText().trim().matches("\\d+") 
+        if (!txtPrice.getText().trim().matches("\\d+")
                 && txtPrice.getText().trim() != null) {
             txtPrice.setForeground(Color.red);
         } else {
@@ -2988,7 +3002,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdDocGiaKeyReleased
 
     private void txtTenDocGiaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenDocGiaKeyReleased
-        if (!txtTenDocGia.getText().trim().matches("[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+") 
+        if (!txtTenDocGia.getText().trim().matches("[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéếêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+")
                 && txtTenDocGia.getText().trim() != null) {
             txtTenDocGia.setForeground(Color.red);
         } else {

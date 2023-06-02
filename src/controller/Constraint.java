@@ -35,10 +35,14 @@ public class Constraint {
         String namXb = home.getTxtPublishYear().getText().trim();
         int soLuong = (int) home.getSpiner_bookQuantity().getValue();
         String gia = home.getTxtPrice().getText().trim();
-
+        // lấy năm hiện tại
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+        simpleDateFormat.applyPattern("yyyy");
+        String cur_year = simpleDateFormat.format(date);
         if (maSach.isBlank() && tenSach.isEmpty() && tacGia.isEmpty()
                 && theLoai.isEmpty() && nhaXB.isEmpty() && namXb.isEmpty() && gia.isEmpty()) {
-            JOptionPane.showMessageDialog(home, "Hãy nhập thông tin sách để thêm!");
+            JOptionPane.showMessageDialog(home, "Hãy nhập thông tin sách!");
             flag = false;
         } else if (maSach.isEmpty()) {
             JOptionPane.showMessageDialog(home, "Mã sách không được để trống!");
@@ -55,9 +59,11 @@ public class Constraint {
         } else if (!namXb.matches("\\d+") && !namXb.isEmpty()) {
             JOptionPane.showMessageDialog(home, "Năm xuất bản là định dạng số");
             flag = false;
-        } else if (!gia.matches("\\d+") && !gia.isEmpty()) {
-            JOptionPane.showMessageDialog(home, "Giá là định dạng số!");
-            flag = false;
+        } else if (!namXb.isEmpty()) {
+            if (Integer.parseInt(namXb) > Integer.parseInt(cur_year) || Integer.parseInt(namXb) < 1000) {
+                JOptionPane.showMessageDialog(home, "Năm xuất bản không hợp lệ!");
+                flag = false;
+            }
         }
         return flag;
     }
@@ -100,9 +106,6 @@ public class Constraint {
         } else if (!CCCD.matches("\\d+")) {
             JOptionPane.showMessageDialog(home, "CCCD có định dạng là số!");
             flag = false;
-        } else if (!flag_cccd) {
-            JOptionPane.showMessageDialog(home, "CCCD đã tồn tại!");
-            flag = false;
         } else if (!SDT.matches("\\d+") && !SDT.isEmpty()) {
             JOptionPane.showMessageDialog(home, "SDT có định dạng kiểu số!");
             flag = false;
@@ -136,26 +139,55 @@ public class Constraint {
         return flag_id && flag_cccd;
     }
 
+    public boolean DocGiaCheckForDuplicatesUpdate() {
+        boolean flag_cccd = true;
+        String CCCD = home.getTxtCCCD().getText().trim();
+        List<DocGia> list = DocGiaDAO.getInstant().selectAllWithoutID(Integer.parseInt(home.getTxtIdDocGia().getText().trim()));
+        for (int i = 0; i < list.size() && list.size() != 0; i++) {
+            if (list.get(i).getCCCD().equals(CCCD)) {
+                flag_cccd = false;
+                JOptionPane.showMessageDialog(home, "CCCD đã tồn tại!");
+                break;
+            }
+        }
+
+        return flag_cccd;
+    }
+
     // Check input PhieuMuon
     public boolean PhieuMuonValidate() {
         boolean flag = true;
         String MaPM = home.getTxtMaPhieuMuon().getText().trim();
         String MaDG = home.getTxtIdBook2().getText().trim();
-        Date date = new Date();
+        Date cur = new Date();
+        Date ngayMuon = null;
+        Date ngayHenTra = null;
+        Date ngayTra = null;
+        try {
+            ngayMuon = home.getDateChooseNgayMuon().getDate();
+            ngayHenTra = home.getDateChooseNgayHenTra().getDate();
+            ngayTra = home.getDateChooseNgayTra().getDate();
+        } catch (Exception e) {
+        }
         if (MaPM.isEmpty()) {
             JOptionPane.showMessageDialog(home, "Chưa nhập mã Phiếu Mượn!");
             flag = false;
         } else if (MaDG.isEmpty() || home.getCbx_DocGia().getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(home, "Chưa chọn Độc Giả!");
             flag = false;
-        } else if (home.getCbx_Books().getSelectedIndex() == 0 || home.getListSachMuon().isEmpty()) {
+        } else if (home.getListSachMuon().isEmpty()) {
             JOptionPane.showMessageDialog(home, "Chưa chọn Sách!");
-            flag = false;}
-//        } else if (date.compareTo(home.getDateChooseNgayMuon().getDate()) > 0 && home.getDateChooseNgayMuon().getDate() != null
-//                || date.compareTo(home.getDateChooseNgayMuon().getDate()) != 0 && home.getDateChooseNgayMuon().getDate() != null) {
-//            JOptionPane.showMessageDialog(home, "Ngày mượn phải lớn hơn hoặc là ngày hiện tại!");
-//            flag = false;
-//        }
+            flag = false;
+        } else if(ngayMuon!= null && ngayMuon.compareTo(cur) > 0){
+            JOptionPane.showMessageDialog(home, "Ngày mượn không hợp lệ");
+            flag = false;
+        } else if(ngayHenTra!= null && ngayHenTra.compareTo(ngayMuon) < 0){
+            JOptionPane.showMessageDialog(home, "Ngày hẹn không hợp lệ");
+            flag = false;
+        } else if(ngayTra!= null && ngayTra.compareTo(ngayMuon) > 0){
+            JOptionPane.showMessageDialog(home, "Ngày trả không hợp lệ");
+            flag = false;
+        } 
         return flag;
     }
 }

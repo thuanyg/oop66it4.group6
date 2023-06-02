@@ -31,6 +31,13 @@ public class UpdateDocGiaController {
         try {
             ma = Integer.parseInt(home.getTxtIdDocGia().getText().trim());
             hoTen = home.getTxtTenDocGia().getText().trim();
+            String[] arr = hoTen.split(" ");
+            hoTen = "";
+            for (int i = 0; i < arr.length; i++) {
+                String first = arr[i].substring(0, 1).toUpperCase();
+                arr[i] = first + arr[i].substring(1);
+                hoTen += arr[i] + " ";
+            }
             cccd = home.getTxtCCCD().getText().trim();
             sdt = home.getTxtSDT().getText().trim();
             if (home.getDateChoose().getDate() == null) {
