@@ -5,12 +5,6 @@
 package view;
 
 import analysService.BarChart;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import analysService.Dashboard;
 import controller.ShowBooks;
 import global.Username;
@@ -3057,61 +3051,61 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSDTKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String path = "";
-        JFileChooser j = new JFileChooser();
-        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int x = j.showSaveDialog(this);
-        if (x == JFileChooser.APPROVE_OPTION) {
-            path = j.getSelectedFile().getPath();
-        }
-        Document doc = new Document();
-        try {
-            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\List_Sach.pdf"));
-            doc.open();
-            Paragraph para = new Paragraph("THONG KE NHUNG SACH HIEN CO TRONG THU VIEN");
-            doc.add(para);
-            para = new Paragraph("----------------------------------------------------------------");
-            doc.add(para);
-            PdfPTable tbl = new PdfPTable(8);
-            PdfPCell c1 = new PdfPCell(new Phrase("ID"));
-            tbl.addCell(c1);
-            PdfPCell c2 = new PdfPCell(new Phrase("Ten Sach"));
-            tbl.addCell(c2);
-
-            PdfPCell c3 = new PdfPCell(new Phrase("The Loai"));
-            tbl.addCell(c3);
-
-            PdfPCell c4 = new PdfPCell(new Phrase("Tac Gia"));
-            tbl.addCell(c4);
-
-            PdfPCell c5 = new PdfPCell(new Phrase("Nam Xuat Ban"));
-            tbl.addCell(c5);
-
-            PdfPCell c6 = new PdfPCell(new Phrase("Nha Xuat Ban"));
-            tbl.addCell(c6);
-
-            PdfPCell c7 = new PdfPCell(new Phrase("So Luong"));
-            tbl.addCell(c7);
-
-            PdfPCell c8 = new PdfPCell(new Phrase("Gia"));
-            tbl.addCell(c8);
-            tbl.setHeaderRows(1);
-            ArrayList<Sach> listSach = SachDAO.getInstant().selectAll();
-            listSach.forEach((s) -> {
-                tbl.addCell(String.valueOf(s.getId()));
-                tbl.addCell(s.getTenSach());
-                tbl.addCell(s.getTheLoai());
-                tbl.addCell(s.getTacGia());
-                tbl.addCell(String.valueOf(s.getNamXB()));
-                tbl.addCell(s.getNhaXB());
-                tbl.addCell(String.valueOf(s.getSoLuong()));
-                tbl.addCell(String.valueOf(s.getGiaSach()));
-            });
-            doc.add(tbl);
-            JOptionPane.showMessageDialog(this, "PDF Generated!");
-            doc.close();
-        } catch (Exception e) {
-        }
+//        String path = "";
+//        JFileChooser j = new JFileChooser();
+//        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        int x = j.showSaveDialog(this);
+//        if (x == JFileChooser.APPROVE_OPTION) {
+//            path = j.getSelectedFile().getPath();
+//        }
+//        Document doc = new Document();
+//        try {
+//            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\List_Sach.pdf"));
+//            doc.open();
+//            Paragraph para = new Paragraph("THONG KE NHUNG SACH HIEN CO TRONG THU VIEN");
+//            doc.add(para);
+//            para = new Paragraph("----------------------------------------------------------------");
+//            doc.add(para);
+//            PdfPTable tbl = new PdfPTable(8);
+//            PdfPCell c1 = new PdfPCell(new Phrase("ID"));
+//            tbl.addCell(c1);
+//            PdfPCell c2 = new PdfPCell(new Phrase("Ten Sach"));
+//            tbl.addCell(c2);
+//
+//            PdfPCell c3 = new PdfPCell(new Phrase("The Loai"));
+//            tbl.addCell(c3);
+//
+//            PdfPCell c4 = new PdfPCell(new Phrase("Tac Gia"));
+//            tbl.addCell(c4);
+//
+//            PdfPCell c5 = new PdfPCell(new Phrase("Nam Xuat Ban"));
+//            tbl.addCell(c5);
+//
+//            PdfPCell c6 = new PdfPCell(new Phrase("Nha Xuat Ban"));
+//            tbl.addCell(c6);
+//
+//            PdfPCell c7 = new PdfPCell(new Phrase("So Luong"));
+//            tbl.addCell(c7);
+//
+//            PdfPCell c8 = new PdfPCell(new Phrase("Gia"));
+//            tbl.addCell(c8);
+//            tbl.setHeaderRows(1);
+//            ArrayList<Sach> listSach = SachDAO.getInstant().selectAll();
+//            listSach.forEach((s) -> {
+//                tbl.addCell(String.valueOf(s.getId()));
+//                tbl.addCell(s.getTenSach());
+//                tbl.addCell(s.getTheLoai());
+//                tbl.addCell(s.getTacGia());
+//                tbl.addCell(String.valueOf(s.getNamXB()));
+//                tbl.addCell(s.getNhaXB());
+//                tbl.addCell(String.valueOf(s.getSoLuong()));
+//                tbl.addCell(String.valueOf(s.getGiaSach()));
+//            });
+//            doc.add(tbl);
+//            JOptionPane.showMessageDialog(this, "PDF Generated!");
+//            doc.close();
+//        } catch (Exception e) {
+//        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_moreInfoDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoDocGiaMouseClicked
