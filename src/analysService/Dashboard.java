@@ -17,25 +17,26 @@ import model.Sach;
  *
  * @author HOANG TIEN THUAN
  */
-public class Dashboard{
+public class Dashboard {
+
+    private Connection connection = null;
 
     public Dashboard() {
+        connection = JDBCUtil.getConnection();
     }
-    
-    public int TongSachCon(){
+
+    public int TongSachCon() {
         List<Sach> listSach = SachDAO.getInstant().selectAll();
         return listSach.size();
     }
-    
-    public int TongNguoiMuon(){
+
+    public int TongNguoiMuon() {
         int rs = 0;
         try {
-            Connection connection = JDBCUtil.getConnection();
-            JDBCUtil.printInfo(connection);
             String sql = "Select count(Distinct Ma_Doc_Gia)as 'sol' From Phieu_Muon";
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet kq = pst.executeQuery();
-            if(kq.next()){
+            if (kq.next()) {
                 rs = kq.getInt("sol");
             }
             JDBCUtil.closeConnection(connection);
@@ -44,16 +45,14 @@ public class Dashboard{
         }
         return rs;
     }
-    
-    public int TongSachMuon(){
+
+    public int TongSachMuon() {
         int rs = 0;
         try {
-            Connection connection = JDBCUtil.getConnection();
-            JDBCUtil.printInfo(connection);
             String sql = "Select Sum(SoLuong)as 'sol' From Sach_PhieuMuon";
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet kq = pst.executeQuery();
-            if(kq.next()){
+            if (kq.next()) {
                 rs = kq.getInt("sol");
             }
             JDBCUtil.closeConnection(connection);
@@ -62,5 +61,5 @@ public class Dashboard{
         }
         return rs;
     }
-    
+
 }

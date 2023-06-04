@@ -8,6 +8,7 @@ import dao.DocGiaDAO;
 import dao.PhieuMuonDAO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import model.DocGia;
 import model.PhieuMuon;
@@ -29,6 +30,7 @@ public class InsertPhieu_Muon {
         int Ma_PM = 0;
         int Ma_DG = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date cur = new Date();
         String Ngay_Muon = null;
         String Ngay_Hen_Tra = null;
         String Ngay_Tra = null;

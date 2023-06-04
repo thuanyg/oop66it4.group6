@@ -157,6 +157,7 @@ public class Constraint {
     // Check input PhieuMuon
     public boolean PhieuMuonValidate() {
         boolean flag = true;
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String MaPM = home.getTxtMaPhieuMuon().getText().trim();
         String MaDG = home.getTxtIdBook2().getText().trim();
         Date cur = new Date();
@@ -169,6 +170,12 @@ public class Constraint {
             ngayTra = home.getDateChooseNgayTra().getDate();
         } catch (Exception e) {
         }
+        if(ngayMuon == null){
+            cur.setHours(0);
+            home.getDateChooseNgayMuon().setDate(cur);
+            ngayMuon = home.getDateChooseNgayMuon().getDate();
+        }
+        System.out.println("Ngay muon: " + ngayMuon);
         if (MaPM.isEmpty()) {
             JOptionPane.showMessageDialog(home, "Chưa nhập mã Phiếu Mượn!");
             flag = false;
@@ -178,16 +185,17 @@ public class Constraint {
         } else if (home.getListSachMuon().isEmpty()) {
             JOptionPane.showMessageDialog(home, "Chưa chọn Sách!");
             flag = false;
-        } else if(ngayMuon!= null && ngayMuon.compareTo(cur) > 0){
-            JOptionPane.showMessageDialog(home, "Ngày mượn không hợp lệ");
+        } else if (ngayHenTra == null) {
+            JOptionPane.showMessageDialog(home, "Chưa chọn ngày hẹn trả");
             flag = false;
-        } else if(ngayHenTra!= null && ngayHenTra.compareTo(ngayMuon) < 0){
-            JOptionPane.showMessageDialog(home, "Ngày hẹn không hợp lệ");
+        } else if (ngayHenTra != null && ngayHenTra.compareTo(ngayMuon) < 0) {
+            JOptionPane.showMessageDialog(home, "Ngày hẹn trả không hợp lệ");
             flag = false;
-        } else if(ngayTra!= null && ngayTra.compareTo(ngayMuon) > 0){
+        } else if (ngayTra != null && ngayTra.compareTo(ngayMuon) < 0) {
             JOptionPane.showMessageDialog(home, "Ngày trả không hợp lệ");
             flag = false;
-        } 
+        }
+
         return flag;
     }
 }

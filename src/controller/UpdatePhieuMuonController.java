@@ -7,6 +7,7 @@ package controller;
 import dao.PhieuMuonDAO;
 import dao.SachPhieuMuonDAO;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import model.PhieuMuon;
 import model.Sach;
@@ -28,6 +29,7 @@ public class UpdatePhieuMuonController {
         int Ma_PM = 0;
         int Ma_DG = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date cur = new Date();
         String Ngay_Muon = null;
         String Ngay_Hen_Tra = null;
         String Ngay_Tra = null;

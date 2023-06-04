@@ -5,7 +5,6 @@
 package view;
 
 import analysService.BarChart;
-import analysService.Dashboard;
 import controller.ShowBooks;
 import global.Username;
 import dao.SachDAO;
@@ -34,7 +33,6 @@ import javax.swing.table.DefaultTableModel;
 import model.Sach;
 import com.toedter.calendar.JDateChooser;
 import analysService.AnalysisController;
-import analysService.GraphsCode;
 import controller.Constraint;
 import controller.DeleteBookController;
 import controller.DeleteDocGiaController;
@@ -42,8 +40,6 @@ import controller.DeletePhieuMuon;
 import controller.InsertBookController;
 import controller.InsertDocGiaController;
 import controller.InsertPhieu_Muon;
-import controller.InsertSachPhieuMuon;
-import controller.KeyReleasedCheck;
 import controller.SearchDocGiaController;
 import controller.SearchPhieuMuonController;
 import controller.ShowPhieuMuon;
@@ -55,10 +51,6 @@ import controller.SortPhieuMuonController;
 import controller.UpdatePhieuMuonController;
 import dao.DocGiaDAO;
 import database.JDBCUtil;
-import java.awt.HeadlessException;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -69,7 +61,6 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import model.DocGia;
@@ -105,8 +96,8 @@ public class Home extends javax.swing.JFrame {
         PhieuMuonTableModel = (DefaultTableModel) tbl_PhieuMuon.getModel();
         SachMuonTempTableModel = (DefaultTableModel) tbl_sachMuonTemp.getModel();
         SachMuonMoiThemTableModel = (DefaultTableModel) tbl_sachMuonMoiThem.getModel();
-        ShowBookOnCombobox();
-        ShowDocGiaOnCombobox();
+//        ShowBookOnCombobox();
+//        ShowDocGiaOnCombobox();
         // Add placeholder
         AddPlaceHolderStyle(txtSearchBook);
         AddPlaceHolderStyle(txtSearchDocGia);
@@ -1202,6 +1193,7 @@ public class Home extends javax.swing.JFrame {
         dateChooseNgayTra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rightPanelPhieuMuon.add(dateChooseNgayTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, 195, 32));
 
+        dateChooseNgayMuon.setEnabled(false);
         dateChooseNgayMuon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rightPanelPhieuMuon.add(dateChooseNgayMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 76, 195, 32));
 
@@ -2135,8 +2127,10 @@ public class Home extends javax.swing.JFrame {
         anl.setTotalBooks();
         anl.setTongNguoiMuon();
         anl.setTongSachMuon();
-        GraphsCode graph = new GraphsCode(this);
-        graph.showBarChart();
+//        GraphsCode graph = new GraphsCode(this);
+//        graph.showBarChart();
+//        Exam e = new Exam(this);
+//        e.createChartPanel();
     }//GEN-LAST:event_lb_ThongKeBaoCaoMouseClicked
 
     private void txtSearchBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchBookActionPerformed
@@ -2417,15 +2411,24 @@ public class Home extends javax.swing.JFrame {
             }
         }
         String c = null;
+        List<Sach> listSach = SachDAO.getInstant().selectAll();
         if (check == true) {
-            c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "0");
+            int soL = 0;
+            String[] idSach_cbx = item.toString().split("\\s|[A-Za-z]+");
+            for (int i = 0; i < listSach.size() && !listSach.isEmpty(); i++) {
+                if (Integer.parseInt(idSach_cbx[0]) == listSach.get(i).getId()) {
+                    soL = listSach.get(i).getSoLuong();
+                    break;
+                }
+            }
+            c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: "
+                    + item.toString() + " (Hiện còn " + soL + ")", "0");
         }
         while (!c.matches("\\d+")) {
             JOptionPane.showMessageDialog(rightPanelPhieuMuon, "Chỉ nhập số!!!");
             c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "0");
         }
 
-        List<Sach> listSach = SachDAO.getInstant().selectAll();
         String[] idSach_cbx = item.toString().split("\\s|[A-Za-z]+");
         for (int i = 0; i < listSach.size() && !listSach.isEmpty(); i++) {
             if (Integer.parseInt(idSach_cbx[0]) == listSach.get(i).getId()) {
@@ -2551,11 +2554,11 @@ public class Home extends javax.swing.JFrame {
         rightPanelSach.setVisible(true);
         ShowBooks show = new ShowBooks();
         show.ShowOnTblSach(SachTableModel);
-           
+
     }//GEN-LAST:event_btn_moreInfoBookMouseClicked
 
     private void btn_moreInfoPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoPMMouseClicked
-        
+
     }//GEN-LAST:event_btn_moreInfoPMMouseClicked
 
     private void formAncestorMoved(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_formAncestorMoved
@@ -2568,12 +2571,16 @@ public class Home extends javax.swing.JFrame {
 
     private void btn_insertBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBookMouseClicked
         Constraint st = new Constraint(this);
-        if (st.SachValidate() == true) {
-            InsertBookController ins = new InsertBookController(this);
-            ins.Insert();
+        if (st.SachValidate()) {
+            if (!txtPrice.getText().trim().isEmpty() && !txtPrice.getText().trim().matches("[\\d\\.]+")) {
+                JOptionPane.showMessageDialog(this, "Giá sách không hợp lệ!");
+            } else {
+                InsertBookController ins = new InsertBookController(this);
+                ins.Insert();
+                ShowBooks show = new ShowBooks();
+                show.ShowOnTblSach(SachTableModel);
+            }
         }
-        ShowBooks show = new ShowBooks();
-        show.ShowOnTblSach(SachTableModel);
     }//GEN-LAST:event_btn_insertBookMouseClicked
 
     private void pnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlMouseClicked
@@ -2583,7 +2590,7 @@ public class Home extends javax.swing.JFrame {
     private void btm_editBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editBookMouseClicked
         Constraint c = new Constraint(this);
         if (c.SachValidate()) {
-            if (!txtPrice.getText().trim().matches("\\d+") && txtPrice.getText().trim() != null) {
+            if (!txtPrice.getText().trim().matches("[\\d\\.]+") && !txtPrice.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Giá sách không hợp lệ!");
             } else {
                 UpdateBookController update = new UpdateBookController(this);
