@@ -40,6 +40,7 @@ import controller.DeletePhieuMuon;
 import controller.InsertBookController;
 import controller.InsertDocGiaController;
 import controller.InsertPhieu_Muon;
+import controller.PhieuMuonQuaHanController;
 import controller.SearchDocGiaController;
 import controller.SearchPhieuMuonController;
 import controller.ShowPhieuMuon;
@@ -51,6 +52,8 @@ import controller.SortPhieuMuonController;
 import controller.UpdatePhieuMuonController;
 import dao.DocGiaDAO;
 import database.JDBCUtil;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -62,7 +65,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
+import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
+import javax.swing.event.MouseInputAdapter;
 import model.DocGia;
 
 /**
@@ -72,7 +77,7 @@ import model.DocGia;
 public class Home extends javax.swing.JFrame {
 
     DefaultTableModel SachTableModel, SachMuonTableModel, SachMuonTempTableModel,
-            SachMuonMoiThemTableModel, DocGTableModel, PhieuMuonTableModel;
+            SachMuonMoiThemTableModel, DocGTableModel, PhieuMuonTableModel, PhieuMuonQHTableModel;
     List<String> listSachMuon = new ArrayList<>();
     List<String> listSachMuonMoiThem = new ArrayList<>();
     List<Integer> listSoLuongMuon = new ArrayList<>();
@@ -96,6 +101,7 @@ public class Home extends javax.swing.JFrame {
         PhieuMuonTableModel = (DefaultTableModel) tbl_PhieuMuon.getModel();
         SachMuonTempTableModel = (DefaultTableModel) tbl_sachMuonTemp.getModel();
         SachMuonMoiThemTableModel = (DefaultTableModel) tbl_sachMuonMoiThem.getModel();
+        PhieuMuonQHTableModel = (DefaultTableModel) tbl_PhieuMuonQH.getModel();
 //        ShowBookOnCombobox();
 //        ShowDocGiaOnCombobox();
         // Add placeholder
@@ -105,6 +111,7 @@ public class Home extends javax.swing.JFrame {
         AddTableStyle(tbl_Sach);
         AddTableStyle(tbl_DocGia);
         AddTableStyle(tbl_PhieuMuon);
+        AddTableStyle(tbl_PhieuMuonQH);
         SetTableHeaderStyle();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/assets/logo.png")));
         setVisibleFalse();
@@ -239,12 +246,16 @@ public class Home extends javax.swing.JFrame {
 
         buttonGroupGender = new javax.swing.ButtonGroup();
         barChart = new javax.swing.JFrame();
-        btn_deleteControl = new javax.swing.JPanel();
+        PhieuPhatControl = new javax.swing.JPanel();
+        btn_thongtindocgia = new javax.swing.JButton();
+        btn_thontinsachmuon = new javax.swing.JButton();
+        btn_tienPhat = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         tbl_sachMuonMoiThem = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
         tbl_sachMuonTemp = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        menu = new javax.swing.JPopupMenu();
         rightPanelSach = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Sach = new javax.swing.JTable();
@@ -318,6 +329,11 @@ public class Home extends javax.swing.JFrame {
         img_dashbroard = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jPanelForBarChart = new javax.swing.JPanel();
+        panelPMQuaHan = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tbl_PhieuMuonQH = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         leftPanel = new javax.swing.JPanel();
         HeadingHome = new javax.swing.JLabel();
         logOutIcon = new javax.swing.JLabel();
@@ -404,17 +420,47 @@ public class Home extends javax.swing.JFrame {
             .addGap(0, 376, Short.MAX_VALUE)
         );
 
-        btn_deleteControl.setBackground(new java.awt.Color(242, 247, 251));
+        PhieuPhatControl.setBackground(new java.awt.Color(242, 247, 251));
 
-        javax.swing.GroupLayout btn_deleteControlLayout = new javax.swing.GroupLayout(btn_deleteControl);
-        btn_deleteControl.setLayout(btn_deleteControlLayout);
-        btn_deleteControlLayout.setHorizontalGroup(
-            btn_deleteControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+        btn_thongtindocgia.setBackground(new java.awt.Color(204, 255, 204));
+        btn_thongtindocgia.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
+        btn_thongtindocgia.setText("Thông tin độc giả");
+        btn_thongtindocgia.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_thongtindocgia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        btn_thontinsachmuon.setBackground(new java.awt.Color(204, 255, 204));
+        btn_thontinsachmuon.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
+        btn_thontinsachmuon.setText("Thông tin sách mượn");
+        btn_thontinsachmuon.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_thontinsachmuon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        btn_tienPhat.setBackground(new java.awt.Color(204, 255, 204));
+        btn_tienPhat.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
+        btn_tienPhat.setText("Số tiền phạt");
+        btn_tienPhat.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_tienPhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_tienPhat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_tienPhatActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PhieuPhatControlLayout = new javax.swing.GroupLayout(PhieuPhatControl);
+        PhieuPhatControl.setLayout(PhieuPhatControlLayout);
+        PhieuPhatControlLayout.setHorizontalGroup(
+            PhieuPhatControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btn_tienPhat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_thontinsachmuon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_thongtindocgia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        btn_deleteControlLayout.setVerticalGroup(
-            btn_deleteControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+        PhieuPhatControlLayout.setVerticalGroup(
+            PhieuPhatControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PhieuPhatControlLayout.createSequentialGroup()
+                .addComponent(btn_thongtindocgia, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_thontinsachmuon, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_tienPhat, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         tbl_sachMuonMoiThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -533,6 +579,8 @@ public class Home extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        menu.add(PhieuPhatControl);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home - Library Management System");
@@ -1306,17 +1354,97 @@ public class Home extends javax.swing.JFrame {
         DashbroadOnTop.add(img_dashbroard, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 0, 1022, 278));
 
         jPanelForBarChart.setBackground(new java.awt.Color(242, 247, 251));
+        jPanelForBarChart.setEnabled(false);
         jPanelForBarChart.setPreferredSize(new java.awt.Dimension(850, 450));
+        jPanelForBarChart.setVerifyInputWhenFocusTarget(false);
+
+        panelPMQuaHan.setBackground(new java.awt.Color(51, 255, 153));
+
+        tbl_PhieuMuonQH.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbl_PhieuMuonQH.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Mã PM", "Mã ĐG", "Ngày Mượn", "Ngày Hẹn", "Ngày Trả"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_PhieuMuonQH.setRowHeight(30);
+        tbl_PhieuMuonQH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_PhieuMuonQHMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tbl_PhieuMuonQH);
+        if (tbl_PhieuMuonQH.getColumnModel().getColumnCount() > 0) {
+            tbl_PhieuMuonQH.getColumnModel().getColumn(0).setPreferredWidth(70);
+            tbl_PhieuMuonQH.getColumnModel().getColumn(0).setMaxWidth(110);
+            tbl_PhieuMuonQH.getColumnModel().getColumn(1).setPreferredWidth(70);
+            tbl_PhieuMuonQH.getColumnModel().getColumn(1).setMaxWidth(100);
+        }
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("DANH SÁCH PHIẾU MƯỢN QUÁ HẠN");
+
+        javax.swing.GroupLayout panelPMQuaHanLayout = new javax.swing.GroupLayout(panelPMQuaHan);
+        panelPMQuaHan.setLayout(panelPMQuaHanLayout);
+        panelPMQuaHanLayout.setHorizontalGroup(
+            panelPMQuaHanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPMQuaHanLayout.createSequentialGroup()
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelPMQuaHanLayout.setVerticalGroup(
+            panelPMQuaHanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPMQuaHanLayout.createSequentialGroup()
+                .addGap(0, 16, Short.MAX_VALUE)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 464, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanelForBarChartLayout = new javax.swing.GroupLayout(jPanelForBarChart);
         jPanelForBarChart.setLayout(jPanelForBarChartLayout);
         jPanelForBarChartLayout.setHorizontalGroup(
             jPanelForBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 850, Short.MAX_VALUE)
+            .addGroup(jPanelForBarChartLayout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addComponent(panelPMQuaHan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelForBarChartLayout.setVerticalGroup(
             jPanelForBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelPMQuaHan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout rightPanelThongkeLayout = new javax.swing.GroupLayout(rightPanelThongke);
@@ -1327,9 +1455,9 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(rightPanelThongkeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(DashbroadOnTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(rightPanelThongkeLayout.createSequentialGroup()
-                        .addGap(172, 172, 172)
-                        .addComponent(jPanelForBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(141, 141, 141)
+                        .addGap(120, 120, 120)
+                        .addComponent(jPanelForBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 935, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108)
                         .addComponent(jLabel7)))
                 .addContainerGap())
         );
@@ -1343,8 +1471,8 @@ public class Home extends javax.swing.JFrame {
                         .addComponent(jLabel7))
                     .addGroup(rightPanelThongkeLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jPanelForBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                        .addComponent(jPanelForBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         leftPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -2039,14 +2167,14 @@ public class Home extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(about_us, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rightPanelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rightPanelThongke, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rightPanelSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightPanelSach, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(rightPanelDocGia, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rightPanelPhieuMuon, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rightPanelPhieuMuon, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightPanelThongke, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -2127,6 +2255,7 @@ public class Home extends javax.swing.JFrame {
         anl.setTotalBooks();
         anl.setTongNguoiMuon();
         anl.setTongSachMuon();
+        anl.setTablePMQuaHan();
 //        GraphsCode graph = new GraphsCode(this);
 //        graph.showBarChart();
 //        Exam e = new Exam(this);
@@ -2396,7 +2525,6 @@ public class Home extends javax.swing.JFrame {
             check = false;
         }
         Object item = cbx_Books.getItemAt(cbx_Books.getSelectedIndex());
-//        System.out.println("Bạn vừa chọn vị trí: " + cbx_Books.getSelectedIndex());
         for (String string : listSachMuon) {
             if (string == (item)) {
                 check = false;
@@ -2422,11 +2550,11 @@ public class Home extends javax.swing.JFrame {
                 }
             }
             c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: "
-                    + item.toString() + " (Hiện còn " + soL + ")", "0");
+                    + item.toString() + " (Hiện còn " + soL + ")", "1");
         }
-        while (!c.matches("\\d+")) {
-            JOptionPane.showMessageDialog(rightPanelPhieuMuon, "Chỉ nhập số!!!");
-            c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "0");
+        while (!c.matches("\\d+") || c.equals("0")) {
+            JOptionPane.showMessageDialog(rightPanelPhieuMuon, "Chỉ nhập số và số sách phải lớn hơn 0 cuốn!");
+            c = JOptionPane.showInputDialog(rightPanelPhieuMuon, "Nhập số lượng sách: " + item.toString(), "1");
         }
 
         String[] idSach_cbx = item.toString().split("\\s|[A-Za-z]+");
@@ -2548,26 +2676,9 @@ public class Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtSearchBookKeyReleased
 
-    private void btn_moreInfoBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoBookMouseClicked
-        this.setTitle("Books - Library Management System");
-        setVisibleFalse();
-        rightPanelSach.setVisible(true);
-        ShowBooks show = new ShowBooks();
-        show.ShowOnTblSach(SachTableModel);
-
-    }//GEN-LAST:event_btn_moreInfoBookMouseClicked
-
-    private void btn_moreInfoPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoPMMouseClicked
-
-    }//GEN-LAST:event_btn_moreInfoPMMouseClicked
-
     private void formAncestorMoved(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_formAncestorMoved
 
     }//GEN-LAST:event_formAncestorMoved
-
-    private void rightPanelThongkeAncestorMoved(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_rightPanelThongkeAncestorMoved
-
-    }//GEN-LAST:event_rightPanelThongkeAncestorMoved
 
     private void btn_insertBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBookMouseClicked
         Constraint st = new Constraint(this);
@@ -3115,9 +3226,38 @@ public class Home extends javax.swing.JFrame {
 //        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void rightPanelThongkeAncestorMoved(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_rightPanelThongkeAncestorMoved
+
+    }//GEN-LAST:event_rightPanelThongkeAncestorMoved
+
     private void btn_moreInfoDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoDocGiaMouseClicked
         BarChart.Show(jPanelForBarChart);
     }//GEN-LAST:event_btn_moreInfoDocGiaMouseClicked
+
+    private void btn_moreInfoPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoPMMouseClicked
+
+    }//GEN-LAST:event_btn_moreInfoPMMouseClicked
+
+    private void btn_moreInfoBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoBookMouseClicked
+        this.setTitle("Books - Library Management System");
+        setVisibleFalse();
+        rightPanelSach.setVisible(true);
+        ShowBooks show = new ShowBooks();
+        show.ShowOnTblSach(SachTableModel);
+    }//GEN-LAST:event_btn_moreInfoBookMouseClicked
+
+    private void tbl_PhieuMuonQHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_PhieuMuonQHMouseClicked
+        int row = tbl_PhieuMuonQH.rowAtPoint(evt.getPoint());
+        menu.show(tbl_PhieuMuonQH, tbl_PhieuMuonQH.getWidth(), 25 * row);
+        PhieuMuonQuaHanController pmqh = new PhieuMuonQuaHanController(this);
+        pmqh.ActionButtonSachMuon();
+        pmqh.ActionButtonTienPhat();
+        pmqh.ActionButtonDocGia();
+    }//GEN-LAST:event_tbl_PhieuMuonQHMouseClicked
+
+    private void btn_tienPhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tienPhatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_tienPhatActionPerformed
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
@@ -3579,6 +3719,26 @@ public class Home extends javax.swing.JFrame {
         return btn_nam;
     }
 
+    public JPanel getPhieuPhatControl() {
+        return PhieuPhatControl;
+    }
+
+    public JButton getBtn_thongtindocgia() {
+        return btn_thongtindocgia;
+    }
+
+    public JButton getBtn_thontinsachmuon() {
+        return btn_thontinsachmuon;
+    }
+
+    public JButton getBtn_tienPhat() {
+        return btn_tienPhat;
+    }
+
+    public JPopupMenu getMenu() {
+        return menu;
+    }
+
     public JLabel getBtn_requestDemo() {
         return btn_requestDemo;
     }
@@ -3601,6 +3761,46 @@ public class Home extends javax.swing.JFrame {
 
     public JButton getBtn_resetDocGia() {
         return btn_resetDocGia;
+    }
+
+    public DefaultTableModel getPhieuMuonQHTableModel() {
+        return PhieuMuonQHTableModel;
+    }
+
+    public JButton getjButton1() {
+        return jButton1;
+    }
+
+    public JLabel getjLabel8() {
+        return jLabel8;
+    }
+
+    public JPanel getjPanel1() {
+        return jPanel1;
+    }
+
+    public JScrollPane getjScrollPane4() {
+        return jScrollPane4;
+    }
+
+    public JTable getjTable1() {
+        return tbl_PhieuMuonQH;
+    }
+
+    public JTable getTbl_PhieuMuonQH() {
+        return tbl_PhieuMuonQH;
+    }
+
+    public JLabel getLb_product() {
+        return lb_product;
+    }
+
+    public JLabel getLb_tick() {
+        return lb_tick;
+    }
+
+    public JPanel getPanelPMQuaHan() {
+        return panelPMQuaHan;
     }
 
     public JButton getBtn_resetPM() {
@@ -3716,7 +3916,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     public JPanel getBtn_deleteControl() {
-        return btn_deleteControl;
+        return PhieuPhatControl;
     }
 
     public JScrollPane getjScrollPane6() {
@@ -3876,6 +4076,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel DashbroadOnTop;
     private javax.swing.JLabel HeadingHome;
     private javax.swing.JPanel Home;
+    private javax.swing.JPanel PhieuPhatControl;
     private javax.swing.JPanel SearchBook;
     private javax.swing.JPanel SearchDocGia;
     private javax.swing.JPanel about_us;
@@ -3894,7 +4095,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel btn_contact;
     private javax.swing.JButton btn_delBook2;
     private javax.swing.JButton btn_deleteBook;
-    private javax.swing.JPanel btn_deleteControl;
     private javax.swing.JLabel btn_github;
     private javax.swing.JLabel btn_hieu;
     private javax.swing.JLabel btn_hung;
@@ -3911,7 +4111,10 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btn_resetDocGia;
     private javax.swing.JButton btn_resetPM;
     private javax.swing.JButton btn_save;
+    private javax.swing.JButton btn_thongtindocgia;
+    private javax.swing.JButton btn_thontinsachmuon;
     private javax.swing.JLabel btn_thuan;
+    private javax.swing.JButton btn_tienPhat;
     private javax.swing.JLabel btn_vanh;
     private javax.swing.JButton btn_xoaDocGia;
     private javax.swing.ButtonGroup buttonGroupGender;
@@ -3935,10 +4138,13 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelForBarChart;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
@@ -3988,6 +4194,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel leftPanel;
     private javax.swing.JLabel logOutIcon;
     private javax.swing.JLabel meber;
+    private javax.swing.JPopupMenu menu;
+    private javax.swing.JPanel panelPMQuaHan;
     private javax.swing.JPanel panel_sachMuon;
     private javax.swing.JPanel pnl;
     private javax.swing.JPanel pnl_PhieuMuon;
@@ -4005,6 +4213,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JSpinner spiner_bookQuantity;
     private javax.swing.JTable tbl_DocGia;
     private javax.swing.JTable tbl_PhieuMuon;
+    private javax.swing.JTable tbl_PhieuMuonQH;
     private javax.swing.JTable tbl_Sach;
     private javax.swing.JTable tbl_sachMuon;
     private javax.swing.JTable tbl_sachMuonMoiThem;
