@@ -95,15 +95,39 @@ public class DashboardJDBC {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, maPM);
             ResultSet kq = pst.executeQuery();
-            if(kq.next()){
+            if (kq.next()) {
                 tienPhat = kq.getFloat("tienphat");
             }
             JDBCUtil.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
-       return tienPhat;
+
+        return tienPhat;
+    }
+
+    public ArrayList<TopDocGiaBean> TopDocGia() {
+        ArrayList<TopDocGiaBean> listTopDG = new ArrayList<>();
+        try {
+            String sql = " SELECT TOP (10) Phieu_Muon.Ma_Doc_Gia, Doc_Gia.Ho_Ten, Sum(Sach_PhieuMuon.SoLuong) as 'sol'  FROM"
+                    + "  Phieu_Muon Join Sach_PhieuMuon ON Phieu_Muon.Ma_PM = Sach_PhieuMuon.Ma_PM"
+                    + "  Join Doc_Gia ON Phieu_Muon.Ma_Doc_Gia = Doc_Gia.Ma_Doc_Gia"
+                    + "  Group by Phieu_Muon.Ma_Doc_Gia, Doc_Gia.Ho_Ten"
+                    + "  ORDER BY sol DESC";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            ResultSet kq = pst.executeQuery();
+            while (kq.next()) {
+                int id = kq.getInt("Ma_Doc_Gia");
+                String hoten = kq.getString("Ho_Ten");
+                int soL = kq.getInt("sol");
+                TopDocGiaBean dg = new TopDocGiaBean(id, soL, hoten);
+                listTopDG.add(dg);
+            }
+//            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listTopDG;
     }
 
 }

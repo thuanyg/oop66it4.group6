@@ -49,6 +49,7 @@ import controller.UpdateDocGiaController;
 import controller.ShowDocGia;
 import controller.SortBookController;
 import controller.SortPhieuMuonController;
+import controller.TopDocGiaController;
 import controller.UpdatePhieuMuonController;
 import dao.DocGiaDAO;
 import database.JDBCUtil;
@@ -64,6 +65,7 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
@@ -77,7 +79,8 @@ import model.DocGia;
 public class Home extends javax.swing.JFrame {
 
     DefaultTableModel SachTableModel, SachMuonTableModel, SachMuonTempTableModel,
-            SachMuonMoiThemTableModel, DocGTableModel, PhieuMuonTableModel, PhieuMuonQHTableModel;
+            SachMuonMoiThemTableModel, DocGTableModel, PhieuMuonTableModel,
+            PhieuMuonQHTableModel, TopDocGiaTableModel;
     List<String> listSachMuon = new ArrayList<>();
     List<String> listSachMuonMoiThem = new ArrayList<>();
     List<Integer> listSoLuongMuon = new ArrayList<>();
@@ -102,8 +105,7 @@ public class Home extends javax.swing.JFrame {
         SachMuonTempTableModel = (DefaultTableModel) tbl_sachMuonTemp.getModel();
         SachMuonMoiThemTableModel = (DefaultTableModel) tbl_sachMuonMoiThem.getModel();
         PhieuMuonQHTableModel = (DefaultTableModel) tbl_PhieuMuonQH.getModel();
-//        ShowBookOnCombobox();
-//        ShowDocGiaOnCombobox();
+        TopDocGiaTableModel = (DefaultTableModel) tbl_topDocGia.getModel();
         // Add placeholder
         AddPlaceHolderStyle(txtSearchBook);
         AddPlaceHolderStyle(txtSearchDocGia);
@@ -112,6 +114,8 @@ public class Home extends javax.swing.JFrame {
         AddTableStyle(tbl_DocGia);
         AddTableStyle(tbl_PhieuMuon);
         AddTableStyle(tbl_PhieuMuonQH);
+        AddTableStyle(tbl_PhieuMuonQH);
+        AddTableStyle(tbl_topDocGia);
         SetTableHeaderStyle();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/assets/logo.png")));
         setVisibleFalse();
@@ -246,9 +250,13 @@ public class Home extends javax.swing.JFrame {
 
         buttonGroupGender = new javax.swing.ButtonGroup();
         barChart = new javax.swing.JFrame();
+        TopDocGiaControl = new javax.swing.JPanel();
+        btn_thongtindocgia1 = new javax.swing.JButton();
+        btn_sdtTopDG = new javax.swing.JButton();
         PhieuPhatControl = new javax.swing.JPanel();
         btn_thongtindocgia = new javax.swing.JButton();
         btn_thontinsachmuon = new javax.swing.JButton();
+        btn_sdt = new javax.swing.JButton();
         btn_tienPhat = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         tbl_sachMuonMoiThem = new javax.swing.JTable();
@@ -256,6 +264,7 @@ public class Home extends javax.swing.JFrame {
         tbl_sachMuonTemp = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         menu = new javax.swing.JPopupMenu();
+        menu2_topDocGia = new javax.swing.JPopupMenu();
         rightPanelSach = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Sach = new javax.swing.JTable();
@@ -334,6 +343,9 @@ public class Home extends javax.swing.JFrame {
         tbl_PhieuMuonQH = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        tbl_topDocGia = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
         leftPanel = new javax.swing.JPanel();
         HeadingHome = new javax.swing.JLabel();
         logOutIcon = new javax.swing.JLabel();
@@ -420,21 +432,66 @@ public class Home extends javax.swing.JFrame {
             .addGap(0, 376, Short.MAX_VALUE)
         );
 
+        TopDocGiaControl.setBackground(new java.awt.Color(242, 247, 251));
+
+        btn_thongtindocgia1.setBackground(new java.awt.Color(0, 153, 102));
+        btn_thongtindocgia1.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
+        btn_thongtindocgia1.setText("Thông tin độc giả");
+        btn_thongtindocgia1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 102, 0)));
+        btn_thongtindocgia1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        btn_sdtTopDG.setBackground(new java.awt.Color(0, 153, 102));
+        btn_sdtTopDG.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
+        btn_sdtTopDG.setText("Liên hệ");
+        btn_sdtTopDG.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 102, 0)));
+        btn_sdtTopDG.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_sdtTopDG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_sdtTopDGActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout TopDocGiaControlLayout = new javax.swing.GroupLayout(TopDocGiaControl);
+        TopDocGiaControl.setLayout(TopDocGiaControlLayout);
+        TopDocGiaControlLayout.setHorizontalGroup(
+            TopDocGiaControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btn_thongtindocgia1, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+            .addComponent(btn_sdtTopDG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        TopDocGiaControlLayout.setVerticalGroup(
+            TopDocGiaControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TopDocGiaControlLayout.createSequentialGroup()
+                .addComponent(btn_thongtindocgia1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(btn_sdtTopDG, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         PhieuPhatControl.setBackground(new java.awt.Color(242, 247, 251));
 
-        btn_thongtindocgia.setBackground(new java.awt.Color(204, 255, 204));
+        btn_thongtindocgia.setBackground(new java.awt.Color(51, 255, 204));
         btn_thongtindocgia.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
         btn_thongtindocgia.setText("Thông tin độc giả");
         btn_thongtindocgia.setBorder(new javax.swing.border.MatteBorder(null));
         btn_thongtindocgia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        btn_thontinsachmuon.setBackground(new java.awt.Color(204, 255, 204));
+        btn_thontinsachmuon.setBackground(new java.awt.Color(51, 255, 204));
         btn_thontinsachmuon.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
         btn_thontinsachmuon.setText("Thông tin sách mượn");
         btn_thontinsachmuon.setBorder(new javax.swing.border.MatteBorder(null));
         btn_thontinsachmuon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        btn_tienPhat.setBackground(new java.awt.Color(204, 255, 204));
+        btn_sdt.setBackground(new java.awt.Color(51, 255, 204));
+        btn_sdt.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
+        btn_sdt.setText("Liên hệ");
+        btn_sdt.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_sdt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_sdt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_sdtActionPerformed(evt);
+            }
+        });
+
+        btn_tienPhat.setBackground(new java.awt.Color(51, 255, 204));
         btn_tienPhat.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
         btn_tienPhat.setText("Số tiền phạt");
         btn_tienPhat.setBorder(new javax.swing.border.MatteBorder(null));
@@ -449,9 +506,10 @@ public class Home extends javax.swing.JFrame {
         PhieuPhatControl.setLayout(PhieuPhatControlLayout);
         PhieuPhatControlLayout.setHorizontalGroup(
             PhieuPhatControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btn_tienPhat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btn_thontinsachmuon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_thontinsachmuon, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
             .addComponent(btn_thongtindocgia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_tienPhat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_sdt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         PhieuPhatControlLayout.setVerticalGroup(
             PhieuPhatControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,7 +518,9 @@ public class Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_thontinsachmuon, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_tienPhat, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btn_tienPhat, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_sdt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         tbl_sachMuonMoiThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -581,6 +641,8 @@ public class Home extends javax.swing.JFrame {
         });
 
         menu.add(PhieuPhatControl);
+
+        menu2_topDocGia.add(TopDocGiaControl);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home - Library Management System");
@@ -1360,6 +1422,7 @@ public class Home extends javax.swing.JFrame {
 
         panelPMQuaHan.setBackground(new java.awt.Color(51, 255, 153));
 
+        tbl_PhieuMuonQH.setBackground(new java.awt.Color(242, 247, 251));
         tbl_PhieuMuonQH.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tbl_PhieuMuonQH.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1390,8 +1453,11 @@ public class Home extends javax.swing.JFrame {
         if (tbl_PhieuMuonQH.getColumnModel().getColumnCount() > 0) {
             tbl_PhieuMuonQH.getColumnModel().getColumn(0).setPreferredWidth(70);
             tbl_PhieuMuonQH.getColumnModel().getColumn(0).setMaxWidth(110);
+            tbl_PhieuMuonQH.getColumnModel().getColumn(0).setHeaderValue("Mã PM");
             tbl_PhieuMuonQH.getColumnModel().getColumn(1).setPreferredWidth(70);
             tbl_PhieuMuonQH.getColumnModel().getColumn(1).setMaxWidth(100);
+            tbl_PhieuMuonQH.getColumnModel().getColumn(3).setHeaderValue("Ngày Hẹn");
+            tbl_PhieuMuonQH.getColumnModel().getColumn(4).setHeaderValue("Ngày Trả");
         }
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -1403,10 +1469,8 @@ public class Home extends javax.swing.JFrame {
         panelPMQuaHan.setLayout(panelPMQuaHanLayout);
         panelPMQuaHanLayout.setHorizontalGroup(
             panelPMQuaHanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPMQuaHanLayout.createSequentialGroup()
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelPMQuaHanLayout.setVerticalGroup(
             panelPMQuaHanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1417,17 +1481,64 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
+
+        tbl_topDocGia.setBackground(new java.awt.Color(242, 247, 251));
+        tbl_topDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbl_topDocGia.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Mã ĐG", "Họ và tên", "Tổng số sách mượn"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_topDocGia.setRowHeight(30);
+        tbl_topDocGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_topDocGiaMouseClicked(evt);
+            }
+        });
+        jScrollPane8.setViewportView(tbl_topDocGia);
+        if (tbl_topDocGia.getColumnModel().getColumnCount() > 0) {
+            tbl_topDocGia.getColumnModel().getColumn(0).setPreferredWidth(70);
+            tbl_topDocGia.getColumnModel().getColumn(0).setMaxWidth(100);
+            tbl_topDocGia.getColumnModel().getColumn(2).setPreferredWidth(120);
+            tbl_topDocGia.getColumnModel().getColumn(2).setMaxWidth(200);
+        }
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("TOP ĐỘC GIẢ ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 464, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
+            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanelForBarChartLayout = new javax.swing.GroupLayout(jPanelForBarChart);
@@ -2248,14 +2359,12 @@ public class Home extends javax.swing.JFrame {
         rightPanelThongke.setVisible(true);
         resetFontColor();
         lb_ThongKeBaoCao.setForeground(Color.BLACK);
-//        Dashboard ds = new Dashboard();
-//        lb_tongSachCon.setText("" + ds.TongSachCon());
-//        lb_tong.setText("" + ds.TongSachCon());
         AnalysisController anl = new AnalysisController(this);
         anl.setTotalBooks();
         anl.setTongNguoiMuon();
         anl.setTongSachMuon();
         anl.setTablePMQuaHan();
+        anl.setTableTopDocGia();
 //        GraphsCode graph = new GraphsCode(this);
 //        graph.showBarChart();
 //        Exam e = new Exam(this);
@@ -3250,14 +3359,33 @@ public class Home extends javax.swing.JFrame {
         int row = tbl_PhieuMuonQH.rowAtPoint(evt.getPoint());
         menu.show(tbl_PhieuMuonQH, tbl_PhieuMuonQH.getWidth(), 25 * row);
         PhieuMuonQuaHanController pmqh = new PhieuMuonQuaHanController(this);
+        pmqh.optionPaneCount = 0;
         pmqh.ActionButtonSachMuon();
         pmqh.ActionButtonTienPhat();
         pmqh.ActionButtonDocGia();
+        pmqh.ActionButtonLienHe();
     }//GEN-LAST:event_tbl_PhieuMuonQHMouseClicked
 
     private void btn_tienPhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tienPhatActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_tienPhatActionPerformed
+
+    private void tbl_topDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_topDocGiaMouseClicked
+        int row = tbl_topDocGia.rowAtPoint(evt.getPoint());
+        menu2_topDocGia.show(tbl_topDocGia, tbl_topDocGia.getWidth() - 50, 25 * row);
+        TopDocGiaController topDG = new TopDocGiaController(this);
+        topDG.optionPaneCount = 0;
+        topDG.ActionButtonDocGia();
+        topDG.ActionButtonLienHe();
+    }//GEN-LAST:event_tbl_topDocGiaMouseClicked
+
+    private void btn_sdtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sdtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_sdtActionPerformed
+
+    private void btn_sdtTopDGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sdtTopDGActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_sdtTopDGActionPerformed
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;
@@ -4051,6 +4179,39 @@ public class Home extends javax.swing.JFrame {
         return SachTableModel;
     }
 
+    public DefaultTableModel getTopDocGiaTableModel() {
+        return TopDocGiaTableModel;
+    }
+
+    public JPanel getTopDocGiaControl() {
+        return TopDocGiaControl;
+    }
+
+    public JButton getBtn_sdt() {
+        return btn_sdt;
+    }
+
+    public JButton getBtn_thongtindocgia1() {
+        return btn_thongtindocgia1;
+    }
+
+
+    public JPopupMenu getMenu2_topDocGia() {
+        return menu2_topDocGia;
+    }
+
+    public JLabel getjLabel9() {
+        return jLabel9;
+    }
+
+    public JScrollPane getjScrollPane8() {
+        return jScrollPane8;
+    }
+
+    public JTable getTbl_topDocGia() {
+        return tbl_topDocGia;
+    }
+
     public DefaultTableModel getSachMuonTableModel() {
         return SachMuonTableModel;
     }
@@ -4071,6 +4232,10 @@ public class Home extends javax.swing.JFrame {
         return cbxSortPhieuMuon;
     }
 
+    public JButton getBtn_sdtTopDG() {
+        return btn_sdtTopDG;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DashbroadOnTop;
@@ -4079,6 +4244,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel PhieuPhatControl;
     private javax.swing.JPanel SearchBook;
     private javax.swing.JPanel SearchDocGia;
+    private javax.swing.JPanel TopDocGiaControl;
     private javax.swing.JPanel about_us;
     private javax.swing.JLabel avt_Hieu;
     private javax.swing.JLabel avt_Hung;
@@ -4111,7 +4277,10 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btn_resetDocGia;
     private javax.swing.JButton btn_resetPM;
     private javax.swing.JButton btn_save;
+    private javax.swing.JButton btn_sdt;
+    private javax.swing.JButton btn_sdtTopDG;
     private javax.swing.JButton btn_thongtindocgia;
+    private javax.swing.JButton btn_thongtindocgia1;
     private javax.swing.JButton btn_thontinsachmuon;
     private javax.swing.JLabel btn_thuan;
     private javax.swing.JButton btn_tienPhat;
@@ -4139,6 +4308,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelForBarChart;
     private javax.swing.JScrollPane jScrollPane1;
@@ -4148,6 +4318,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -4195,6 +4366,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel logOutIcon;
     private javax.swing.JLabel meber;
     private javax.swing.JPopupMenu menu;
+    private javax.swing.JPopupMenu menu2_topDocGia;
     private javax.swing.JPanel panelPMQuaHan;
     private javax.swing.JPanel panel_sachMuon;
     private javax.swing.JPanel pnl;
@@ -4218,6 +4390,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTable tbl_sachMuon;
     private javax.swing.JTable tbl_sachMuonMoiThem;
     private javax.swing.JTable tbl_sachMuonTemp;
+    private javax.swing.JTable tbl_topDocGia;
     private javax.swing.JTextField txtAuthor;
     private javax.swing.JTextField txtBookName;
     private javax.swing.JTextField txtCCCD;
