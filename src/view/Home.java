@@ -48,6 +48,7 @@ import controller.UpdateBookController;
 import controller.UpdateDocGiaController;
 import controller.ShowDocGia;
 import controller.SortBookController;
+import controller.SortDocGiaController;
 import controller.SortPhieuMuonController;
 import controller.TopDocGiaController;
 import controller.UpdatePhieuMuonController;
@@ -2031,6 +2032,11 @@ public class Home extends javax.swing.JFrame {
 
         cbxSortDocGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxSortDocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã", "Tên", "Giới tính" }));
+        cbxSortDocGia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSortDocGiaActionPerformed(evt);
+            }
+        });
         rightPanelDocGia.add(cbxSortDocGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 340, 117, -1));
 
         SearchDocGia.setBackground(new java.awt.Color(255, 255, 255));
@@ -3386,6 +3392,13 @@ public class Home extends javax.swing.JFrame {
     private void btn_sdtTopDGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sdtTopDGActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_sdtTopDGActionPerformed
+
+    private void cbxSortDocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSortDocGiaActionPerformed
+        // TODO add your handling code here:
+        SortDocGiaController Sort = new SortDocGiaController(this);
+        Sort.Sort();
+        
+    }//GEN-LAST:event_cbxSortDocGiaActionPerformed
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;

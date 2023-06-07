@@ -201,5 +201,80 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
     public DocGia selectById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    public ArrayList<DocGia> SortByMa() {
+        ArrayList<DocGia> results = new ArrayList<>();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            Statement st = connection.createStatement();
+            String sql = "Select * from Doc_Gia order by Ma_Doc_Gia ASC";
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_Doc_Gia");
+                String hoTen = rs.getString("Ho_Ten");
+                String CCCD = rs.getString("CCCD");
+                String SDT = rs.getString("SDT");
 
+                String Ngay_Sinh = rs.getString("Ngay_Sinh");
+                int gt = rs.getInt("Gt");
+                DocGia t = new DocGia(id, gt, hoTen, CCCD, SDT, Ngay_Sinh);
+                results.add(t);
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
+    public ArrayList<DocGia> SortByGT() {
+        ArrayList<DocGia> results = new ArrayList<>();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            Statement st = connection.createStatement();
+            String sql = "Select * from Doc_Gia order by Gt ASC";
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_Doc_Gia");
+                String hoTen = rs.getString("Ho_Ten");
+                String CCCD = rs.getString("CCCD");
+                String SDT = rs.getString("SDT");
+
+                String Ngay_Sinh = rs.getString("Ngay_Sinh");
+                int gt = rs.getInt("Gt");
+                DocGia t = new DocGia(id, gt, hoTen, CCCD, SDT, Ngay_Sinh);
+                results.add(t);
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }public ArrayList<DocGia> SortByName() {
+        ArrayList<DocGia> results = new ArrayList<>();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            Statement st = connection.createStatement();
+            String sql = "Select * from Doc_Gia order by Ho_Ten ASC";
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Ma_Doc_Gia");
+                String hoTen = rs.getString("Ho_Ten");
+                String CCCD = rs.getString("CCCD");
+                String SDT = rs.getString("SDT");
+
+                String Ngay_Sinh = rs.getString("Ngay_Sinh");
+                int gt = rs.getInt("Gt");
+                DocGia t = new DocGia(id, gt, hoTen, CCCD, SDT, Ngay_Sinh);
+                results.add(t);
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
 }
+    
+    
