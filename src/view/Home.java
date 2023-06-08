@@ -313,7 +313,6 @@ public class Home extends javax.swing.JFrame {
         btn_resetPM = new javax.swing.JButton();
         panel_sachMuon = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
-        lb_tick = new javax.swing.JLabel();
         lablelTongSach = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -1197,12 +1196,6 @@ public class Home extends javax.swing.JFrame {
         panel_sachMuon.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         panel_sachMuon.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 43, 380, -1));
 
-        lb_tick.setForeground(new java.awt.Color(0, 153, 0));
-        lb_tick.setText("Saved");
-        lb_tick.setToolTipText("");
-        panel_sachMuon.add(lb_tick, new org.netbeans.lib.awtextra.AbsoluteConstraints(257, 330, 40, -1));
-        lb_tick.setVisible(false);
-
         lablelTongSach.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lablelTongSach.setForeground(new java.awt.Color(0, 102, 51));
         lablelTongSach.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -1310,6 +1303,7 @@ public class Home extends javax.swing.JFrame {
         rightPanelPhieuMuon.add(lb_IdBook6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 70, 30));
 
         dateChooseNgayTra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        dateChooseNgayTra.setMaxSelectableDate(new java.util.Date(253370743275000L));
         rightPanelPhieuMuon.add(dateChooseNgayTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, 195, 32));
 
         dateChooseNgayMuon.setEnabled(false);
@@ -3941,9 +3935,6 @@ public class Home extends javax.swing.JFrame {
         return lb_product;
     }
 
-    public JLabel getLb_tick() {
-        return lb_tick;
-    }
 
     public JPanel getPanelPMQuaHan() {
         return panelPMQuaHan;
@@ -4375,7 +4366,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lb_publishYear;
     private javax.swing.JLabel lb_publisher;
     private javax.swing.JLabel lb_search;
-    private javax.swing.JLabel lb_tick;
     private javax.swing.JLabel lb_tongNguoiMuon;
     private javax.swing.JLabel lb_tongSachCon;
     private javax.swing.JLabel lb_tongSachDuocMuon;

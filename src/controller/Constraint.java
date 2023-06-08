@@ -171,7 +171,13 @@ public class Constraint {
         try {
             ngayMuon = home.getDateChooseNgayMuon().getDate();
             ngayHenTra = home.getDateChooseNgayHenTra().getDate();
+            ngayHenTra.setHours(23);
+            ngayHenTra.setMinutes(59);
+            ngayHenTra.setSeconds(59);
             ngayTra = home.getDateChooseNgayTra().getDate();
+            ngayTra.setHours(23);
+            ngayTra.setMinutes(59);
+            ngayTra.setSeconds(59);
         } catch (Exception e) {
         }
         if (ngayMuon == null) {
