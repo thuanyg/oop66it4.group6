@@ -65,6 +65,10 @@ public class Constraint {
                 flag = false;
             }
         }
+        if (flag && !gia.isEmpty() && !gia.matches("[\\d\\.]+")) {
+            JOptionPane.showMessageDialog(home, "Giá sách không hợp lệ!");
+            flag = false;
+        }
         return flag;
     }
 
@@ -170,8 +174,10 @@ public class Constraint {
             ngayTra = home.getDateChooseNgayTra().getDate();
         } catch (Exception e) {
         }
-        if(ngayMuon == null){
+        if (ngayMuon == null) {
             cur.setHours(0);
+            cur.setMinutes(0);
+            cur.setSeconds(0);
             home.getDateChooseNgayMuon().setDate(cur);
             ngayMuon = home.getDateChooseNgayMuon().getDate();
         }

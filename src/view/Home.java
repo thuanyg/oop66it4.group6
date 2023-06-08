@@ -433,18 +433,18 @@ public class Home extends javax.swing.JFrame {
             .addGap(0, 376, Short.MAX_VALUE)
         );
 
-        TopDocGiaControl.setBackground(new java.awt.Color(242, 247, 251));
+        TopDocGiaControl.setBackground(new java.awt.Color(153, 255, 153));
 
-        btn_thongtindocgia1.setBackground(new java.awt.Color(0, 153, 102));
+        btn_thongtindocgia1.setBackground(new java.awt.Color(204, 255, 153));
         btn_thongtindocgia1.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
         btn_thongtindocgia1.setText("Thông tin độc giả");
-        btn_thongtindocgia1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 102, 0)));
+        btn_thongtindocgia1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 102, 51)));
         btn_thongtindocgia1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        btn_sdtTopDG.setBackground(new java.awt.Color(0, 153, 102));
+        btn_sdtTopDG.setBackground(new java.awt.Color(204, 255, 153));
         btn_sdtTopDG.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
         btn_sdtTopDG.setText("Liên hệ");
-        btn_sdtTopDG.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 102, 0)));
+        btn_sdtTopDG.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 102, 51)));
         btn_sdtTopDG.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_sdtTopDG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -469,22 +469,30 @@ public class Home extends javax.swing.JFrame {
 
         PhieuPhatControl.setBackground(new java.awt.Color(242, 247, 251));
 
-        btn_thongtindocgia.setBackground(new java.awt.Color(51, 255, 204));
+        btn_thongtindocgia.setBackground(new java.awt.Color(204, 204, 255));
         btn_thongtindocgia.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
         btn_thongtindocgia.setText("Thông tin độc giả");
-        btn_thongtindocgia.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_thongtindocgia.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 102, 51)));
         btn_thongtindocgia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_thongtindocgia.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                btn_thongtindocgiaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                btn_thongtindocgiaFocusLost(evt);
+            }
+        });
 
-        btn_thontinsachmuon.setBackground(new java.awt.Color(51, 255, 204));
+        btn_thontinsachmuon.setBackground(new java.awt.Color(204, 204, 255));
         btn_thontinsachmuon.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
         btn_thontinsachmuon.setText("Thông tin sách mượn");
-        btn_thontinsachmuon.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_thontinsachmuon.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 102, 51)));
         btn_thontinsachmuon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        btn_sdt.setBackground(new java.awt.Color(51, 255, 204));
+        btn_sdt.setBackground(new java.awt.Color(204, 204, 255));
         btn_sdt.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
         btn_sdt.setText("Liên hệ");
-        btn_sdt.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_sdt.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 102, 51)));
         btn_sdt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_sdt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -492,10 +500,10 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        btn_tienPhat.setBackground(new java.awt.Color(51, 255, 204));
+        btn_tienPhat.setBackground(new java.awt.Color(204, 204, 255));
         btn_tienPhat.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
         btn_tienPhat.setText("Số tiền phạt");
-        btn_tienPhat.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_tienPhat.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 102, 51)));
         btn_tienPhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_tienPhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2798,14 +2806,10 @@ public class Home extends javax.swing.JFrame {
     private void btn_insertBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBookMouseClicked
         Constraint st = new Constraint(this);
         if (st.SachValidate()) {
-            if (!txtPrice.getText().trim().isEmpty() && !txtPrice.getText().trim().matches("[\\d\\.]+")) {
-                JOptionPane.showMessageDialog(this, "Giá sách không hợp lệ!");
-            } else {
                 InsertBookController ins = new InsertBookController(this);
                 ins.Insert();
                 ShowBooks show = new ShowBooks();
                 show.ShowOnTblSach(SachTableModel);
-            }
         }
     }//GEN-LAST:event_btn_insertBookMouseClicked
 
@@ -2816,9 +2820,6 @@ public class Home extends javax.swing.JFrame {
     private void btm_editBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editBookMouseClicked
         Constraint c = new Constraint(this);
         if (c.SachValidate()) {
-            if (!txtPrice.getText().trim().matches("[\\d\\.]+") && !txtPrice.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Giá sách không hợp lệ!");
-            } else {
                 UpdateBookController update = new UpdateBookController(this);
                 update.Update();
                 ShowBooks show = new ShowBooks();
@@ -2826,7 +2827,6 @@ public class Home extends javax.swing.JFrame {
                 SetStatusButton(btn_deleteBook);
                 SetStatusButton(btm_editBook);
                 btn_reseBook.doClick();
-            }
         }
     }//GEN-LAST:event_btm_editBookMouseClicked
 
@@ -3397,8 +3397,13 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         SortDocGiaController Sort = new SortDocGiaController(this);
         Sort.Sort();
-        
     }//GEN-LAST:event_cbxSortDocGiaActionPerformed
+
+    private void btn_thongtindocgiaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btn_thongtindocgiaFocusGained
+    }//GEN-LAST:event_btn_thongtindocgiaFocusGained
+
+    private void btn_thongtindocgiaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btn_thongtindocgiaFocusLost
+    }//GEN-LAST:event_btn_thongtindocgiaFocusLost
 
     private void tbl_DocGiaMouseClicked(java.awt.event.MouseEvent evt) {
         String madg = null;

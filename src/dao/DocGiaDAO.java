@@ -30,17 +30,14 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
 
     @Override
     public int Insert(DocGia t) {
-
         int check = 0;
         try {
             // Tạo kết nối
             Connection connection = JDBCUtil.getConnection();
-            JDBCUtil.printInfo(connection);
-            String sql = "INSERT INTO Doc_Gia "
-                    + "VALUES ( " + t.getMDG() + ",N'" + t.getHo_Ten() + "','" + t.getCCCD()
-                    + "','" + t.getSDT() + "','" + t.getNgay_SInh() + "'," + t.getGioi_Tinh() + ")";
+//            String sql = "INSERT INTO Doc_Gia "
+//                    + "VALUES ( " + t.getMDG() + ",N'" + t.getHo_Ten() + "','" + t.getCCCD()
+//                    + "','" + t.getSDT() + "','" + t.getNgay_SInh() + "'," + t.getGioi_Tinh() + ")";
             String sql2 = "INSERT INTO Doc_Gia VALUES (?,?,?,?,?,?)";
-            System.out.println(sql2);
             PreparedStatement pst = connection.prepareStatement(sql2);
             pst.setInt(1, t.getMDG());
             pst.setString(2, t.getHo_Ten());
@@ -56,7 +53,6 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
             e.printStackTrace();
         }
         return check;
-
     }
 
     @Override

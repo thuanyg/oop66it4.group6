@@ -62,7 +62,6 @@ public class InsertDocGiaController {
         DocGia t = new DocGia(Ma_DG, GT, Ho_Ten, CCCD, SDT, Ngay_Sinh);
 //        listSach.add(sach);
         int rs = DocGiaDAO.getInstant().Insert(t);
-        System.out.println(rs);
         if (rs > 0) {
             JOptionPane.showMessageDialog(home, "Thêm thành công! [ID = " + Ma_DG + ", Name = " + Ho_Ten + "]");
             ShowDocGia.getInstance().showDocGia(home.getDocGTableModel());
