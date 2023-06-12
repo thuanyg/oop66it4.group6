@@ -36,6 +36,7 @@ import analysService.AnalysisController;
 import controller.Constraint;
 import controller.DeleteBookController;
 import controller.DeleteDocGiaController;
+import controller.DeleteMultilLine;
 import controller.DeletePhieuMuon;
 import controller.InsertBookController;
 import controller.InsertDocGiaController;
@@ -251,6 +252,8 @@ public class Home extends javax.swing.JFrame {
 
         buttonGroupGender = new javax.swing.ButtonGroup();
         barChart = new javax.swing.JFrame();
+        DeleteMulti = new javax.swing.JPanel();
+        btn_deletemulti = new javax.swing.JButton();
         TopDocGiaControl = new javax.swing.JPanel();
         btn_thongtindocgia1 = new javax.swing.JButton();
         btn_sdtTopDG = new javax.swing.JButton();
@@ -266,6 +269,7 @@ public class Home extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         menu = new javax.swing.JPopupMenu();
         menu2_topDocGia = new javax.swing.JPopupMenu();
+        menu3_delete = new javax.swing.JPopupMenu();
         rightPanelSach = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Sach = new javax.swing.JTable();
@@ -430,6 +434,27 @@ public class Home extends javax.swing.JFrame {
         barChartLayout.setVerticalGroup(
             barChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 376, Short.MAX_VALUE)
+        );
+
+        DeleteMulti.setBackground(new java.awt.Color(153, 255, 153));
+
+        btn_deletemulti.setBackground(new java.awt.Color(204, 255, 153));
+        btn_deletemulti.setFont(new java.awt.Font("Segoe UI", 3, 15)); // NOI18N
+        btn_deletemulti.setText("Delete");
+        btn_deletemulti.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 102, 51)));
+        btn_deletemulti.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout DeleteMultiLayout = new javax.swing.GroupLayout(DeleteMulti);
+        DeleteMulti.setLayout(DeleteMultiLayout);
+        DeleteMultiLayout.setHorizontalGroup(
+            DeleteMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DeleteMultiLayout.createSequentialGroup()
+                .addComponent(btn_deletemulti, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        DeleteMultiLayout.setVerticalGroup(
+            DeleteMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btn_deletemulti, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         TopDocGiaControl.setBackground(new java.awt.Color(153, 255, 153));
@@ -652,6 +677,8 @@ public class Home extends javax.swing.JFrame {
 
         menu2_topDocGia.add(TopDocGiaControl);
 
+        menu3_delete.add(DeleteMulti);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home - Library Management System");
         setBackground(new java.awt.Color(203, 228, 222));
@@ -699,7 +726,7 @@ public class Home extends javax.swing.JFrame {
         tbl_Sach.setGridColor(new java.awt.Color(204, 204, 204));
         tbl_Sach.setRowHeight(23);
         tbl_Sach.setSelectionBackground(new java.awt.Color(0, 204, 102));
-        tbl_Sach.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_Sach.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         tbl_Sach.setShowGrid(false);
         tbl_Sach.setShowHorizontalLines(true);
         tbl_Sach.setSurrendersFocusOnKeystroke(true);
@@ -1910,7 +1937,7 @@ public class Home extends javax.swing.JFrame {
         tbl_DocGia.setGridColor(new java.awt.Color(204, 204, 204));
         tbl_DocGia.setRowHeight(23);
         tbl_DocGia.setSelectionBackground(new java.awt.Color(0, 204, 102));
-        tbl_DocGia.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_DocGia.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         tbl_DocGia.setSurrendersFocusOnKeystroke(true);
         tbl_DocGia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2783,6 +2810,15 @@ public class Home extends javax.swing.JFrame {
         txtPrice.setText(gia);
         SetStatusButton(btm_editBook);
         SetStatusButton(btn_deleteBook);
+        
+        if (tbl_Sach.getSelectedRowCount() > 1) {
+            int row = tbl_Sach.rowAtPoint(evt.getPoint());
+            menu3_delete.show(tbl_Sach, tbl_Sach.getWidth(), 25 * row);
+            DeleteMultilLine del = new DeleteMultilLine(this);
+            DeleteMultilLine.optionPaneCount = 0;
+            del.ActionButtonDelete();
+            btn_reseBook.doClick();
+        }
     }//GEN-LAST:event_tbl_SachMouseClicked
 
     private void txtSearchBookKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBookKeyReleased
@@ -2800,10 +2836,10 @@ public class Home extends javax.swing.JFrame {
     private void btn_insertBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_insertBookMouseClicked
         Constraint st = new Constraint(this);
         if (st.SachValidate()) {
-                InsertBookController ins = new InsertBookController(this);
-                ins.Insert();
-                ShowBooks show = new ShowBooks();
-                show.ShowOnTblSach(SachTableModel);
+            InsertBookController ins = new InsertBookController(this);
+            ins.Insert();
+            ShowBooks show = new ShowBooks();
+            show.ShowOnTblSach(SachTableModel);
         }
     }//GEN-LAST:event_btn_insertBookMouseClicked
 
@@ -2814,13 +2850,13 @@ public class Home extends javax.swing.JFrame {
     private void btm_editBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btm_editBookMouseClicked
         Constraint c = new Constraint(this);
         if (c.SachValidate()) {
-                UpdateBookController update = new UpdateBookController(this);
-                update.Update();
-                ShowBooks show = new ShowBooks();
-                show.ShowOnTblSach(SachTableModel);
-                SetStatusButton(btn_deleteBook);
-                SetStatusButton(btm_editBook);
-                btn_reseBook.doClick();
+            UpdateBookController update = new UpdateBookController(this);
+            update.Update();
+            ShowBooks show = new ShowBooks();
+            show.ShowOnTblSach(SachTableModel);
+            SetStatusButton(btn_deleteBook);
+            SetStatusButton(btm_editBook);
+            btn_reseBook.doClick();
         }
     }//GEN-LAST:event_btm_editBookMouseClicked
 
@@ -2949,6 +2985,14 @@ public class Home extends javax.swing.JFrame {
         });
         lablelTongSach.setText("Tổng số sách đã chọn: " + TongSachMuon());
 
+        if (tbl_PhieuMuon.getSelectedRowCount() > 1) {
+            int row = tbl_PhieuMuon.rowAtPoint(evt.getPoint());
+            menu3_delete.show(tbl_PhieuMuon, tbl_PhieuMuon.getWidth(), 25 * row);
+            DeleteMultilLine del = new DeleteMultilLine(this);
+            DeleteMultilLine.optionPaneCount = 0;
+            del.ActionButtonDeletePM();
+            btn_resetPM.doClick();
+        }
 
     }//GEN-LAST:event_tbl_PhieuMuonMouseClicked
 
@@ -3430,6 +3474,15 @@ public class Home extends javax.swing.JFrame {
         txtCCCD.setText(cccd);
 
         txtSDT.setText(sdt);
+        
+        if (tbl_DocGia.getSelectedRowCount() > 1) {
+            int row = tbl_DocGia.rowAtPoint(evt.getPoint());
+            menu3_delete.show(tbl_DocGia, tbl_DocGia.getWidth(), 25 * row);
+            DeleteMultilLine del = new DeleteMultilLine(this);
+            DeleteMultilLine.optionPaneCount = 0;
+            del.ActionButtonDeleteDocGia();
+            btn_resetDocGia.doClick();
+        }
     }
 
     /**
@@ -3935,9 +3988,20 @@ public class Home extends javax.swing.JFrame {
         return lb_product;
     }
 
-
     public JPanel getPanelPMQuaHan() {
         return panelPMQuaHan;
+    }
+
+    public JPanel getDeleteMulti() {
+        return DeleteMulti;
+    }
+
+    public JButton getBtn_thongtindocgia2() {
+        return btn_deletemulti;
+    }
+
+    public JPopupMenu getMenu3_delete() {
+        return menu3_delete;
     }
 
     public JButton getBtn_resetPM() {
@@ -4204,9 +4268,12 @@ public class Home extends javax.swing.JFrame {
         return btn_thongtindocgia1;
     }
 
-
     public JPopupMenu getMenu2_topDocGia() {
         return menu2_topDocGia;
+    }
+
+    public JButton getBtn_deletemulti() {
+        return btn_deletemulti;
     }
 
     public JLabel getjLabel9() {
@@ -4248,6 +4315,7 @@ public class Home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DashbroadOnTop;
+    private javax.swing.JPanel DeleteMulti;
     private javax.swing.JLabel HeadingHome;
     private javax.swing.JPanel Home;
     private javax.swing.JPanel PhieuPhatControl;
@@ -4270,6 +4338,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel btn_contact;
     private javax.swing.JButton btn_delBook2;
     private javax.swing.JButton btn_deleteBook;
+    private javax.swing.JButton btn_deletemulti;
     private javax.swing.JLabel btn_github;
     private javax.swing.JLabel btn_hieu;
     private javax.swing.JLabel btn_hung;
@@ -4375,6 +4444,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel meber;
     private javax.swing.JPopupMenu menu;
     private javax.swing.JPopupMenu menu2_topDocGia;
+    private javax.swing.JPopupMenu menu3_delete;
     private javax.swing.JPanel panelPMQuaHan;
     private javax.swing.JPanel panel_sachMuon;
     private javax.swing.JPanel pnl;

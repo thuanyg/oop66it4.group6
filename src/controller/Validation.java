@@ -59,10 +59,10 @@ public class Validation implements ActionListener, MouseListener, KeyListener {
             return true;
         } catch (MalformedURLException e) {
             System.out.println("Internet is not connected");
-            return false;
+            return true;
         } catch (IOException e) {
             System.out.println("Internet is not connected");
-            return false;
+            return true;
         }
     }
 
