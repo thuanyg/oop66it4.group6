@@ -51,14 +51,6 @@ public class BarChart {
                 PhieuMuonBean pm = new PhieuMuonBean(date, sl);
                 dates.add(pm);
             }
-
-//            PreparedStatement pst2 = connection.prepareStatement("SELECT COUNT(Ma_Doc_Gia) From Phieu_Muon WHERE Ngay_Muon = '"+ dates.get(0) +"'");
-//            for (int i = 0; i < dates.size(); i++) {
-//                PreparedStatement pst2 = connection.prepareStatement("SELECT COUNT(Ma_Doc_Gia) as 'soluong' From Phieu_Muon WHERE Ngay_Muon = '" + dates.get(i) + "'");
-//                System.out.println("SELECT COUNT(Ma_Doc_Gia) as 'soluong' From Phieu_Muon WHERE Ngay_Muon = '" + dates.get(i) + "'");
-//                ResultSet rs2 = pst.executeQuery();
-//                
-//            }
             JDBCUtil.closeConnection(connection);
         } catch (SQLException ex) {
             ex.printStackTrace();

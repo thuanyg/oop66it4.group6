@@ -2987,7 +2987,7 @@ public class Home extends javax.swing.JFrame {
 
         if (tbl_PhieuMuon.getSelectedRowCount() > 1) {
             int row = tbl_PhieuMuon.rowAtPoint(evt.getPoint());
-            menu3_delete.show(tbl_PhieuMuon, tbl_PhieuMuon.getWidth(), 25 * row);
+            menu3_delete.show(tbl_PhieuMuon, tbl_PhieuMuon.getWidth()-300, 25 * row);
             DeleteMultilLine del = new DeleteMultilLine(this);
             DeleteMultilLine.optionPaneCount = 0;
             del.ActionButtonDeletePM();
