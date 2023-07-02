@@ -46,8 +46,7 @@ public class InsertBookController {
         int rs = SachDAO.getInstant().Insert(sach);
         System.out.println(rs);
         if (rs > 0) {
-            JOptionPane.showMessageDialog(home, "Thêm thành công! [ID = " + maSach + ", Name = " + tenSach + "]");
-            
+            JOptionPane.showMessageDialog(home, "Thêm thành công! [ID = " + maSach + ", Name = " + tenSach + "]");   
         } else {
             JOptionPane.showMessageDialog(home, "Thêm thất bại, hãy kiểm tra lại!");
         }

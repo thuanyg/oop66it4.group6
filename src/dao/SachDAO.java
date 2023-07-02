@@ -36,22 +36,11 @@ public class SachDAO implements DAOInterface<Sach> {
         try {
             // Tạo kết nối
             Connection connection = JDBCUtil.getConnection();
-            JDBCUtil.printInfo(connection);
             String sql = "INSERT INTO Sach "
                     + "VALUES (" + s.getId() + ",N'" + s.getTenSach() + "',N'" + s.getTheLoai() + "',N'" + s.getTacGia() + "'," + s.getNamXB() + ",N'" + s.getNhaXB() + "'," + s.getSoLuong() + "," + s.getGiaSach() + ")";
             System.out.println(sql);
             Statement st = connection.createStatement();
             check = st.executeUpdate(sql);
-
-//            pst.setInt(1, s.getId());
-//            pst.setString(2, s.getTenSach());
-//            pst.setString(3, s.getTheLoai());
-//            pst.setString(4, s.getTacGia());
-//            pst.setInt(5, s.getNamXB());
-//            pst.setString(6, s.getNhaXB());
-//            pst.setInt(7, s.getSoLuong());
-//            pst.setFloat(8, s.getGiaSach());
-//            pst.execute();
             JDBCUtil.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();

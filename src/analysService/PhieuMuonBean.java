@@ -9,23 +9,29 @@ package analysService;
  * @author HOANG TIEN THUAN
  */
 public class PhieuMuonBean {
-    private String date;
+    private String year, month;
     private int soluong;
 
-    public PhieuMuonBean() {
-    }
-
-    public PhieuMuonBean(String date, int soluong) {
-        this.date = date;
+    public PhieuMuonBean(String year, String month, int soluong) {
+        this.year = year;
+        this.month = month;
         this.soluong = soluong;
     }
 
-    public String getDate() {
-        return date;
+    public String getYear() {
+        return year;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
     }
 
     public int getSoluong() {
@@ -37,3 +43,5 @@ public class PhieuMuonBean {
     }
     
 }
+
+    

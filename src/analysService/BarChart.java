@@ -32,8 +32,8 @@ public class BarChart {
 
     public static JFreeChart createChart() {
         JFreeChart barChart = ChartFactory.createBarChart(
-                "BIỂU ĐỒ SỐ LƯỢNG ĐỘC GIẢ THEO THỜI GIAN",
-                "Tháng", "Số người mượn",
+                "BIỂU ĐỒ SỐ LƯỢNG ĐỘC GIẢ THEO THÁNG",
+                "Thời gian", "Số người mượn",
                 createDataset(), PlotOrientation.VERTICAL, false, false, false);
         return barChart;
     }
@@ -43,12 +43,14 @@ public class BarChart {
         Connection connection = null;
         try {
             connection = JDBCUtil.getConnection();
-            PreparedStatement pst = connection.prepareStatement(" Select Ngay_Muon, COUNT(*) as 'sol' From Phieu_Muon Group by Ngay_Muon");
+            PreparedStatement pst = connection.prepareStatement("Select MONTH(Ngay_Muon) as 'thang',YEAR(Ngay_Muon) as 'nam',"
+                                            + " COUNT (*) as 'sol' From Phieu_Muon Group by MONTH(Ngay_Muon), YEAR(Ngay_Muon)");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                String date = rs.getString("Ngay_Muon") == null ? "No have" : rs.getString("Ngay_Muon");
+                String year = rs.getString("nam");
+                String month = rs.getString("thang");
                 int sl = rs.getInt("sol");
-                PhieuMuonBean pm = new PhieuMuonBean(date, sl);
+                PhieuMuonBean pm = new PhieuMuonBean(year, month, sl);
                 dates.add(pm);
             }
             JDBCUtil.closeConnection(connection);
@@ -56,11 +58,12 @@ public class BarChart {
             ex.printStackTrace();
         }
 
-        
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (int i = 0;dates.size() != 0 && i < dates.size(); i++) {
-            System.out.println(dates.get(i).getDate());
-            dataset.addValue(dates.get(i).getSoluong(), "Số người", dates.get(i).getDate());
+        for (int i = 0; dates.size() != 0 && i < dates.size(); i++) {
+            String year = dates.get(i).getYear();
+            String month = dates.get(i).getMonth();
+            String y_month = month + "-" + year;
+            dataset.addValue(dates.get(i).getSoluong(), "Số người", y_month);
         }
 
         return dataset;
@@ -76,6 +79,6 @@ public class BarChart {
         h.setResizable(false);
 //        h.setUndecorated(true);
         h.setLocationRelativeTo(root);
-        h.setVisible(true); 
+        h.setVisible(true);
     }
 }
