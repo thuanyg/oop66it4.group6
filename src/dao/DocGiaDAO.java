@@ -34,9 +34,6 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
         try {
             // Tạo kết nối
             Connection connection = JDBCUtil.getConnection();
-//            String sql = "INSERT INTO Doc_Gia "
-//                    + "VALUES ( " + t.getMDG() + ",N'" + t.getHo_Ten() + "','" + t.getCCCD()
-//                    + "','" + t.getSDT() + "','" + t.getNgay_SInh() + "'," + t.getGioi_Tinh() + ")";
             String sql2 = "INSERT INTO Doc_Gia VALUES (?,?,?,?,?,?)";
             PreparedStatement pst = connection.prepareStatement(sql2);
             pst.setInt(1, t.getMDG());
