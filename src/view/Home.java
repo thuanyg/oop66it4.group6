@@ -33,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Sach;
 import com.toedter.calendar.JDateChooser;
 import analysService.AnalysisController;
+import analysService.BarChartForSach;
 import controller.Constraint;
 import controller.DeleteBookController;
 import controller.DeleteDocGiaController;
@@ -55,9 +56,6 @@ import controller.TopDocGiaController;
 import controller.UpdatePhieuMuonController;
 import dao.DocGiaDAO;
 import database.JDBCUtil;
-import java.awt.event.KeyAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -68,11 +66,9 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
-import javax.swing.event.MouseInputAdapter;
 import model.DocGia;
 
 /**
@@ -274,6 +270,7 @@ public class Home extends javax.swing.JFrame {
         menu2_topDocGia = new javax.swing.JPopupMenu();
         menu3_delete = new javax.swing.JPopupMenu();
         menu4_delSachMuon = new javax.swing.JPopupMenu();
+        panelForChart = new javax.swing.JPanel();
         rightPanelThongke = new javax.swing.JPanel();
         DashbroadOnTop = new javax.swing.JPanel();
         btn_moreInfoBook = new javax.swing.JLabel();
@@ -706,6 +703,19 @@ public class Home extends javax.swing.JFrame {
 
         menu4_delSachMuon.add(DeleteSachMuon);
 
+        panelForChart.setPreferredSize(new java.awt.Dimension(1169, 759));
+
+        javax.swing.GroupLayout panelForChartLayout = new javax.swing.GroupLayout(panelForChart);
+        panelForChart.setLayout(panelForChartLayout);
+        panelForChartLayout.setHorizontalGroup(
+            panelForChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1169, Short.MAX_VALUE)
+        );
+        panelForChartLayout.setVerticalGroup(
+            panelForChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 814, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home - Library Management System");
         setBackground(new java.awt.Color(203, 228, 222));
@@ -939,7 +949,7 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(rightPanelThongkeLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jPanelForBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         rightPanelSach.setBackground(new java.awt.Color(242, 247, 251));
@@ -3405,7 +3415,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_rightPanelThongkeAncestorMoved
 
     private void btn_moreInfoDocGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoDocGiaMouseClicked
-        BarChart.Show(jPanelForBarChart);
+        BarChart.Show(panelForChart);
     }//GEN-LAST:event_btn_moreInfoDocGiaMouseClicked
 
     private void btn_moreInfoPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoPMMouseClicked
@@ -3413,11 +3423,12 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_moreInfoPMMouseClicked
 
     private void btn_moreInfoBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moreInfoBookMouseClicked
-        this.setTitle("Books - Library Management System");
-        setVisibleFalse();
-        rightPanelSach.setVisible(true);
-        ShowBooks show = new ShowBooks();
-        show.ShowOnTblSach(SachTableModel);
+//        this.setTitle("Books - Library Management System");
+//        setVisibleFalse();
+//        rightPanelSach.setVisible(true);
+//        ShowBooks show = new ShowBooks();
+//        show.ShowOnTblSach(SachTableModel);
+          BarChartForSach.Show(panelForChart);
     }//GEN-LAST:event_btn_moreInfoBookMouseClicked
 
     private void tbl_PhieuMuonQHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_PhieuMuonQHMouseClicked
@@ -4469,6 +4480,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPopupMenu menu2_topDocGia;
     private javax.swing.JPopupMenu menu3_delete;
     private javax.swing.JPopupMenu menu4_delSachMuon;
+    private javax.swing.JPanel panelForChart;
     private javax.swing.JPanel panelPMQuaHan;
     private javax.swing.JPanel panel_sachMuon;
     private javax.swing.JPanel pnl;

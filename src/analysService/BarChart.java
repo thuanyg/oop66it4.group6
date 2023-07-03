@@ -75,7 +75,7 @@ public class BarChart {
         JFrame h = new JFrame();
         h.add(chartPanel);
         h.setTitle("Biểu đồ số người mượn sách");
-        h.setSize(900, 500);
+        h.setSize(1169, 759);
         h.setResizable(false);
 //        h.setUndecorated(true);
         h.setLocationRelativeTo(root);
