@@ -253,7 +253,7 @@ public class SachDAO implements DAOInterface<Sach> {
         try {
             Connection connection = JDBCUtil.getConnection();
             Statement st = connection.createStatement();
-            String sql = "SELECT*from Sach order by Gia_Sach asc";
+                String sql = "SELECT*from Sach order by Gia_Sach asc";
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 int id = rs.getInt("Ma_Sach");

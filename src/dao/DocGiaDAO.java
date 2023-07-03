@@ -43,8 +43,6 @@ public class DocGiaDAO implements DAOInterface<DocGia> {
             pst.setString(5, t.getNgay_SInh());
             pst.setInt(6, t.getGioi_Tinh());
             check = pst.executeUpdate();
-//            Statement st = connection.createStatement();
-//            check = st.executeUpdate(sql);
             JDBCUtil.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
